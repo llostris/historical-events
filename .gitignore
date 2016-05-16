@@ -1,0 +1,11 @@
+# directories
+.idea/
+log/
+src/data/languagefiles
+src/data/*.yaml
+
+*.pyc
+*.html
+
+dataevents.pickle
+wikidump.cfg
