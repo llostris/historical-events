@@ -1,14 +1,12 @@
+import logging
 import pickle
 
 from categories import VISITED_IDS
-from safestring import safe_str, safe_unicode
-from settings import CATEGORIES_FILE, ARTICLE_LOG_FILE, ARTICLES_FILE, DATA_DIR
-from wiki_api_utils import run_query
-from wiki_config import NAMESPACES, TAG_QUERY, CATEGORYMEMBERS, TAG_PAGES, FORBIDDEN_TITLE_KEYWORDS, \
-    FORBIDDEN_CATEGORY_KEYWORDS, is_category_relevant
-
-
-import logging
+from download.wiki_api_utils import get_default_article_query
+from safestring import safe_unicode
+from settings import CATEGORIES_FILE, ARTICLES_FILE, DATA_DIR
+from wiki_api_utils import run_query, is_query_finished, handle_query_continuation
+from wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES, is_category_relevant, is_article_relevant
 
 # LOGGER = logging.getLogger()
 logging.debug('test')
@@ -44,24 +42,13 @@ def load_category_list() :
     return categories
 
 
-def is_matching_article_title(title, content):
-    for forbidden_word in FORBIDDEN_TITLE_KEYWORDS:
-        if forbidden_word in title.lower():
-            return False
-
-    for forbidden_word in FORBIDDEN_CATEGORY_KEYWORDS:
-        if forbidden_word in content.lower():
-            return False
-    return True
-
-
 def is_response_valid(query, result):
     if not "query" in result:
         CATEGORIES_BUGS.append(query["gcmtitle"])
         logging.warn("Invalid category: " + query["gcmtitle"])
         if "warnings" in result:
             try:
-                logging.warn(query["gcmtitle"] + " returned no results: " + result["warnings"]["main"])
+                logging.warn(query["gcmtitle"] + " returned no results: " + str(result["warnings"]["main"]))
             except (TypeError, KeyError) as e:
                 logging.error("Error while logging: {0} ".format(e))
 
@@ -80,21 +67,29 @@ def get_articles(query, visited_ids, categories) :
 
     found_articles = result[TAG_QUERY][TAG_PAGES]
 
-    if len(found_articles) > 450:
-        logging.warn(query["gcmtitle"] + " might need a continuation query " + str(len(found_articles)))
-
     all_articles = []
     for article in found_articles:
+        # print article
+        if not "revisions" in article:
+            continue
         pageid = article["pageid"]
         title = article["title"]
         namespace = article["ns"]
         content = article["revisions"][0]["content"]
+        # print title, namespace
 
-        print article
-
-        if namespace == NAMESPACES["article"] and is_matching_article_title(title, content):
-            all_articles.append(RawArticle(pageid, safe_str(title), safe_str(content)))
+        if namespace == NAMESPACES["article"] and is_article_relevant(title, content):
+            # all_articles.append(RawArticle(pageid, safe_str(title), safe_str(content)))
+            all_articles.append(RawArticle(pageid, title, content))
             visited_ids.add(pageid)
+
+    if not is_query_finished(result):
+        print 'continuation query required'
+        # result['query'] = {}
+        # print result
+        query = handle_query_continuation(query, result)
+        more_articles = get_articles(query, visited_ids, categories)
+        all_articles = all_articles + more_articles
 
     return all_articles
 
@@ -104,8 +99,12 @@ def get_articles_for_categories(query, categories):
     visited_ids = set()
 
     for category in categories:
-        query["gcmtitle"] = category
+        print 'querying'
+
+        query = get_default_article_query(category)
         articles += get_articles(query, visited_ids, categories)
+
+        print len(articles)
 
     return articles
 
@@ -114,37 +113,33 @@ def save_to_file(articles, index):
     with open(ARTICLES_FILE + '_' + str(index), 'wb') as f :
         pickle.dump(articles, f)
 
+
 if __name__ == "__main__" :
     title = "Category:History"
-    title = "Category:1918 in military history"
-    query = {
-        "action" : "query",
-        "generator" : "categorymembers",
-        "cmlimit" : "max",
-        "format" : "json",
-        "gcmtitle" : title,
-        "prop" : "revisions",
-        "rvprop" : "content",
-        "cmnamespace" : NAMESPACES["article"],
-        "formatversion" : 2
-    }
+    # title = "Category:1918 in military history"
+    # title = "Category:Battles_and_operations_of_World_War_II_involving_India"
+    query = get_default_article_query(title)
 
     categories = load_category_list()
+    print len(categories)
     categories = set(filter(is_category_relevant, categories))
-    # print categories
+    print len(categories)
     articles = { }
 
     num_categories = len(categories)
-    start = 18000
+    start = 7000
     last_index = start
+
+    # categories = [ "Category:Royal Naval Volunteer Reserve personnel of World War II" ]
 
     for index in range(start, num_categories, 1000):
         articles = get_articles_for_categories(query, set(list(categories)[index:index + 1000]))
-        print articles[0]
+        # print articles[0]
 
         save_to_file(articles, index)
         last_index = index + 1000
 
+    # get articles for remaining categories
     articles  = get_articles_for_categories(query, set(list(categories)[last_index:last_index + 1000]))
     save_to_file(articles, last_index)
 

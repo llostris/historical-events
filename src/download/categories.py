@@ -1,7 +1,9 @@
 # coding=utf-8
+import os
 import pickle
 import re
 import signal
+from urllib2 import URLError
 
 from settings import DATA_DIR, CATEGORIES_FILE
 from wiki_api_utils import run_query
@@ -9,12 +11,14 @@ from wiki_config import CATEGORYMEMBERS, NAMESPACES, is_category_relevant, CATEG
 
 DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")
 
-VISITED_IDS = {}
+VISITED_IDS = set()
+
 
 def signal_handler():
     with open(DATA_DIR + '/cat_visited_ids.pickle', 'wb') as f:
         pickle.dump(VISITED_IDS, f)
         f.close()
+
 
 def is_category_history_related(category_name) :
     category_name = category_name.lower()
@@ -31,12 +35,12 @@ def is_category_history_related(category_name) :
     return False
 
 
-def save_to_file(categories, append=False) :
+def save_to_file(categories, file=CATEGORIES_FILE, append=False) :
     mode = 'w'
     if append:
         mode = 'a'
 
-    with open(CATEGORIES_FILE, mode) as f :
+    with open(file, mode) as f :
         for id, title in categories.items() :
             f.write(str(id) + "," + title.encode('utf-8') + '\n')
         f.close()
@@ -49,7 +53,7 @@ def get_categories(query, visited_ids, end = False) :
 
     categories = { }
     found_categories = result["query"][CATEGORYMEMBERS]
-    print 'resuls found: %d' % len(found_categories)
+    print 'results found: %d' % len(found_categories)
     for member in found_categories :
         pageid = member["pageid"]
         title = member["title"]
@@ -67,13 +71,12 @@ def get_categories(query, visited_ids, end = False) :
     print 'recurse'
     for id in categories :
         if id not in visited_ids :
-            print id
             query["cmtitle"] = categories[id]
             visited_ids.add(id)
 
             subcategories_new = get_categories(query, visited_ids, True)
             subcategories.update(subcategories_new)
-            print len(visited_ids)
+            print 'visited ids length: {}'.format(len(visited_ids))
 
     save_to_file(subcategories, True)
 
@@ -83,9 +86,11 @@ def get_categories(query, visited_ids, end = False) :
 
 
 def load_visited_ids():
-    visited_ids = {}
-    with open(DATA_DIR + 'cat_visited_ids.pickle', 'rb') as f:
-        visited_ids = pickle.load(f)
+    visited_ids = set()
+    filename = DATA_DIR + 'cat_visited_ids.pickle'
+    if os.path.isfile(filename) :
+        with open(filename, 'rb') as f:
+            visited_ids = pickle.load(f)
 
     return visited_ids
 
@@ -111,6 +116,9 @@ if __name__ == "__main__" :
     categories = { }
     portals = { }
 
-    categories = get_categories(query, visited_ids, True)
+    try:
+        categories = get_categories(query, visited_ids, True)
+    except URLError:
+        signal_handler()
 
-    save_to_file(categories)
+    # save_to_file(categories)

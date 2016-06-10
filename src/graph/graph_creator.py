@@ -1,47 +1,55 @@
+# -*- coding: utf-8 -*-
 import os
+import pickle
 
 import networkx as nx
-from graph.date_extractor import DateExtractor
 
+from graph.dataextraction.date_extractor import DateExtractor
 from graph.dataextraction.relationship_extractor import RelationshipExtractor
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
-from settings import DATA_DIR, GRAPH_GML_FILE, get_graph_logger
-from wiki_config import is_title_relevant, CATEGORY_REGEXP, is_category_relevant
+from settings import DATA_DIR, GRAPH_GML_FILE, get_graph_logger, RELATIONSHIP_MAP_FILE, GRAPH_IN_PROGRESS_FILE
+from wiki_config import is_article_relevant
+from download.articles import RawArticle
 
 logger = get_graph_logger()
 
-def is_article_relevant(title, content):
-    categories = CATEGORY_REGEXP.findall(content)
-    for category in categories:
-        if not is_category_relevant(category):
-            return False
 
-    return is_title_relevant(title)
-
-
-def create_graph(articles):
-    graph = nx.DiGraph()
-    relationship_map = {} # temporary to keep edges
+def get_nodes_and_relationships(articles, graph, relationship_map):
+    if graph is None:
+        graph = nx.DiGraph()
+    if relationship_map is None:
+        relationship_map = {} # temporary to keep edges
 
     # extract vertices
     for article in articles:
         if is_article_relevant(article.title, article.content):
+            # print article.content
             event_name = article.title
 
             date_extractor = DateExtractor(article.title, article.content)
             date_extractor.fill_dates()
 
+            for date in [ date_extractor.date, date_extractor.start_date, date_extractor.end_date ]:
+                if not is_valid_date(date):
+                    logger.error('Invalid date parsed for title: {} {}'.format(article.title, date))
+
+            date_extractor.validate_dates() # remove invalid dates
+
             relationship_extractor = RelationshipExtractor(article.content)
             relationships = relationship_extractor.get_relationships()
 
             attributes = {
-                'date' : date_extractor.date,
-                'start_date' : date_extractor.start_date,
-                'end_date' : date_extractor.end_date
+                'date' : str(date_extractor.date),
+                'start_date' : str(date_extractor.start_date),
+                'end_date' : str(date_extractor.end_date)
             }
             graph.add_node(event_name, attr_dict = attributes)
 
             relationship_map[event_name] = relationships
+
+    return graph, relationship_map
+
+def create_graph(graph, relationship_map):
 
     # extract edges
     for source_node, references in relationship_map.items():
@@ -51,25 +59,72 @@ def create_graph(articles):
 
     return graph
 
+
+def is_valid_date(date):
+    return 'UNPARSED' not in str(date)
+
+
 def save_graph(graph):
     nx.write_gml(graph, GRAPH_GML_FILE)
+
+
+#<editor-fold desc="Serialization of relationship map">
+
+def load_relationship_map(filename = RELATIONSHIP_MAP_FILE) :
+    if os.path.isfile(filename) :
+        with open(filename, 'r') as f :
+            return pickle.load(f)
+    else :
+        return { }
+
+
+def save_relationship_map(relationship_map, filename = RELATIONSHIP_MAP_FILE) :
+    with open(filename, 'w') as f:
+        pickle.dump(relationship_map, f)
+
+
+def update_relatioship_map(new_relashionship_map) :
+    relationship_map = load_relationship_map()
+
+    relationship_map.update(new_relashionship_map)
+
+    save_relationship_map(relationship_map)
+
+#</editor-fold>
+
+
+def save_in_progress_graph(graph):
+    with open(GRAPH_IN_PROGRESS_FILE, 'w') as f:
+        pickle.dump(graph, f)
 
 if __name__ == "__main__":
 
     articles = []
 
-    for elem in os.listdir(DATA_DIR) :
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
-            print elem
-            article_batch = load_article_from_pickle(elem)
-            articles += article_batch
+    graph = nx.DiGraph()
+    relationship_map = {}
 
-    print len(articles)
+# 7: checked, now 8:
+    for elem in os.listdir(DATA_DIR)[5:7] :
+        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
+            logger.info("*** Loading file: {}".format(elem))
+            print elem
+
+            article_batch = load_article_from_pickle(elem)
+
+            graph, relationship_map = get_nodes_and_relationships(article_batch, graph, {})
+            update_relatioship_map(relationship_map)
+            save_in_progress_graph(graph)
+            # articles += article_batch
+
+    # print len(articles)
 
     # graph = create_graph(articles[27987:28000]) # first - 10,000 metres world reord
     # graph = create_graph(articles[29293:30000]) # 5th-century-562
-    graph = create_graph(articles)
-    # graph = create_graph(articles[33654:35000])
+    # graph = create_graph(articles)
+    # graph = get_nodes_and_relationships(articles)
+
+    graph = create_graph(graph, load_relationship_map())
     save_graph(graph)
 
     print(graph.number_of_nodes())

@@ -1,7 +1,7 @@
-from datetime import datetime
 
+from datetime import datetime
 import re
-from flexidate import parse
+from flexidate import parse, FlexiDate
 
 from settings import graph_logger
 
@@ -12,6 +12,7 @@ class DateParser:
     pattern_month_year = "%B %Y"
     pattern_year = "%Y"
     three_digit_year = r"\b\d{1,3}"
+    arabic_year_regexp = re.compile(r"\b\d+ AH")
 
     def __init__(self):
         pass
@@ -26,6 +27,16 @@ class DateParser:
             return datetime.strptime(strdate, self.pattern_year), False
 
     @staticmethod
+    def clean_date(strdate):
+        strdate = DateParser.arabic_year_regexp.sub('', strdate)
+
+        removables = [ 'in', 'of', 'CE' ]
+        for tag in removables:
+            strdate = strdate.replace(tag, '')
+
+        return strdate
+
+    @staticmethod
     def parse_flexi_date(strdate, dayfirst=True):
         """
 
@@ -33,23 +44,38 @@ class DateParser:
         :param dayfirst:
         :return:
         """
+        strdate = DateParser.clean_date(strdate)
+
         graph_logger.debug('DateParser.parse_flexi_date: {}'.format(strdate))
         strdate = DateParser.handle_century(strdate)
-        if strdate is not None and strdate != '0000':
-            fd = parse(strdate)
-            if dayfirst:
-                fd = DateParser.handle_year(strdate, fd)
-            return fd
+        if strdate is not None and strdate != '0000' and not 'INF' in strdate:
+            try:
+                fd = parse(strdate)
+                if dayfirst:
+                    fd = DateParser.handle_year(strdate, fd)
+                return fd
+            except TypeError:
+                graph_logger.error('Invalid date: {}'.format(strdate))
+                return None
         return None
 
     @staticmethod
     def handle_year(strdate, fd):
+        is_bc = DateParser.is_before_christ(strdate)
+
+        if is_bc:
+            strdate = strdate.replace('BC', '')
+
         splitted = strdate.replace(',', '').split()
         if len(splitted) > 0:
             year = splitted[-1] # if there is a year, it's the last part
             if re.match(DateParser.three_digit_year, year) is not None:
                 # it's a 1-3 digit year
+                if is_bc:
+                    year = '-' + year
+
                 fd.year = fd._cvt(year, rjust = 4, force = False)
+
         return fd
 
     @staticmethod
@@ -68,6 +94,17 @@ class DateParser:
                 new_date = str(new_date) + " BC"
             return new_date
         return date
+
+    @staticmethod
+    def is_before_christ(strdate):
+        return 'BC' in strdate or 'B.C.' in strdate
+
+    @staticmethod
+    def is_valid_date(date) :
+        if isinstance(date, FlexiDate):
+            return date is not None and (len(date.year) > 0 or len(date.month) > 0 or len(date.day) > 0)
+        else:
+            return 'UNPARSED' not in str(date)
 
 
 if __name__ == "__main__":
@@ -91,3 +128,6 @@ if __name__ == "__main__":
     print(date_parser.parse_flexi_date(century_date_string))
     century_date_string = '562'
     print(date_parser.parse_flexi_date(century_date_string))
+
+    date_year = '48 BC'
+    print(date_parser.parse_flexi_date(date_year))

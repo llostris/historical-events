@@ -1,9 +1,15 @@
 # directories
 .idea/
 log/
+
 src/data/languagefiles
 src/data/*.yaml
+data/articles.pickle*
+data/*.pickle
+# everything in subdiectiories
+data/*
 
+*.log
 *.pyc
 *.html
 

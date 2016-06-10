@@ -31,12 +31,37 @@ def is_query_finished(result) :
     :param result: Map containt the result of the Wikimedia API query
     :return: Boolean
     """
-    if "batchcomplete" in result["query"] and result["query"]["batchcomplete"] :
+
+    if "continue" not in result :
         # query is finished
         return True
     else :
         # run the query again
         return False
+
+
+def handle_query_continuation(query, result):
+    continue_node = result['continue']
+    for node in continue_node:
+        query[node] = continue_node[node]
+
+    return query
+
+
+def get_default_article_query(title):
+    query = {
+        "action" : "query",
+        "generator" : "categorymembers",
+        "gcmlimit" : "max",
+        "format" : "json",
+        "gcmtitle" : title,
+        "prop" : "revisions",
+        "rvprop" : "content",
+        # "rvlimit" : 1,
+        "gcmnamespace" : NAMESPACES["article"], #cmnamespace
+        "formatversion" : 2
+    }
+    return query
 
 
 if __name__ == "__main__" :
