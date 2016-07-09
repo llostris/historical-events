@@ -18,13 +18,13 @@ def get_nodes_and_relationships(articles, graph, relationship_map):
     if graph is None:
         graph = nx.DiGraph()
     if relationship_map is None:
-        relationship_map = {} # temporary to keep edges
+        relationship_map = {}   # temporary to keep edges
 
     # extract vertices
     for article in articles:
         if is_article_relevant(article.title, article.content):
             # print article.content
-            event_name = article.title
+            event_name = unicode(article.title)
 
             date_extractor = DateExtractor(article.title, article.content)
             date_extractor.fill_dates()
@@ -33,17 +33,13 @@ def get_nodes_and_relationships(articles, graph, relationship_map):
                 if not is_valid_date(date):
                     logger.error('Invalid date parsed for title: {} {}'.format(article.title, date))
 
-            date_extractor.validate_dates() # remove invalid dates
+            date_extractor.validate_dates()     # remove invalid dates
+
+            attributes = date_extractor.get_iso_dates()
+            graph.add_node(event_name, attr_dict = attributes)
 
             relationship_extractor = RelationshipExtractor(article.content)
             relationships = relationship_extractor.get_relationships()
-
-            attributes = {
-                'date' : str(date_extractor.date),
-                'start_date' : str(date_extractor.start_date),
-                'end_date' : str(date_extractor.end_date)
-            }
-            graph.add_node(event_name, attr_dict = attributes)
 
             relationship_map[event_name] = relationships
 
@@ -68,7 +64,11 @@ def save_graph(graph):
     nx.write_gml(graph, GRAPH_GML_FILE)
 
 
-#<editor-fold desc="Serialization of relationship map">
+def dump_graph(graph):
+    pass
+
+
+# <editor-fold desc="Serialization of relationship map">
 
 def load_relationship_map(filename = RELATIONSHIP_MAP_FILE) :
     if os.path.isfile(filename) :
@@ -90,22 +90,34 @@ def update_relatioship_map(new_relashionship_map) :
 
     save_relationship_map(relationship_map)
 
-#</editor-fold>
+# </editor-fold>
 
 
-def save_in_progress_graph(graph):
+# <editor-fold desc="Serialization of in-progress graph">
+
+def load_in_progress_graph(filename=GRAPH_IN_PROGRESS_FILE):
+    if os.path.isfile(filename) :
+        with open(filename, 'r') as f:
+            return pickle.load(f)
+    else:
+        return nx.DiGraph()
+
+
+def save_in_progress_graph(in_progress_graph):
     with open(GRAPH_IN_PROGRESS_FILE, 'w') as f:
-        pickle.dump(graph, f)
+        pickle.dump(in_progress_graph, f)
+
+# </editor-fold>
+
 
 if __name__ == "__main__":
 
     articles = []
 
-    graph = nx.DiGraph()
+    graph = load_in_progress_graph()
     relationship_map = {}
 
-# 7: checked, now 8:
-    for elem in os.listdir(DATA_DIR)[5:7] :
+    for elem in os.listdir(DATA_DIR)[:2] :
         if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
             logger.info("*** Loading file: {}".format(elem))
             print elem
@@ -125,7 +137,7 @@ if __name__ == "__main__":
     # graph = get_nodes_and_relationships(articles)
 
     graph = create_graph(graph, load_relationship_map())
-    save_graph(graph)
+    # save_graph(graph)
 
     print(graph.number_of_nodes())
     print(graph.number_of_edges())

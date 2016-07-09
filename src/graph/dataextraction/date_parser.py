@@ -30,7 +30,7 @@ class DateParser:
     def clean_date(strdate):
         strdate = DateParser.arabic_year_regexp.sub('', strdate)
 
-        removables = [ 'in', 'of', 'CE' ]
+        removables = [ 'in', 'of', 'CE', '}', '{' ]
         for tag in removables:
             strdate = strdate.replace(tag, '')
 
@@ -131,3 +131,18 @@ if __name__ == "__main__":
 
     date_year = '48 BC'
     print(date_parser.parse_flexi_date(date_year))
+
+    unparseable_date = 'January 1642  24 May 1714---'
+    date = date_parser.parse_flexi_date(unparseable_date)
+    print(date)
+    print(date.isoformat())
+    print (date.qualifier)
+
+    circa_date = 'c. 1714'
+    date = date_parser.parse_flexi_date(circa_date)
+    print(date)
+    print(date.isoformat())
+
+    circa_date = '1714'
+    date = date_parser.parse_flexi_date(circa_date)
+    # print(date.qualifier)

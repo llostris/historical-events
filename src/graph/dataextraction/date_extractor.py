@@ -67,6 +67,20 @@ class DateExtractor:
     def get_dates(self):
         return self.date, self.start_date, self.end_date
 
+    def get_isoformat(self, date):
+        if date is not None and not 'UNPARSED' in date.qualifier:
+            return date.isoformat()
+        else:
+            logger.error(u'Error parsing date for article: {} - {}'.format(self.title, self.date))
+            return "None"
+
+    def get_iso_dates(self):
+        dates_map  = {}
+        dates_map['date'] = self.get_isoformat(self.date)
+        dates_map['start_date'] = self.get_isoformat(self.start_date)
+        dates_map['end_date'] = self.get_isoformat(self.end_date)
+        return dates_map
+
     @staticmethod
     def date_matcher(x):
         lowered = x.lower()
@@ -343,7 +357,7 @@ class DateExtractor:
         cleaned = DateExtractor.remove_in_place(cleaned)
         cleaned = re.sub(r"<ref></ref>", "", cleaned)
         removables = ['CE', 'late', 'Late', 'early', 'Early', 'summer', 'spring', 'winter', 'autumn', 'of', '\\n',
-                      'born', 'died', 'death', 'sprg', 'Sprg', '?' ]
+                      'born', 'died', 'death', 'sprg', 'Sprg', '?', '}', '{' ]
         for tag in removables :
             cleaned = cleaned.replace(tag, '')
         return cleaned
@@ -422,6 +436,7 @@ class DateExtractor:
         # text = re.sub(r"\{\{Use dmy dates|[^\}]*\}\}", '', text)
         text = text.replace("| ", "|").replace("= ", "=").replace(" =", "=").replace('–', '-')
         text = text.replace("\\u2013", "-").replace("&ndash;", "-")
+        text = text.replace("&quot;", "'")
         return text
 
     @staticmethod

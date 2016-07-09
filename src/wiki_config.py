@@ -42,13 +42,16 @@ FORBIDDEN_CATEGORY_KEYWORDS = { 'mountains of', 'biota of', 'fauna of', 'racehor
                                 'tank', 'troop ships', 'ships of', 'sailing vessels', 'vessels',
                                 'military intelligence', 'torpedo boats', 'ships', 'tanks', 'military vehicles',
                                 'armoured cars', 'award', 'software', 'video game', 'movie', 'film', 'novels',
-                                'fictional', 'gunboats', 'star wars', 'war destroyer', 'cruisers',
-
-                                'cities'
+                                'fictional', 'gunboats', 'star wars', 'war destroyer', 'cruisers',  'guns of',
+                                'world war ii bombers', 'cities', 'comics', 'rifles', 'weapons', 'songs',
+                                'half-tracks of', 'it risk management', 'radio stations', 'archaeological sites',
+                                'grenades', 'commotes', 'television episodes', 'revolver', 'populated places',
+                                'ethnic groups', 'Vermont in the American Civil War'.lower(), 'airfields',
+                                'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys', 'biographies',
 
                                 # 'deaths', 'poets', 'awards', 'cities'
                                 # people:
-                                # 'actresses', 'actors', 'sculptors', 'painters', 'lawyers', 'physicians', 'architects',
+                                # 'sculptors', 'painters', 'lawyers', 'physicians', 'architects',
                                 # 'writers', 'artists', 'businesspeople', 'historians', 'medical doctors',
                                 # 'mathematicians', 'monks', 'warriors', 'dancers', 'singers', 'musicians',
                                 # 'criminals', 'corespondents', 'people', 'personnel',
@@ -59,18 +62,26 @@ VALID_CATEGORY_KEYWORDS = { 'conflicts', 'battles', 'wars', 'treaties', }
 
 FORBIDDEN_TITLE_KEYWORDS = { 'museum', 'list', 'region', '10,000 metres', 'units of measurement', 'utc+',
                              'body count project', 'in sociology', 'topedo boat', 'SMS', 'timeline', 'cheirisophus',
-                             'language', 'history of', 'harpalus',
-                             # 'film', 'movie',
+                             'language', 'history of', 'harpalus', 'film', 'movie', 'six plus two group on afghanistan',
+                             'cultural representations of', 'cultural depictions', 'cultural backwardness',
+                             'battle tactics', 'document exploitation',
+
                              'marcus licinius crassus (quaestor)', 'pedro de herrera' # content
                              }
 
 TITLE_KEYWORDS = { 'war', 'battle', 'treaties', 'treaty', 'history', 'century', 'births', 'deaths', 'discovery',
                    'explosion', 'operation', 'bomb', 'attack', }
 
+
+# Regular expressions
+
 YEAR_IN_REGEXP = re.compile(r"\d{4} in ")
+
+CATEGORY_REGEXP = re.compile(r"\[\[Category:[^\]]*\]\]")
 
 NUMBER_ONLY_REGEXP = re.compile(r"^\d+$") # avoid articles of particular years ex. 1945, 1956
 
+# Methods
 
 def is_category_relevant(category_name):
     for forbidden_word in FORBIDDEN_CATEGORY_KEYWORDS:
@@ -88,9 +99,6 @@ def is_title_relevant(title):
         return False
 
     return True
-
-
-CATEGORY_REGEXP = re.compile(r"\[\[Category:[^\]]*\]\]")
 
 
 def is_article_relevant(title, content):
