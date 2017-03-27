@@ -48,6 +48,7 @@ FORBIDDEN_CATEGORY_KEYWORDS = { 'mountains of', 'biota of', 'fauna of', 'racehor
                                 'grenades', 'commotes', 'television episodes', 'revolver', 'populated places',
                                 'ethnic groups', 'Vermont in the American Civil War'.lower(), 'airfields',
                                 'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys', 'biographies',
+                                'memorials in', 'steamboats', 'hurricane', 'shipwrecks',
 
                                 # 'deaths', 'poets', 'awards', 'cities'
                                 # people:
@@ -64,7 +65,8 @@ FORBIDDEN_TITLE_KEYWORDS = { 'museum', 'list', 'region', '10,000 metres', 'units
                              'body count project', 'in sociology', 'topedo boat', 'SMS', 'timeline', 'cheirisophus',
                              'language', 'history of', 'harpalus', 'film', 'movie', 'six plus two group on afghanistan',
                              'cultural representations of', 'cultural depictions', 'cultural backwardness',
-                             'battle tactics', 'document exploitation',
+                             'battle tactics', 'document exploitation', 'women on the web', 'war cemetery',
+                             'historic district', 'yacht',
 
                              'marcus licinius crassus (quaestor)', 'pedro de herrera' # content
                              }
