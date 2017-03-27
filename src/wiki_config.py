@@ -36,19 +36,18 @@ FORBIDDEN_CATEGORY_KEYWORDS = { 'mountains of', 'biota of', 'fauna of', 'racehor
                                 'propaganda techniques', 'steamships', 'passenger ships', 'military communications',
                                 'military terminology', 'humanitarian aid', 'agriculture', 'military units',
                                 'disbanded armies', 'field armies', 'equipment', 'in sociology', 'battleships',
-                                'polish people of the spanish civil war', 'monitors', 'machine guns',
-                                'establishments in prince edward island', 'jewish venezuelan history',
-                                'military awards', 'navy ship names', 'minesweepers', 'minehunters', 'survey ships',
-                                'tank', 'troop ships', 'ships of', 'sailing vessels', 'vessels',
-                                'military intelligence', 'torpedo boats', 'ships', 'tanks', 'military vehicles',
-                                'armoured cars', 'award', 'software', 'video game', 'movie', 'film', 'novels',
-                                'fictional', 'gunboats', 'star wars', 'war destroyer', 'cruisers',  'guns of',
-                                'world war ii bombers', 'cities', 'comics', 'rifles', 'weapons', 'songs',
-                                'half-tracks of', 'it risk management', 'radio stations', 'archaeological sites',
-                                'grenades', 'commotes', 'television episodes', 'revolver', 'populated places',
-                                'ethnic groups', 'Vermont in the American Civil War'.lower(), 'airfields',
-                                'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys', 'biographies',
-                                'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado', 'tornadoes'
+                                'polish people of the spanish civil war', 'monitors', 'machine guns', 'military awards',
+                                'navy ship names', 'minesweepers', 'minehunters', 'survey ships', 'tank', 'troop ships',
+                                'ships of', 'sailing vessels', 'vessels', 'military intelligence', 'torpedo boats',
+                                'ships', 'tanks', 'military vehicles', 'armoured cars', 'award', 'software',
+                                'video game', 'movie', 'film', 'novels', 'fictional', 'gunboats', 'star wars',
+                                'war destroyer', 'cruisers',  'guns of', 'world war ii bombers', 'cities', 'comics',
+                                'rifles', 'weapons', 'songs', 'half-tracks of', 'it risk management', 'radio stations',
+                                'archaeological sites', 'grenades', 'commotes', 'television episodes', 'revolver',
+                                'populated places', 'ethnic groups', 'Vermont in the American Civil War'.lower(),
+                                'airfields', 'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys',
+                                'biographies', 'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado',
+                                'tornadoes', 'clothing', 'uniforms',
 
                                 # 'deaths', 'poets', 'awards', 'cities'
                                 # people:
@@ -66,7 +65,7 @@ FORBIDDEN_TITLE_KEYWORDS = { 'museum', 'list', 'region', '10,000 metres', 'units
                              'language', 'history of', 'harpalus', 'film', 'movie', 'six plus two group on afghanistan',
                              'cultural representations of', 'cultural depictions', 'cultural backwardness',
                              'battle tactics', 'document exploitation', 'women on the web', 'war cemetery',
-                             'historic district', 'yacht', 'tornado',
+                             'historic district', 'yacht', 'tornado', 'document exploitation', 'headwear'
 
                              'marcus licinius crassus (quaestor)', 'pedro de herrera' # content
                              }

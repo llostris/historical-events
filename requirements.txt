@@ -1,5 +1,5 @@
 mwparserfromhell
 sqlalchemy
 networkx
-snap
+# snap == 3.0 # unavailable at PIP directory, need to download manually from https://snap.stanford.edu/snappy/
 flexidate
