@@ -48,7 +48,7 @@ FORBIDDEN_CATEGORY_KEYWORDS = { 'mountains of', 'biota of', 'fauna of', 'racehor
                                 'grenades', 'commotes', 'television episodes', 'revolver', 'populated places',
                                 'ethnic groups', 'Vermont in the American Civil War'.lower(), 'airfields',
                                 'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys', 'biographies',
-                                'memorials in', 'steamboats', 'hurricane', 'shipwrecks',
+                                'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado', 'tornadoes'
 
                                 # 'deaths', 'poets', 'awards', 'cities'
                                 # people:
@@ -66,7 +66,7 @@ FORBIDDEN_TITLE_KEYWORDS = { 'museum', 'list', 'region', '10,000 metres', 'units
                              'language', 'history of', 'harpalus', 'film', 'movie', 'six plus two group on afghanistan',
                              'cultural representations of', 'cultural depictions', 'cultural backwardness',
                              'battle tactics', 'document exploitation', 'women on the web', 'war cemetery',
-                             'historic district', 'yacht',
+                             'historic district', 'yacht', 'tornado',
 
                              'marcus licinius crassus (quaestor)', 'pedro de herrera' # content
                              }
@@ -82,6 +82,7 @@ YEAR_IN_REGEXP = re.compile(r"\d{4} in ")
 CATEGORY_REGEXP = re.compile(r"\[\[Category:[^\]]*\]\]")
 
 NUMBER_ONLY_REGEXP = re.compile(r"^\d+$") # avoid articles of particular years ex. 1945, 1956
+
 
 # Methods
 

@@ -7,6 +7,7 @@ from settings import graph_logger
 
 NUMBER_REGEXP = re.compile("\d+")
 
+
 class DateParser:
     pattern_day_month_year = "%d %B %Y"
     pattern_month_year = "%B %Y"

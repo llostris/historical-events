@@ -29,8 +29,6 @@ class RawEvent:
         self.date_type = 'date'
         pass
 
-
-
     def __repr__(self):
         return "<Event(name='{0}')>".format(self.name)
 
