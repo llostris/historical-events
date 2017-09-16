@@ -1,9 +1,9 @@
 # coding=utf-8
+#-*- coding: utf-8 -*-
 import os
 import pickle
 import re
 import signal
-from urllib2 import URLError
 
 from settings import DATA_DIR, CATEGORIES_FILE
 from wiki_api_utils import run_query
@@ -40,20 +40,23 @@ def save_to_file(categories, file=CATEGORIES_FILE, append=False) :
     if append:
         mode = 'a'
 
-    with open(file, mode) as f :
+    with open(file, mode, encoding='utf-8') as f :
         for id, title in categories.items() :
-            f.write(str(id) + "," + title.encode('utf-8') + '\n')
+            print(title)
+            print(str(title))
+            f.write(str(id) + "," + title + '\n')
+            # f.write(str(id) + "," + title.encode('utf-8') + '\n') # TODO: delete me on clean up
         f.close()
 
 
 def get_categories(query, visited_ids, end = False) :
-    query["cmtitle"] = unicode(query["cmtitle"]).encode('utf-8')
+    query["cmtitle"] = query["cmtitle"]
     result = run_query(query)
-    print 'json:', result
+    print('json:', result)
 
     categories = { }
     found_categories = result["query"][CATEGORYMEMBERS]
-    print 'results found: %d' % len(found_categories)
+    print('results found: %d' % len(found_categories))
     for member in found_categories :
         pageid = member["pageid"]
         title = member["title"]
@@ -61,14 +64,14 @@ def get_categories(query, visited_ids, end = False) :
 
         if namespace == NAMESPACES["category"] and is_category_history_related(title) :
             categories[pageid] = title
-            print 'category ' + title
+            print('category ' + title)
 
     # if end:
     #     print 'end'
     #     return categories
 
     subcategories = { }
-    print 'recurse'
+    print('recurse')
     for id in categories :
         if id not in visited_ids :
             query["cmtitle"] = categories[id]
@@ -76,9 +79,9 @@ def get_categories(query, visited_ids, end = False) :
 
             subcategories_new = get_categories(query, visited_ids, True)
             subcategories.update(subcategories_new)
-            print 'visited ids length: {}'.format(len(visited_ids))
+            print('visited ids length: {}'.format(len(visited_ids)))
 
-    save_to_file(subcategories, True)
+    save_to_file(subcategories, append=True)
 
     categories.update(subcategories)
 
@@ -116,9 +119,9 @@ if __name__ == "__main__" :
     categories = { }
     portals = { }
 
-    try:
-        categories = get_categories(query, visited_ids, True)
-    except URLError:
-        signal_handler()
+    # try:
+    categories = get_categories(query, visited_ids, True)
+    # except Exception as e: # TODO: fix and make less random
+    #     signal_handler()
 
     # save_to_file(categories)

@@ -10,4 +10,4 @@ class TestDateExtractor(unittest.TestCase) :
 
         cleaned = DateExtractor.remove_files_etc(text)
         cleaned = DateExtractor.remove_files_etc(cleaned, left_sign = '{', right_sign = '}')
-        print cleaned
+        print(cleaned)

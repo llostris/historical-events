@@ -12,9 +12,9 @@ if __name__ == "__main__":
 
     # Categories data
     categories = load_category_list()
-    print 'All categories: {}'.format(len(categories))
+    print('All categories: {}'.format(len(categories)))
     unique_categories = set(filter(is_category_relevant, categories))
-    print 'Unique and relevant categories: {}'.format(len(unique_categories))
+    print('Unique and relevant categories: {}'.format(len(unique_categories)))
 
     # Articles data
 
@@ -23,10 +23,10 @@ if __name__ == "__main__":
     for elem in os.listdir(DATA_DIR) :
         if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
             article_batch = load_article_from_pickle(elem)
-            print elem, len(article_batch)
+            print(elem, len(article_batch))
             articles += article_batch
 
-    print len(articles)
+    print(len(articles))
 
     # for article in articles:
     #     if 'Second Battle of El Alamein' in article.title:

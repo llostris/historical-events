@@ -1,13 +1,14 @@
+# coding=utf-8
 import json
 import logging
-from urllib import urlencode
-from urllib2 import urlopen
+# from urllib import urlencode
+import requests
 
 import settings
 from settings import API_URL
 from wiki_config import NAMESPACES
 
-settings.loggingConfig()
+settings.logging_config()
 
 def run_query(query) :
     """
@@ -15,11 +16,11 @@ def run_query(query) :
     :param query: Map of query parameters, that will be used to encode the valid API url.
     :return: A map containing the result of the query.
     """
-    raw = urlopen(API_URL, urlencode(query).encode()).read()
+    response = requests.get(API_URL, query)
     try:
-        result = json.loads(raw)
+        result = response.json(encoding='utf-8')
     except ValueError as e:
-        logging.error("Couldn't parse JSON: " + raw)
+        logging.error("Couldn't parse JSON: " + response.content)
         return ""
 
     return result

@@ -1,12 +1,11 @@
 from __future__ import unicode_literals
 import logging
-import sys
 
 API_URL = "https://en.wikipedia.org/w/api.php"
 
 ENWIKI_DIR = 'D:\Studia\Magisterka\enwiki'
 
-DATA_DIR = "../data"
+DATA_DIR = "../data2"
 
 LOG_DIR = "../log"
 
@@ -26,6 +25,7 @@ GRAPH_GML_FILE = DATA_DIR + '/graph.gml'
 
 GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
 
+
 def get_graph_logger():
     logger = logging.getLogger('graph_logger')
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
@@ -35,11 +35,9 @@ def get_graph_logger():
     logger.setLevel(logging.INFO)
     return logger
 
-def loggingConfig():
+
+def logging_config():
     logging.basicConfig(level = logging.ERROR)
 
-graph_logger = get_graph_logger()
 
-# hack
-reload(sys)
-sys.setdefaultencoding("utf-8")
+graph_logger = get_graph_logger()

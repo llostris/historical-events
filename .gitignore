@@ -8,6 +8,7 @@ data/articles.pickle*
 data/*.pickle
 # everything in subdiectiories
 data/*
+data2/* # python3 data test
 
 *.log
 *.pyc
