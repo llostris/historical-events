@@ -45,6 +45,7 @@ def get_nodes_and_relationships(articles, graph, relationship_map):
 
     return graph, relationship_map
 
+
 def create_graph(graph, relationship_map):
 
     # extract edges
