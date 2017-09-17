@@ -121,7 +121,7 @@ if __name__ == "__main__":
     for elem in os.listdir(DATA_DIR)[:2] :
         if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
             logger.info("*** Loading file: {}".format(elem))
-            print elem
+            print(elem)
 
             article_batch = load_article_from_pickle(elem)
 

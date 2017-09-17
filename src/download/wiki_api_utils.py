@@ -1,5 +1,4 @@
 # coding=utf-8
-import json
 import logging
 # from urllib import urlencode
 import requests
@@ -18,12 +17,14 @@ def run_query(query) :
     """
     response = requests.get(API_URL, query)
     try:
-        result = response.json(encoding='utf-8')
+        if response.status_code == 200:
+            result = response.json(encoding='utf-8')
+            return result
     except ValueError as e:
         logging.error("Couldn't parse JSON: " + response.content)
         return ""
 
-    return result
+    return {}
 
 
 def is_query_finished(result) :

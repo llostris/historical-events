@@ -3,7 +3,6 @@ import pickle
 
 from categories import VISITED_IDS
 from download.wiki_api_utils import get_default_article_query
-from safestring import safe_unicode
 from settings import CATEGORIES_FILE, ARTICLES_FILE, DATA_DIR
 from wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 from wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES, is_category_relevant, is_article_relevant
@@ -13,6 +12,7 @@ logging.debug('test')
 logging.info('test2')
 
 CATEGORIES_BUGS = []
+
 
 class RawArticle:
 
@@ -31,13 +31,14 @@ def signal_handler():
         f.close()
 
 
-def load_category_list() :
+def load_category_list():
     categories = set()
 
-    with open(CATEGORIES_FILE, 'r') as f:
+    with open(CATEGORIES_FILE, 'r', encoding='utf-8') as f:
         for line in f.readlines():
             splitted = line.strip().split(",")
-            categories.add(safe_unicode(splitted[1]))
+            categories.add(splitted[1])
+            # categories.add(safe_unicode(splitted[1])) # TODO: pyhton 2.7
 
     return categories
 
@@ -58,9 +59,9 @@ def is_response_valid(query, result):
 
 
 def get_articles(query, visited_ids, categories) :
-    print query["gcmtitle"]
+    print(query["gcmtitle"])
     result = run_query(query)
-    print 'json:', result
+    print('json:', result)
 
     if not is_response_valid(query, result):
         return []
@@ -84,7 +85,7 @@ def get_articles(query, visited_ids, categories) :
             visited_ids.add(pageid)
 
     if not is_query_finished(result):
-        print 'continuation query required'
+        print('continuation query required')
         # result['query'] = {}
         # print result
         query = handle_query_continuation(query, result)
@@ -99,12 +100,12 @@ def get_articles_for_categories(query, categories):
     visited_ids = set()
 
     for category in categories:
-        print 'querying'
+        print('querying')
 
         query = get_default_article_query(category)
         articles += get_articles(query, visited_ids, categories)
 
-        print len(articles)
+        print(len(articles))
 
     return articles
 
@@ -121,10 +122,10 @@ if __name__ == "__main__" :
     query = get_default_article_query(title)
 
     categories = load_category_list()
-    print len(categories)
+    print(len(categories))
     categories = set(filter(is_category_relevant, categories))
-    print len(categories)
-    articles = { }
+    print(len(categories))
+    articles = {}
 
     num_categories = len(categories)
     start = 7000

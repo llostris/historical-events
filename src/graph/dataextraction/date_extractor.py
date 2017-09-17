@@ -211,7 +211,7 @@ class DateExtractor:
         if len(section_headers) > 0 :
             text = text.split(section_headers[0])[0]
 
-        print text
+        print(text)
         date_found = self.extract_time_period_from_content(text)
 
         if not date_found:

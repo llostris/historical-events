@@ -48,7 +48,7 @@ def create_graph_ivga(graph, relationship_map, filename='graph', include_lone_no
 
         f.close()
 
-    print len(existing_nodes)
+    print(len(existing_nodes))
 
     with codecs.open(DATA_DIR + '/' + filename + '.desc', 'w+', encoding = 'utf-8') as f:
         f.write(',\t'.join([ 'title' ] + attributes))
@@ -57,7 +57,7 @@ def create_graph_ivga(graph, relationship_map, filename='graph', include_lone_no
         f.write('string\n')
         len_of_nodes = len(graph.node)
         for node in graph.node:
-            print node.encode('utf-8')
+            print(node.encode('utf-8'))
             index = nodes_to_id_map[node]
             # if True:
             if index in existing_nodes:
@@ -74,7 +74,7 @@ def create_graph_ivga(graph, relationship_map, filename='graph', include_lone_no
                 f.write(line.encode('utf-8'))
             else:
                 lone_vertices.add(node)
-                # print 'Vertex with no edges: ' + node
+                # print('Vertex with no edges: ' + node)
 
         if include_lone_nodes:
             for node in lone_vertices:

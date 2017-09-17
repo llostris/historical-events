@@ -6,7 +6,6 @@ from download.articles import load_category_list
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
 from settings import DATA_DIR
 from wiki_config import is_category_relevant
-from articles import RawArticle
 
 if __name__ == "__main__":
 
@@ -20,8 +19,8 @@ if __name__ == "__main__":
 
     articles = []
 
-    for elem in os.listdir(DATA_DIR) :
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
+    for elem in os.listdir(DATA_DIR):
+        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
             article_batch = load_article_from_pickle(elem)
             print(elem, len(article_batch))
             articles += article_batch

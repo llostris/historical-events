@@ -7,16 +7,16 @@ from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_
 from settings import DATA_DIR
 
 
-class RelationshipExtractor :
-    forbidden_keywords = [ 'File:', 'Category:', 'ca:' ]
+class RelationshipExtractor:
+    forbidden_keywords = ['File:', 'Category:', 'ca:']
     language_regexp = re.compile(r"^[a-z]{2}:")
 
-    def __init__(self, content, tree = None) :
+    def __init__(self, content, tree=None):
         self.content = content
         self.tree = tree
         self.wikilinks = []
 
-        if tree is None :
+        if tree is None:
             self.tree = hell.parse(content)
 
     def extract_wikilinks(self):
@@ -69,20 +69,20 @@ class RelationshipExtractor :
         return page_title
 
 
-if __name__ == "__main__" :
+if __name__ == "__main__":
 
     articles = []
 
-    for elem in os.listdir(DATA_DIR) :
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
-            print elem
+    for elem in os.listdir(DATA_DIR):
+        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
+            print(elem)
             article_batch = load_article_from_pickle(elem)
             articles += article_batch
 
-    print len(articles)
+    print(len(articles))
 
     events = []
-    for article in articles[0 :1] :
+    for article in articles[0:1]:
         print(article.title)
         relationship_extractor = RelationshipExtractor(article.content)
         print(relationship_extractor.get_relationships())

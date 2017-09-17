@@ -52,9 +52,9 @@ def convert_articles_to_model_no_categories(article_batch):
     articles = []
     for raw_article in article_batch:
         if is_title_relevant(raw_article.title.encode('utf-8')):
-            article = Article(pageid = raw_article.pageid,
-                              title = raw_article.title.encode('utf-8'),
-                              content = raw_article.content.encode('utf-8'))
+            article = Article(pageid=raw_article.pageid,
+                              title=raw_article.title.encode('utf-8'),
+                              content=raw_article.content.encode('utf-8'))
             articles.append(article)
         # print article
 
@@ -65,14 +65,14 @@ if __name__ == "__main__":
 
     articles = []
 
-    for elem in os.listdir(DATA_DIR) :
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
-            print elem
+    for elem in os.listdir(DATA_DIR):
+        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
+            print(elem)
             article_batch = load_article_from_pickle(elem)
             article_models = convert_articles_to_model_no_categories(article_batch)
             articles += article_models
 
-    print len(articles)
+    print(len(articles))
 
     events = []
     # for article in articles[1500:2500]:
@@ -82,7 +82,7 @@ if __name__ == "__main__":
             event = extract_event(article)
             events.append(event)
 
-    print len(events)
+    print(len(events))
 
     with open(DATA_DIR + 'events.pickle', 'wb') as f:
         pickle.dump(events, f)
