@@ -38,7 +38,6 @@ def load_category_list():
         for line in f.readlines():
             splitted = line.strip().split(",")
             categories.add(splitted[1])
-            # categories.add(safe_unicode(splitted[1])) # TODO: pyhton 2.7
 
     return categories
 
@@ -58,7 +57,7 @@ def is_response_valid(query, result):
     return True
 
 
-def get_articles(query, visited_ids, categories) :
+def get_articles(query, visited_ids, categories):
     print(query["gcmtitle"])
     result = run_query(query)
     print('json:', result)
@@ -73,21 +72,18 @@ def get_articles(query, visited_ids, categories) :
         # print article
         if not "revisions" in article:
             continue
-        pageid = article["pageid"]
+        page_id = article["pageid"]
         title = article["title"]
         namespace = article["ns"]
         content = article["revisions"][0]["content"]
         # print title, namespace
 
         if namespace == NAMESPACES["article"] and is_article_relevant(title, content):
-            # all_articles.append(RawArticle(pageid, safe_str(title), safe_str(content)))
-            all_articles.append(RawArticle(pageid, title, content))
-            visited_ids.add(pageid)
+            all_articles.append(RawArticle(page_id, title, content))
+            visited_ids.add(page_id)
 
     if not is_query_finished(result):
         print('continuation query required')
-        # result['query'] = {}
-        # print result
         query = handle_query_continuation(query, result)
         more_articles = get_articles(query, visited_ids, categories)
         all_articles = all_articles + more_articles
@@ -111,15 +107,12 @@ def get_articles_for_categories(query, categories):
 
 
 def save_to_file(articles, index):
-    with open(ARTICLES_FILE + '_' + str(index), 'wb') as f :
+    with open(ARTICLES_FILE + '_' + str(index), 'wb') as f:
         pickle.dump(articles, f)
 
 
-if __name__ == "__main__" :
-    title = "Category:History"
-    # title = "Category:1918 in military history"
-    # title = "Category:Battles_and_operations_of_World_War_II_involving_India"
-    query = get_default_article_query(title)
+if __name__ == "__main__":
+    query = get_default_article_query()
 
     categories = load_category_list()
     print(len(categories))
@@ -128,20 +121,18 @@ if __name__ == "__main__" :
     articles = {}
 
     num_categories = len(categories)
-    start = 7000
+    start = 0
     last_index = start
 
-    # categories = [ "Category:Royal Naval Volunteer Reserve personnel of World War II" ]
-
+    # Split into batches to allow for easier re-running the script and fixing errors
     for index in range(start, num_categories, 1000):
         articles = get_articles_for_categories(query, set(list(categories)[index:index + 1000]))
-        # print articles[0]
 
         save_to_file(articles, index)
         last_index = index + 1000
 
-    # get articles for remaining categories
-    articles  = get_articles_for_categories(query, set(list(categories)[last_index:last_index + 1000]))
+    # Get articles for any remaining categories
+    articles = get_articles_for_categories(query, set(list(categories)[last_index:last_index + 1000]))
     save_to_file(articles, last_index)
 
     print(CATEGORIES_BUGS)
