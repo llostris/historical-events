@@ -1,7 +1,5 @@
 # -*- coding: utf-8 -*-
-from safestring import safe_unicode, safe_str
-from settings import LOG_DIR, ARTICLE_LOG_FILE
-import mwparserfromhell
+from settings import ARTICLE_LOG_FILE
 from io import open
 
 CATEOGRY_PREFIX = "Category:"

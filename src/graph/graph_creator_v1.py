@@ -24,19 +24,19 @@ def get_nodes_and_relationships(articles, graph, relationship_map):
     for article in articles:
         if is_article_relevant(article.title, article.content):
             # print article.content
-            event_name = unicode(article.title)
+            event_name = article.title
 
             date_extractor = DateExtractor(article.title, article.content)
             date_extractor.fill_dates()
 
-            for date in [ date_extractor.date, date_extractor.start_date, date_extractor.end_date ]:
+            for date in [date_extractor.date, date_extractor.start_date, date_extractor.end_date]:
                 if not is_valid_date(date):
                     logger.error('Invalid date parsed for title: {} {}'.format(article.title, date))
 
-            date_extractor.validate_dates()     # remove invalid dates
+            date_extractor.validate_dates()  # remove invalid dates
 
             attributes = date_extractor.get_iso_dates()
-            graph.add_node(event_name, attr_dict = attributes)
+            graph.add_node(event_name, attr_dict=attributes)
 
             relationship_extractor = RelationshipExtractor(article.content)
             relationships = relationship_extractor.get_relationships()
@@ -71,20 +71,20 @@ def dump_graph(graph):
 
 # <editor-fold desc="Serialization of relationship map">
 
-def load_relationship_map(filename = RELATIONSHIP_MAP_FILE) :
-    if os.path.isfile(filename) :
-        with open(filename, 'r') as f :
+def load_relationship_map(filename=RELATIONSHIP_MAP_FILE):
+    if os.path.isfile(filename):
+        with open(filename, 'r') as f:
             return pickle.load(f)
-    else :
-        return { }
+    else:
+        return {}
 
 
-def save_relationship_map(relationship_map, filename = RELATIONSHIP_MAP_FILE) :
+def save_relationship_map(relationship_map, filename=RELATIONSHIP_MAP_FILE):
     with open(filename, 'w') as f:
         pickle.dump(relationship_map, f)
 
 
-def update_relatioship_map(new_relashionship_map) :
+def update_relatioship_map(new_relashionship_map):
     relationship_map = load_relationship_map()
 
     relationship_map.update(new_relashionship_map)
@@ -118,8 +118,8 @@ if __name__ == "__main__":
     graph = load_in_progress_graph()
     relationship_map = {}
 
-    for elem in os.listdir(DATA_DIR)[:2] :
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX) :
+    for elem in os.listdir(DATA_DIR)[:2]:
+        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
             logger.info("*** Loading file: {}".format(elem))
             print(elem)
 

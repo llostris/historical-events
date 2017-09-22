@@ -2,6 +2,8 @@ import logging
 import pickle
 
 from categories import VISITED_IDS
+from requests.exceptions import ChunkedEncodingError
+
 from download.wiki_api_utils import get_default_article_query
 from settings import CATEGORIES_FILE, ARTICLES_FILE, DATA_DIR
 from wiki_api_utils import run_query, is_query_finished, handle_query_continuation
@@ -59,8 +61,11 @@ def is_response_valid(query, result):
 
 def get_articles(query, visited_ids, categories):
     print(query["gcmtitle"])
-    result = run_query(query)
-    print('json:', result)
+    try:
+        result = run_query(query)
+    except ChunkedEncodingError as e:
+        logging.error("Error while trying to download articles for query: {0}".format(query["gcmtitle"]))
+    # print('json:', result)
 
     if not is_response_valid(query, result):
         return []
@@ -129,6 +134,7 @@ if __name__ == "__main__":
         articles = get_articles_for_categories(query, set(list(categories)[index:index + 1000]))
 
         save_to_file(articles, index)
+
         last_index = index + 1000
 
     # Get articles for any remaining categories
