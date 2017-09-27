@@ -7,7 +7,6 @@ import wikidump as wd
 import mwparserfromhell as hell
 import json
 
-from safestring import safe_str
 from settings import API_URL
 
 
@@ -25,7 +24,6 @@ def test_hell_api():
     text = res["query"]["pages"].values()[0]["revisions"][0]["*"]
     # print text
     page_tree = hell.parse(text)
-    print(safe_str(page_tree))
 
     print(page_tree.get_tree())
 
@@ -46,8 +44,7 @@ def test_hell_api():
     return page_tree
 
 if __name__ == "__main__":
-    print "ala"
+    print("ala")
     test_hell_api()
-    pass
 
 

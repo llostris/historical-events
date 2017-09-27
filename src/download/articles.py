@@ -1,12 +1,12 @@
 import logging
 import pickle
 
-from categories import VISITED_IDS
+from download.categories import VISITED_IDS
 from requests.exceptions import ChunkedEncodingError
 
 from download.wiki_api_utils import get_default_article_query
 from settings import CATEGORIES_FILE, ARTICLES_FILE, DATA_DIR
-from wiki_api_utils import run_query, is_query_finished, handle_query_continuation
+from download.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 from wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES, is_category_relevant, is_article_relevant
 
 # LOGGER = logging.getLogger()

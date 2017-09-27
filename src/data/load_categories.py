@@ -29,7 +29,7 @@ def load_categories(category_map):
 
     categories = convert_to_model(category_map)
     # print categories
-    print categories[0]
+    print(categories[0])
 
     session.query(Category).delete()
     session.commit()

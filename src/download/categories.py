@@ -11,7 +11,7 @@ import re
 import signal
 
 from settings import DATA_DIR, CATEGORIES_FILE
-from wiki_api_utils import run_query
+from download.wiki_api_utils import run_query
 from wiki_config import CATEGORYMEMBERS, NAMESPACES, is_category_relevant, CATEGORY_KEYWORDS
 
 DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")

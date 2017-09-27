@@ -17,7 +17,7 @@ if __name__ == "__main__" :
     pt = nltk.pos_tag(w_tokens)
     # print pt
     tagged = timex.tag(text)
-    print tagged
+    print(tagged)
     ne = timex.ground(tagged, basedate)
     # ne = nltk.ne_chunk(pt)
-    print ne
+    print(ne)

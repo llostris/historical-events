@@ -4,23 +4,23 @@ import unittest
 from graph.dataextraction.date_extractor import DateExtractor
 
 
-class TestDateExtractor(unittest.TestCase) :
+class TestDateExtractor(unittest.TestCase):
     @staticmethod
-    def get_date_extractor(content) :
+    def get_date_extractor(content):
         return DateExtractor("Uprising of 1799", content)
 
     @staticmethod
-    def get_base_date_extractor() :
+    def get_base_date_extractor():
         return DateExtractor("Uprising of 1799", '')
 
-    def test_extract_from_template(self) :
+    def test_extract_from_template(self):
         date_extractor = self.get_base_date_extractor()
         date = date_extractor.extract_date_from_template('start date', '{{start date|2013|11|24|df=y}}')
         self.assertEqual(u"2013", date.year)
         self.assertEqual(u"11", date.month)
         self.assertEqual(u"24", date.day)
 
-    def test_extract_from_title(self) :
+    def test_extract_from_title(self):
         date_extractor = self.get_base_date_extractor()
         date_extractor.extract_from_title(date_extractor.title)
         date = date_extractor.date

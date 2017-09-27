@@ -18,7 +18,7 @@ def load_article_from_pickle(filename):
 
 def get_category_from_db(category_name, session):
     category = session.query(Category).filter_by(name = category_name).first()
-    print category
+    print(category)
     return category
 
 def get_categories(content, session):
@@ -62,14 +62,14 @@ if __name__ == "__main__":
 
     for elem in os.listdir(DATA_DIR) :
         if elem.startswith(article_file_name_prefix) :
-            print elem
+            print(elem)
             article_batch = load_article_from_pickle(elem)
             article_models = convert_articles_to_model(article_batch, session)
             articles += article_models
 
-    print len(articles)
-    print articles[0], articles[1]
+    print(len(articles))
+    print(articles[0], articles[1])
     session.add_all(articles)
 
-    print session.dirty
+    print(session.dirty)
     session.commit()
