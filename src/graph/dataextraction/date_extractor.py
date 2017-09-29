@@ -24,8 +24,8 @@ SPLIT_DATES_REGEX = re.compile(r"(?<!1st)(?<!nd)(?<!rd)(?<!th)-", re.UNICODE) # 
 #  4-th
 
 DATE_REGEXPS = {
-    'start date': re.compile(r"\{\{start date\|[^\}]*\}\}"),
-    'birth date': re.compile(r"\{\{birth date[^\|]*\|[^\}]*\}\}"),
+    'start date': re.compile(r"{{start date\|[^}]*}}"),
+    'birth date': re.compile(r"{{birth date[^\|]*\|[^}]*}}"),
     'end date': re.compile(r"\{\{end date\|[^\}]*\}\}"), # TODO: add death date
     'death date': re.compile(r"\{\{death date[^\|]*\|[^\}]*\}\}"), # TODO: add death date
     'date': re.compile(r"\{\{date\|.*\}\}"),
@@ -64,21 +64,31 @@ class DateExtractor:
         self.start_date = None
         self.end_date = None
 
+        self.date_parser = DateParser()
+
     def get_dates(self):
         return self.date, self.start_date, self.end_date
 
+    def is_unparsed(self, date):
+        if isinstance(date.qualifier, str):
+            return 'UNPARSED' in date.qualifier
+        else:
+            return 'UNPARSED' in date.qualifier.decode('utf-8')
+
     def get_isoformat(self, date):
-        if date is not None and not 'UNPARSED' in date.qualifier.decode('utf-8'):
+        print("get_isoformat: {}".format(date))
+        if date is not None and not self.is_unparsed(date):
             return date.isoformat()
         else:
             logger.error(u'Error parsing date for article: {} - {}'.format(self.title, self.date))
             return "None"
 
     def get_iso_dates(self):
-        dates_map = {}
-        dates_map['date'] = self.get_isoformat(self.date)
-        dates_map['start_date'] = self.get_isoformat(self.start_date)
-        dates_map['end_date'] = self.get_isoformat(self.end_date)
+        dates_map = {
+            'date': self.get_isoformat(self.date),
+            'start_date': self.get_isoformat(self.start_date),
+            'end_date': self.get_isoformat(self.end_date)
+        }
         return dates_map
 
     @staticmethod
@@ -157,20 +167,37 @@ class DateExtractor:
 
                 return DateParser().parse_flexi_date(str_date, dayfirst=False)
 
-    def extract_from_infobox(self, node) :
+    def extract_infobox_birth_date(self, text):
+        matches = DATE_REGEXPS['infobox_birth'].findall(text)
+        if len(matches) > 0:
+            stripped = self.extract_infobox_parameter(matches[0])
+            self.start_date = DateParser.parse_flexi_date(stripped)
+
+    def extract_infobox_death_date(self, text):
+        matches = DATE_REGEXPS['infobox_death'].findall(text)
+        if len(matches) > 0:
+            stripped = self.extract_infobox_parameter(matches[0])
+            self.end_date = DateParser.parse_flexi_date(stripped)
+
+    def extract_from_infobox(self, node):
         text = self.preprocess_node_str(node)
         logger.debug('Infobox raw: {}'.format(text))
-        logger.info('Infobox raw: {}'.format(text))
         is_birth = False
+
+        self.extract_infobox_birth_date(text)
+        self.extract_infobox_death_date(text)
+
+        if self.start_date is not None and self.end_date is not None:
+            return
 
         year = self.extract_infobox_year(text)
 
         matches = DATE_REGEXPS['infobox'].findall(text)
-        if len(matches) == 0 :
+        if len(matches) == 0:
             matches = DATE_REGEXPS['infobox_signed'].findall(text)
             self.date_type = 'signed'
 
-        for match in matches :
+        for match in matches:
             stripped = self.extract_infobox_parameter(match)
             date_parser = DateParser()
 
@@ -199,16 +226,16 @@ class DateExtractor:
 
                     # logger.debug(self.date)
 
-    def extract_from_content(self, node) :
+    def extract_from_content(self, node):
         # print node
         text = self.preprocess_node_str(node)
         text = DateExtractor.remove_files_etc(text)
-        text = DateExtractor.remove_files_etc(text, left_sign = '{', right_sign = '}')
+        text = DateExtractor.remove_files_etc(text, left_sign='{', right_sign='}')
         # logger.debug('Content: {}'.format(text))
 
         # use only first paragraph
         section_headers = WIKIPEDIA_SECTION_HEADER_REGEXP.findall(text)
-        if len(section_headers) > 0 :
+        if len(section_headers) > 0:
             text = text.split(section_headers[0])[0]
 
         print(text)
@@ -219,14 +246,14 @@ class DateExtractor:
 
     def extract_time_period_from_content(self, text):
         sentences = text.split(".")
-        text = '. '.join(sentences[:2]) # ignore the rest
+        text = '. '.join(sentences[:2])  # ignore the rest
 
         matches = CONTENT_TIME_PERIOD_REGEXP.findall(text)
 
         for match in matches:
             stripped = match[1:-1]
             splitted = stripped.split(';')
-            stripped = splitted[-1] # take the last one
+            stripped = splitted[-1]  # take the last one
 
             if self.is_contains_two_dates(stripped):
                 from_date, till_date = self.get_two_dates_from_one_str(stripped)
@@ -312,7 +339,7 @@ class DateExtractor:
     def extract_from_title(self, title):
         # print('from title')
         years = YEAR_REGEXP.findall(title)
-        for year in years :
+        for year in years:
             self.date = DateParser.parse_flexi_date(year)
 
             # TODO: try to extract full date

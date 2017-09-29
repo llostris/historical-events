@@ -27,11 +27,11 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"1799", date.year)
 
     @unittest.skip("Skipping")
-    def test_extract_from_title2(self) :
+    def test_extract_from_title2(self):
         self.fail("Fail")
         pass
 
-    def test_extract_from_infobox(self) :
+    def test_extract_from_infobox(self):
         infobox = "{{Infobox military conflict\n|conflict=Tyrolean Rebellion\n|partof=the [[War of the Fifth " \
                   "Coalition]]\n|image=[[File:Franz von Defregger Heimkehrender Tiroler " \
                   "Landsturm.jpg|300px]]\n|caption=''Homecoming of Tyrolean Militia in the War of 1809'' by  [[Franz " \
@@ -45,7 +45,7 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"1809", end_date.year)
         self.assertEqual(u"11", end_date.month)  # November
 
-    def test_extract_from_infobox_year(self) :
+    def test_extract_from_infobox_year(self):
         infobox = "{{Infobox military conflict\n|conflict=Tyrolean Rebellion\n|partof=the [[War of the Fifth " \
                   "Coalition]]\n|image=[[File:Franz von Defregger Heimkehrender Tiroler " \
                   "Landsturm.jpg|300px]]\n|caption=''Homecoming of Tyrolean Militia in the War of 1809'' by  [[Franz " \
@@ -58,7 +58,7 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"04", date.month)  # April
         pass
 
-    def test_extract_from_infobox_year_both_dates(self) :
+    def test_extract_from_infobox_year_both_dates(self):
         infobox = "{{Infobox military conflict\n|conflict=Tyrolean Rebellion\n|partof=the [[War of the Fifth " \
                   "Coalition]]\n|image=[[File:Franz von Defregger Heimkehrender Tiroler " \
                   "Landsturm.jpg|300px]]\n|caption=''Homecoming of Tyrolean Militia in the War of 1809'' by  [[" \
@@ -72,38 +72,52 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"04", start_date.month)  # April
         self.assertEqual(u"1809", end_date.year)
         self.assertEqual(u"11", end_date.month)  # November
-        pass
 
-    def test_extract_from_content(self) :
+    def test_extract_from_infobox_birth_and_death_not_formatted(self):
+        infobox = "{{Infobox pirate|name=Hasan Pasha |birth_date=c. 1517|death_date=4 July " \
+                  "1572|image=|caption=|nickname=|type=[[Turkish people|Turkish]] [[Admiral]]|birth_place=[[" \
+                  "Algiers]]|death_place=[[Istanbul]], [[Ottoman Empire]]|allegiance=[[Ottoman " \
+                  "Empire]]|serviceyears=c. 1545-1572|base of " \
+                  "operations=Mediterranean|rank=Admiral|commands=|battles=|wealth=|laterwork=}} "
         date_extractor = self.get_base_date_extractor()
+        date_extractor.extract_from_infobox(infobox)
+        birth_date, death_date = date_extractor.start_date, date_extractor.end_date
+        self.assertEqual(u"Note 'circa' : c. 1517", birth_date.qualifier)
+        self.assertEqual("04", death_date.day)
+        self.assertEqual("07", death_date.month)
+        self.assertEqual("1572", death_date.year)
+
+    def test_extract_from_content(self):
+        # TODO
+        pass
 
     # Test helper methods
 
-    def test_split_date_day(self) :
+    def test_split_date_day(self):
         date_extractor = self.get_base_date_extractor()
         from_date, till_date = date_extractor.get_two_dates_from_one_str('September 18-19, 2013')
         self.assertEqual("September 18 2013", from_date)
         self.assertEqual("September 19, 2013", till_date)
 
-    def test_split_date_months(self) :
+    def test_split_date_months(self):
         date_extractor = self.get_base_date_extractor()
         from_date, till_date = date_extractor.get_two_dates_from_one_str('September 18-October 19, 2013')
         self.assertEqual("September 18 2013", from_date)
         self.assertEqual("October 19, 2013", till_date)
 
-    def test_split_date_years_only(self) :
+    def test_split_date_years_only(self):
         date_extractor = self.get_base_date_extractor()
         from_date, till_date = date_extractor.get_two_dates_from_one_str('2011-2013')
         self.assertEqual("2011", from_date)
         self.assertEqual("2013", till_date)
 
-    def test_split_date_unicode_dash(self) :
+    def test_split_date_unicode_dash(self):
         date_extractor = self.get_base_date_extractor()
         from_date, till_date = date_extractor.get_two_dates_from_one_str('2011\\u20132013')
         self.assertEqual("2011", from_date)
         self.assertEqual("2013", till_date)
 
-    def test_split_date_with_spaces(self) :
+    def test_split_date_with_spaces(self):
         date_extractor = self.get_base_date_extractor()
         from_date, till_date = date_extractor.get_two_dates_from_one_str("22 July - 25 September 1800")
         self.assertEqual("22 July 1800", from_date)
@@ -116,25 +130,25 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual("May 10 1941", start_date)
         self.assertEqual("28 May 1941", end_date)
 
-    def test_fill_years(self) :
+    def test_fill_years(self):
         from_datestr, till_datestr = DateExtractor.fill_years('18 September', '19 September 1999')
         self.assertEqual('18 September 1999', from_datestr)
         self.assertEqual('19 September 1999', till_datestr)
 
-    def test_fill_months(self) :
+    def test_fill_months(self):
         pass
 
-    def test_BC_dates(self) :
+    def test_BC_dates(self):
         pass
 
-    def test_etract_infobox_parameter(self) :
+    def test_etract_infobox_parameter(self):
         pass
 
-    def test_extract_infobox_year(self) :
+    def test_extract_infobox_year(self):
         year = DateExtractor.extract_infobox_year("|ma=ma||year=1809|alamakota=ma|")
         self.assertEqual("1809", year)
 
-    def test_infobox(self) :
+    def test_infobox(self):
         content = u"""{{Infobox military conflict\n|date=22 July - 25 September 1800\n|conflict=Invasion of
         Cura\xe7ao\n|partof=[[French Revolutionary Wars]] and the [[Quasi-War]]\n|image=\n|caption=\n|place=[[
         Cura\xe7ao]], territory of Batavian Republic\n|result=Anglo-American victory\n* Withdrawal of French
@@ -165,7 +179,7 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"09", end_date.month)
         self.assertEqual(u"1800", end_date.year)
 
-    def test_infofobox2(self) :
+    def test_infofobox2(self):
         content = """{{Infobox military conflict\n|conflict=Battle of Mindoro\n|image=\n|caption=\n|partof=the [[
         Pacific War|Pacific Theater]] of [[World War II]]\n|date=December 13\u201316, 1944\n|place=[[Mindoro|Mindoro
         Island]], Philippines\n|result=American and Filipino Commonwealth victory\n|combatant1={{flag|United
@@ -246,7 +260,7 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"0500", start_date.year)
         self.assertEqual(u"0562", end_date.year)
 
-    def test_3(self) :
+    def test_3(self):
         content = u"{{Infobox military conflict\n|conflict=\n|width=\n|partof=\n|image=\n|caption=\n|date=April" \
                   u"-September 562\n|place=[[Greater Khorasan|Khorasan]] and [[" \
                   u"Transoxiana]]\n|coordinates=\n|map_type=\n|map_relief=\n|latitude=\n|longitude=\n|map_size=\n" \
@@ -275,7 +289,24 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u'25 May 1982', till_date)
 
     def test_infobox_birth_date(self):
-        infobox = '{{Infobox military person|name=Sir Christopher Lloyd Courtney|image=The Independent Air Force Dinner - Prince Albert, Trenchard and Courtney.jpg|image_size=300px|caption=Courtney (shown on right) with Trenchard and [[King George VI|Prince Albert]] in 1919|nickname=|birth_date={{Birth date|1890|06|27|df=yes}}|death_date={{Death date and age|1976|10|22|1890|06|27|df=yes}}|birth_place=|death_place=|placeofburial=|allegiance={{flag|United Kingdom}}|branch={{navy|United Kingdom}} (1905-18)<br/>{{air force|United Kingdom}} (1918-45)|serviceyears=1905-1945|rank=[[Air Chief Marshal]]|servicenumber=|unit=|commands=[[Air Member for Supply and Organisation]] (1940-45)<br/>[[RAF Home Command|Reserve Command]] (1939)<br/>[[RAF Iraq Command|British Forces in Iraq]] (1937-39)<br/>[[Deputy Chief of the Air Staff]] (1935-37)<br/>No. 2 (Indian) Wing (1920-24)<br/>[[Independent Air Force]] (1918)<br/>11th Brigade (1918)<br/>[[No. 207 Squadron RAF|No. 7 Squadron RNAS]] (1916-17)<br/>[[No. 4 Wing RNAS]] (1916)<br/>RNAS Dover (1915-16)<br/>[[No. 4 Squadron RNAS]] (1915)<br/>[[RAF North Killingholme|Killingholme Naval Air Station]] (1914-15)|battles=[[First World War]]<br/>[[Second World War]]|awards=[[Knight Grand Cross of the Order of the British Empire]]<br/>[[Knight Commander of the Order of the Bath]]<br/>[[Distinguished Service Order]]<br/>[[Mentioned in Despatches]]<br/>[[Order of St. Anna|Order of St. Anna, 3rd Class]] (Russia)<br/>[[Legion of Honour|Chevalier of the Legion of Honour]] (France)<br/>[[Legion of Merit|Commander of the Legion of Merit]] (United States)|relations=|laterwork=Businessman}}'
+        infobox = '{{Infobox military person|name=Sir Christopher Lloyd Courtney|image=The Independent Air Force ' \
+                  'Dinner - Prince Albert, Trenchard and Courtney.jpg|image_size=300px|caption=Courtney (shown on ' \
+                  'right) with Trenchard and [[King George VI|Prince Albert]] in 1919|nickname=|birth_date={{Birth ' \
+                  'date|1890|06|27|df=yes}}|death_date={{Death date and ' \
+                  'age|1976|10|22|1890|06|27|df=yes}}|birth_place=|death_place=|placeofburial=|allegiance={{' \
+                  'flag|United Kingdom}}|branch={{navy|United Kingdom}} (1905-18)<br/>{{air force|United Kingdom}} (' \
+                  '1918-45)|serviceyears=1905-1945|rank=[[Air Chief Marshal]]|servicenumber=|unit=|commands=[[Air ' \
+                  'Member for Supply and Organisation]] (1940-45)<br/>[[RAF Home Command|Reserve Command]] (' \
+                  '1939)<br/>[[RAF Iraq Command|British Forces in Iraq]] (1937-39)<br/>[[Deputy Chief of the Air ' \
+                  'Staff]] (1935-37)<br/>No. 2 (Indian) Wing (1920-24)<br/>[[Independent Air Force]] (1918)<br/>11th ' \
+                  'Brigade (1918)<br/>[[No. 207 Squadron RAF|No. 7 Squadron RNAS]] (1916-17)<br/>[[No. 4 Wing RNAS]] ' \
+                  '(1916)<br/>RNAS Dover (1915-16)<br/>[[No. 4 Squadron RNAS]] (1915)<br/>[[RAF North ' \
+                  'Killingholme|Killingholme Naval Air Station]] (1914-15)|battles=[[First World War]]<br/>[[Second ' \
+                  'World War]]|awards=[[Knight Grand Cross of the Order of the British Empire]]<br/>[[Knight ' \
+                  'Commander of the Order of the Bath]]<br/>[[Distinguished Service Order]]<br/>[[Mentioned in ' \
+                  'Despatches]]<br/>[[Order of St. Anna|Order of St. Anna, 3rd Class]] (Russia)<br/>[[Legion of ' \
+                  'Honour|Chevalier of the Legion of Honour]] (France)<br/>[[Legion of Merit|Commander of the Legion ' \
+                  'of Merit]] (United States)|relations=|laterwork=Businessman}} '
 
         date_extractor = self.get_base_date_extractor()
         date_extractor.content = infobox
