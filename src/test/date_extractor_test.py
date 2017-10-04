@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
-from graph.dataextraction.base_extractor import TEMPLATE_START_DATE_REGEXPS, TEMPLATE_END_DATE_REGEXPS
+from graph.dataextraction.template_mixin import TEMPLATE_START_DATE_REGEXPS, TEMPLATE_END_DATE_REGEXPS
 from graph.dataextraction.date_extractor import DateExtractor
 
 

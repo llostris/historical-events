@@ -28,19 +28,6 @@ DATE_REGEXPS = {
     'infobox_effective': re.compile(r"\|date_effective=[^\|]*\|"),
 }
 
-TEMPLATE_START_DATE_REGEXPS = {
-    'start date': re.compile(r"{{start date\|[^}]*}}"),
-    'birth date': re.compile(r"{{birth date[^\|]*\|[^}]*}}"),
-    'bda': re.compile(r"{{bda[^\|]*\|[^}]*}}"),
-}
-
-TEMPLATE_END_DATE_REGEXPS = {
-    'end date': re.compile(r"{{end date\|[^\}]*\}\}"),
-    'death date': re.compile(r"{{death date[^\|]*\|[^\}]*\}\}"),
-    'death date and age':re.compile(r"{{death date and age\|[^}]*}}"),
-
-}
-
 
 def get_escaped_unicode(unicode_str):
     return "\\" + unicode_str

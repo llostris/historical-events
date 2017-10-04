@@ -5,9 +5,10 @@ import re
 import mwparserfromhell as hell
 
 from graph.dataextraction.base_extractor import BaseDateExtractor, THREE_FOUR_DIGIT_YEAR, YEAR_REGEXP, DAY_REGEXP, \
-    MONTHS, DATE_REGEXPS, TEMPLATE_START_DATE_REGEXPS, TEMPLATE_END_DATE_REGEXPS
+    MONTHS
 from graph.dataextraction.date_parser import DateParser
 from graph.dataextraction.infobox_extractor import InfoboxDateExtractor
+from graph.dataextraction.template_mixin import TemplateDateExtractorMixin
 from settings import get_graph_logger
 
 # constants
@@ -21,7 +22,7 @@ logger = get_graph_logger()
 logger.setLevel(logging.INFO)
 
 
-class DateExtractor(InfoboxDateExtractor):
+class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
 
     def __init__(self, title, content):
         BaseDateExtractor.__init__(self)
@@ -75,22 +76,6 @@ class DateExtractor(InfoboxDateExtractor):
 
         return False
 
-    def extract_date_from_templates(self, node, templates):
-        date = None
-
-        for key, regexp in templates.items():
-            if key in node:
-                date = self.extract_date_from_template(key, regexp, node)
-
-            if self.is_filled_and_valid(date):
-                return date
-
-    def extract_start_date_from_templates(self, node_lowered):
-        self.start_date = self.extract_date_from_templates(node_lowered, TEMPLATE_START_DATE_REGEXPS)
-
-    def extract_end_date_from_templates(self, node_lowered):
-        self.end_date = self.extract_date_from_templates(node_lowered, TEMPLATE_END_DATE_REGEXPS)
-
     def fill_dates(self):
         page_tree = hell.parse(self.content)
         logger.info('Title: ' + self.title)
@@ -116,26 +101,6 @@ class DateExtractor(InfoboxDateExtractor):
 
         logger.info("Article: {} - Dates : {} {} {}".format(self.title, self.date, self.start_date, self.end_date))
         # print(self.date, self.start_date, self.end_date)
-
-    def extract_date_from_template(self, date_tag, regexp, content):
-        lowered = content.lower()
-        lowered = self.preprocess_node_str(lowered)
-        if '{{{0}'.format(date_tag) in lowered:
-            result = regexp.findall(lowered)
-
-            for match in result:
-                print(match)
-                without_braces = match[2:-2]
-                splitted = without_braces.split("|")
-
-                removables = ["df=y", "df=yes", "df=n", "df=no"]
-                for tag in removables:
-                    if tag in splitted:
-                        splitted.remove(tag)
-
-                str_date = ' '.join(splitted[1:4])  # skip type tag
-
-                return DateParser().parse_flexi_date(str_date, dayfirst=False)
 
     def extract_from_content(self, node):
         # print node
