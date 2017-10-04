@@ -17,6 +17,30 @@ BC_YEAR_REGEXP = re.compile(r"(\b\d+ B\.C\.)|(\b\d+ BC)|(\b\d+B\.C\.)|(\b\d+BC)"
 MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
           "November", "December"]
 
+DATE_REGEXPS = {
+    'date': re.compile(r"{{date\|.*\}\}"),
+    'infobox': re.compile(r"\|date=[^\|]*\|"),
+    'infobox_birth': re.compile(r"\|birth_date=[^\|]*\|"),
+    'infobox_death': re.compile(r"\|death_date=[^\|]*\|"),
+    'infobox_death_format': re.compile(r"\|death_date={{[^\}]*}}\|"),
+    'infobox_designed': re.compile(r"\|design_date=[^\|]*\|"), # for weapons
+    'infobox_signed': re.compile(r"\|date_signed=[^\|]*\|"),
+    'infobox_effective': re.compile(r"\|date_effective=[^\|]*\|"),
+}
+
+TEMPLATE_START_DATE_REGEXPS = {
+    'start date': re.compile(r"{{start date\|[^}]*}}"),
+    'birth date': re.compile(r"{{birth date[^\|]*\|[^}]*}}"),
+    'bda': re.compile(r"{{bda[^\|]*\|[^}]*}}"),
+}
+
+TEMPLATE_END_DATE_REGEXPS = {
+    'end date': re.compile(r"{{end date\|[^\}]*\}\}"),
+    'death date': re.compile(r"{{death date[^\|]*\|[^\}]*\}\}"),
+    'death date and age':re.compile(r"{{death date and age\|[^}]*}}"),
+
+}
+
 
 def get_escaped_unicode(unicode_str):
     return "\\" + unicode_str
@@ -146,3 +170,46 @@ class BaseDateExtractor:
     @staticmethod
     def join_date_and_month(date, month):
         return month + ' ' + date
+
+    # Static helper cleanup methods
+
+    @staticmethod
+    def preprocess_node_str(node):
+        text = node.replace('\n', '')
+        text = re.sub('\s+', ' ', text).strip()
+        text = re.sub(r"<!--[\s\S]*?-->", '', text)     # clear comments
+        # text = re.sub(r"\{\{Use dmy dates|[^\}]*\}\}", '', text)
+        text = text.replace("| ", "|").replace("= ", "=").replace(" =", "=").replace('–', '-')
+        text = text.replace("\\u2013", "-").replace("&ndash;", "-")
+        text = text.replace("&quot;", "'")
+        return text
+
+    @staticmethod
+    def remove_files_etc(node, left_sign='[', right_sign=']'):
+        left_braces = []
+        start_index = -1
+        index = 0
+        to_remove = []
+        for char in node:
+            if char == left_sign:
+                if len(left_braces) == 0:
+                    start_index = index
+                left_braces.append(left_sign)
+
+            if char == right_sign and len(left_braces) > 0:
+                left_braces.pop()
+
+            if start_index != -1 and len(left_braces) == 0:
+                end_index = index
+                substr = node[start_index:end_index + 1]
+                to_remove.append(substr)
+            index = index + 1
+
+        text = node
+        for removed in to_remove:
+            text = text.replace(removed, '')
+
+        return text
+
+    def is_filled_and_valid(self, date):
+        return date is not None and DateParser.is_valid_date(date)

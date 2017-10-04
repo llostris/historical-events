@@ -51,8 +51,8 @@ FORBIDDEN_CATEGORY_KEYWORDS = {'mountains of', 'biota of', 'fauna of', 'racehors
                                'populated places', 'ethnic groups', 'Vermont in the American Civil War'.lower(),
                                'airfields', 'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys',
                                'biographies', 'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado',
-                               'tornadoes', 'clothing', 'uniforms',
-                               'roads in',
+                               'tornadoes', 'clothing', 'uniforms', 'cathedrals in', 'buildings', 'television series',
+                               'roads in', 'rites of passage', 'manga',
 
                                # 'deaths', 'poets', 'awards', 'cities'
                                # people:

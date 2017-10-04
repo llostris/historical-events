@@ -73,14 +73,14 @@ def dump_graph(graph):
 
 def load_relationship_map(filename=RELATIONSHIP_MAP_FILE):
     if os.path.isfile(filename):
-        with open(filename, 'r') as f:
+        with open(filename, 'rb') as f:
             return pickle.load(f)
     else:
         return {}
 
 
 def save_relationship_map(relationship_map, filename=RELATIONSHIP_MAP_FILE):
-    with open(filename, 'w') as f:
+    with open(filename, 'wb') as f:
         pickle.dump(relationship_map, f)
 
 
@@ -105,7 +105,7 @@ def load_in_progress_graph(filename=GRAPH_IN_PROGRESS_FILE):
 
 
 def save_in_progress_graph(in_progress_graph):
-    with open(GRAPH_IN_PROGRESS_FILE, 'w') as f:
+    with open(GRAPH_IN_PROGRESS_FILE, 'wb') as f:
         pickle.dump(in_progress_graph, f)
 
 # </editor-fold>
@@ -118,7 +118,7 @@ if __name__ == "__main__":
     graph = load_in_progress_graph()
     relationship_map = {}
 
-    for elem in os.listdir(DATA_DIR)[:2]:
+    for elem in os.listdir(DATA_DIR)[:1]:
         if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
             logger.info("*** Loading file: {}".format(elem))
             print(elem)

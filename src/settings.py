@@ -13,6 +13,8 @@ ARTICLE_LOG_FILE = LOG_DIR + "/articles.log"
 
 GRAPH_CREATOR_LOG_FILE = LOG_DIR + "/graph_creator.log"
 
+PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
+
 CATEGORIES_FILE = DATA_DIR + '/categories.csv'
 
 ARTICLES_FILE = DATA_DIR + '/articles.pickle'
@@ -29,7 +31,17 @@ GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
 def get_graph_logger():
     logger = logging.getLogger('graph_logger')
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    file_handler = logging.FileHandler(GRAPH_CREATOR_LOG_FILE, mode = 'w', encoding = 'utf-8')
+    file_handler = logging.FileHandler(GRAPH_CREATOR_LOG_FILE, mode='w', encoding='utf-8')
+    file_handler.setFormatter(formatter)
+    logger.addHandler(file_handler)
+    logger.setLevel(logging.INFO)
+    return logger
+
+
+def get_parse_error_logger():
+    logger = logging.getLogger('parse_logger')
+    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    file_handler = logging.FileHandler(PARSE_ERROR_LOG_FILE, mode='w', encoding='utf-8')
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
     logger.setLevel(logging.INFO)

@@ -87,6 +87,37 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual("07", death_date.month)
         self.assertEqual("1572", death_date.year)
 
+    def test_death_date_and_age(self):
+        infobox = """{{Infobox person
+| name        = Sir Naim Dangoor
+| spouse      = Renée Dangoor <small>(1947–2008)</small>
+| children    = [[David Dangoor]] and three other sons
+| image       = 
+| alt         = 
+| caption     = 
+| birth_name  = 
+| birth_date  = April 1914
+| birth_place = [[Baghdad]], [[Ottoman Empire]]
+| death_date  = {{death date and age|2015|11|19|1914|4|1|df=yes}}
+| death_place = 
+| nationality = British
+| other_names = 
+| occupation  = Businessman
+| known_for   = Philanthropy 
+| alma_mater  = [[University of London]]
+| parents     = Eliahou Dangoor
+| relatives   = [[Ezra Dangoor|Hakham Ezra Reuben Dangoor]] (grandfather) 
+}}"""
+        date_extractor = self.get_base_date_extractor()
+        date_extractor.content = infobox
+        date_extractor.fill_dates()
+        birth_date, death_date = date_extractor.start_date, date_extractor.end_date
+        self.assertEqual("04", birth_date.month)
+        self.assertEqual("1914", birth_date.year)
+        self.assertEqual("19", death_date.day)
+        self.assertEqual("11", death_date.month)
+        self.assertEqual("2015", death_date.year)
+
     def test_extract_from_content(self):
         # TODO
         pass
@@ -507,3 +538,29 @@ class TestDateExtractor(unittest.TestCase):
         self.assertEqual(u"1987", date.year)
         self.assertEqual(u"12", date.month)
         self.assertEqual(u"08", date.day)
+
+    def test_parse_node(self):
+        content = """2017-10-02 21:40:06 - INFO - {{Infobox person
+| name        = Matthew C Martino
+| image       = Matthew Martino leaving his management's office in Central London, February 2014.jpg
+| alt         = 
+| caption     = Martino pictured in 2014
+| birth_name  = Mathetes Chihwai
+| birth_date  = {{Birth date and age|1992|10|27}}
+| birth_place = [[Harare]], [[Zimbabwe]]
+| death_date  = <!-- {{Death date and age|YYYY|MM|DD|YYYY|MM|DD}} or {{Death-date and age|Month DD, YYYY|Month DD, YYYY}} (death date then birth date) -->
+| net_worth=
+| death_place = 
+| other_names = 
+| alma_mater  = 
+| occupation  = {{hlist|Entrepreneur|Philanthropist}}
+| known_for   = Co-Owner of [[Essex TV]] and Founder of '''MMBF Trust'''
+| website     = {{URL|www.mmbf.co.uk}}
+}}"""
+        date_extractor = self.get_base_date_extractor()
+        result = date_extractor.preprocess_node_str(content)
+        self.assertTrue('<--' not in result)
+        self.assertTrue('-->' not in result)
+
+        result = date_extractor.extract_date_from_template("{{death date", content)
+        self.assertIsNone(result)
