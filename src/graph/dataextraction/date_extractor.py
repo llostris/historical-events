@@ -75,21 +75,21 @@ class DateExtractor(InfoboxDateExtractor):
 
         return False
 
-    def extract_start_date_from_templates(self, node_lowered):
-        for key, regexp in TEMPLATE_START_DATE_REGEXPS.items():
-            if key in node_lowered:
-                self.start_date = self.extract_date_from_template(key, regexp, node_lowered)
+    def extract_date_from_templates(self, node, templates):
+        date = None
 
-            if self.is_filled_and_valid(self.start_date):
-                return
+        for key, regexp in templates.items():
+            if key in node:
+                date = self.extract_date_from_template(key, regexp, node)
+
+            if self.is_filled_and_valid(date):
+                return date
+
+    def extract_start_date_from_templates(self, node_lowered):
+        self.start_date = self.extract_date_from_templates(node_lowered, TEMPLATE_START_DATE_REGEXPS)
 
     def extract_end_date_from_templates(self, node_lowered):
-        for key, regexp in TEMPLATE_END_DATE_REGEXPS.items():
-            if key in node_lowered:
-                self.end_date = self.extract_date_from_template(key, regexp, node_lowered)
-
-            if self.is_filled_and_valid(self.end_date):
-                return
+        self.end_date = self.extract_date_from_templates(node_lowered, TEMPLATE_END_DATE_REGEXPS)
 
     def fill_dates(self):
         page_tree = hell.parse(self.content)
@@ -103,16 +103,6 @@ class DateExtractor(InfoboxDateExtractor):
 
             self.extract_start_date_from_templates(lowered)
             self.extract_end_date_from_templates(lowered)
-
-            # if not self.is_filled_and_valid(self.start_date) and "{{start date" in lowered:
-            #     self.start_date = self.extract_date_from_template("start date", node)
-            # if not self.is_filled_and_valid(self.end_date) and "{{end date" in lowered:
-            #     self.end_date = self.extract_date_from_template("end date", node)
-            #
-            # if not self.is_filled_and_valid(self.start_date) and "{{birth date" in lowered:
-            #     self.start_date = self.extract_date_from_template("birth date", node)
-            # if not self.is_filled_and_valid(self.end_date) and "{{death date" in lowered:
-            #     self.end_date = self.extract_date_from_template("death date", node)
 
             if self.start_date is None and self.date is None and "infobox" in lowered:
                 self.extract_from_infobox(node)

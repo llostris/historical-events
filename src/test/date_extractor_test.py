@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import unittest
 
+from graph.dataextraction.base_extractor import TEMPLATE_START_DATE_REGEXPS, TEMPLATE_END_DATE_REGEXPS
 from graph.dataextraction.date_extractor import DateExtractor
 
 
@@ -15,7 +16,8 @@ class TestDateExtractor(unittest.TestCase):
 
     def test_extract_from_template(self):
         date_extractor = self.get_base_date_extractor()
-        date = date_extractor.extract_date_from_template('start date', '{{start date|2013|11|24|df=y}}')
+        date = date_extractor.extract_date_from_template('start date', TEMPLATE_START_DATE_REGEXPS['start date'],
+                                                         '{{start date|2013|11|24|df=y}}')
         self.assertEqual(u"2013", date.year)
         self.assertEqual(u"11", date.month)
         self.assertEqual(u"24", date.day)
@@ -562,5 +564,6 @@ class TestDateExtractor(unittest.TestCase):
         self.assertTrue('<--' not in result)
         self.assertTrue('-->' not in result)
 
-        result = date_extractor.extract_date_from_template("{{death date", content)
+        result = date_extractor.extract_date_from_template("{{death date", TEMPLATE_END_DATE_REGEXPS['death date'],
+                                                           content)
         self.assertIsNone(result)
