@@ -17,6 +17,8 @@ PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 
 CATEGORIES_FILE = DATA_DIR + '/categories.csv'
 
+CATEGORIES_RELEVANT_FILE = DATA_DIR + '/categories_relevant.csv'
+
 ARTICLES_FILE = DATA_DIR + '/articles.pickle'
 
 RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships.pickle'

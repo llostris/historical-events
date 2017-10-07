@@ -1,5 +1,6 @@
 mwparserfromhell
 sqlalchemy
+PyMySQL
 networkx == 1.9.1
 python-dateutil == 2.6.1
 # snap == 3.0 # unavailable at PIP directory, need to download manually from https://snap.stanford.edu/snappy/

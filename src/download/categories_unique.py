@@ -11,7 +11,7 @@ def save_to_file(categories, file, append=False):
         mode = 'a'
 
     with open(file, mode, encoding='utf-8') as f:
-        for title in categories :
+        for title in categories:
             f.write(title + '\n')
         f.close()
 

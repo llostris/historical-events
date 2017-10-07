@@ -1,14 +1,14 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from data.model import wiki_model as wiki_model
+from data.model import graph_model
 
 
 class BaseService:
-    engine = create_engine('postgresql+psycopg2://postgres:postgres@localhost/historicaldb')
-    wiki_model.Base.metadata.bind = engine
+    engine = create_engine('mysql+pymysql://historical:@localhost/historical_events?charset=utf8', pool_recycle=3600)
+    graph_model.Base.metadata.bind = engine
     session_maker = sessionmaker(bind=engine)
 
-    def __init__(self, echo = False):
-        wiki_model.Base.metadata.bind = self.engine
+    def __init__(self, echo=False):
+        graph_model.Base.metadata.bind = self.engine
         self.engine.echo = echo

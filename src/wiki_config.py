@@ -52,7 +52,10 @@ FORBIDDEN_CATEGORY_KEYWORDS = {'mountains of', 'biota of', 'fauna of', 'racehors
                                'airfields', 'actresses', 'actors', 'natural history', 'lunar eclipse', 'convoys',
                                'biographies', 'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado',
                                'tornadoes', 'clothing', 'uniforms', 'cathedrals in', 'buildings', 'television series',
-                               'roads in', 'rites of passage', 'manga',
+                               'roads in', 'rites of passage', 'manga', 'comic', 'games', 'tv series', 'television',
+                               'essays', 'books', 'symphonies', 'restaurants', 'cuisine',
+
+                               # 'villages in',
 
                                # 'deaths', 'poets', 'awards', 'cities'
                                # people:
