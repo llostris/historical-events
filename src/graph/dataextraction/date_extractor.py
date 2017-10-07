@@ -32,9 +32,6 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
 
         self.date_parser = DateParser()
 
-    def get_dates(self):
-        return self.date, self.start_date, self.end_date
-
     def is_unparsed(self, date):
         if isinstance(date.qualifier, str):
             return 'UNPARSED' in date.qualifier
@@ -71,7 +68,6 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
             # print("template name " + str(x.name))
             if "date" in x.lower():
                 # TODO: make more strict
-                # for match in DATE_REGEXPS["infobox"].findall(x.encode('utf-8')):
                 return True
 
         return False
@@ -79,9 +75,7 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
     def fill_dates(self):
         page_tree = hell.parse(self.content)
         logger.info('Title: ' + self.title)
-        # print(page_tree.get_tree())
-        filtered = page_tree.filter(forcetype=hell.nodes.Node,
-                                    matches=DateExtractor.date_matcher)
+        filtered = page_tree.filter(forcetype=hell.nodes.Node, matches=DateExtractor.date_matcher)
 
         for node in filtered:
             lowered = node.lower()
@@ -92,6 +86,9 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
             if self.start_date is None and self.date is None and "infobox" in lowered:
                 self.extract_from_infobox(node)
 
+            if not self.start_date and not self.end_date and not self.date:
+                logger.debug(lowered)
+
         # if other means failed try to extract date (such as year) from content and/or title
         if self.is_extraction_not_finished():
             self.extract_from_content(self.content)
@@ -100,7 +97,6 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
             self.extract_from_title(self.title)
 
         logger.info("Article: {} - Dates : {} {} {}".format(self.title, self.date, self.start_date, self.end_date))
-        # print(self.date, self.start_date, self.end_date)
 
     def extract_from_content(self, node):
         # print node

@@ -45,6 +45,9 @@ class BaseDateExtractor:
         self.start_date = None
         self.end_date = None
 
+    def get_dates(self):
+        return self.date, self.start_date, self.end_date
+
     def is_extraction_not_finished(self):
         return (self.date is None or not DateParser.is_valid_date(self.date)) \
                 and (self.start_date is None or not DateParser.is_valid_date(self.start_date))

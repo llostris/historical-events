@@ -23,7 +23,6 @@ def get_nodes_and_relationships(articles, graph, relationship_map):
     # extract vertices
     for article in articles:
         if is_article_relevant(article.title, article.content):
-            # print article.content
             event_name = article.title
 
             date_extractor = DateExtractor(article.title, article.content)
@@ -97,8 +96,8 @@ def update_relatioship_map(new_relashionship_map):
 # <editor-fold desc="Serialization of in-progress graph">
 
 def load_in_progress_graph(filename=GRAPH_IN_PROGRESS_FILE):
-    if os.path.isfile(filename) :
-        with open(filename, 'r') as f:
+    if os.path.isfile(filename):
+        with open(filename, 'rb') as f:
             return pickle.load(f)
     else:
         return nx.DiGraph()
@@ -113,22 +112,20 @@ def save_in_progress_graph(in_progress_graph):
 
 if __name__ == "__main__":
 
-    articles = []
-
     graph = load_in_progress_graph()
     relationship_map = {}
 
-    for elem in os.listdir(DATA_DIR)[:1]:
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
-            logger.info("*** Loading file: {}".format(elem))
-            print(elem)
+    article_files = sorted(filter(lambda x: x.startswith(ARTICLE_FILE_NAME_PREFIX), os.listdir(DATA_DIR)))
 
-            article_batch = load_article_from_pickle(elem)
+    for elem in article_files[6:8]:
+        logger.info("*** Loading file: {}".format(elem))
+        print(elem)
 
-            graph, relationship_map = get_nodes_and_relationships(article_batch, graph, {})
-            update_relatioship_map(relationship_map)
-            save_in_progress_graph(graph)
-            # articles += article_batch
+        article_batch = load_article_from_pickle(elem)
+
+        graph, relationship_map = get_nodes_and_relationships(article_batch, graph, {})
+        update_relatioship_map(relationship_map)
+        save_in_progress_graph(graph)
 
     # print len(articles)
 
@@ -137,8 +134,7 @@ if __name__ == "__main__":
     # graph = create_graph(articles)
     # graph = get_nodes_and_relationships(articles)
 
-    graph = create_graph(graph, load_relationship_map())
+    # graph = create_graph(graph, load_relationship_map())
     # save_graph(graph)
-
-    print(graph.number_of_nodes())
-    print(graph.number_of_edges())
+    # print(graph.number_of_nodes())
+    # print(graph.number_of_edges())

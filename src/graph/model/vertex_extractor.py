@@ -34,8 +34,7 @@ class RawEvent:
 
 
 def load_article_from_pickle(filename):
-    article_batch = pickle.load(open(DATA_DIR + "/" + filename, 'rb'))
-    return article_batch
+    return pickle.load(open(DATA_DIR + "/" + filename, 'rb'))
 
 
 def extract_event(article):
