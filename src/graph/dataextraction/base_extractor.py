@@ -53,9 +53,9 @@ class BaseDateExtractor:
                 and (self.start_date is None or not DateParser.is_valid_date(self.start_date))
 
     def is_contains_two_dates(self, datestr):
-        return SPLIT_DATES_REGEX.search(datestr) is not None \
-               or get_escaped_unicode(self.date_period_sign) in datestr \
-               or (' to ' in datestr and len(datestr.split(' to ')) == 2)
+        return datestr != '-' and (SPLIT_DATES_REGEX.search(datestr) is not None \
+                                   or get_escaped_unicode(self.date_period_sign) in datestr \
+                                   or (' to ' in datestr and len(datestr.split(' to ')) == 2))
 
     def validate_dates(self):
         if not DateParser.is_valid_date(self.date):

@@ -32,7 +32,8 @@ class DateExtractor(InfoboxDateExtractor, TemplateDateExtractorMixin):
 
         self.date_parser = DateParser()
 
-    def is_unparsed(self, date):
+    @staticmethod
+    def is_unparsed(date):
         if isinstance(date.qualifier, str):
             return 'UNPARSED' in date.qualifier
         else:

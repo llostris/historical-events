@@ -1,6 +1,6 @@
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, ForeignKey, LargeBinary, Boolean
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, ForeignKey, LargeBinary, Boolean, UnicodeText
+from sqlalchemy.orm import relationship, deferred
 
 Base = declarative_base()
 
@@ -20,7 +20,7 @@ class Event(Base):
     __tablename__ = "events"
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    name = Column(String(255), unique=True, nullable=False)
+    name = Column(String(255), nullable=False, index=True) # not unique because unicode character are treated the same -_-
     start_date_id = Column(Integer, ForeignKey('uncertain_dates.id'), nullable=True)
     # start_date = relationship("UncertainDate")
     end_date_id = Column(Integer, ForeignKey('uncertain_dates.id'), nullable=True)
@@ -55,5 +55,4 @@ class Article(Base):
 
     id = Column(Integer, primary_key=True, autoincrement=True)
     event_id = Column(Integer, ForeignKey('events.id'), unique=True)
-    content = Column('content', LargeBinary)
-
+    content = deferred(Column('content', UnicodeText))

@@ -22,6 +22,7 @@ CATEGORIES_RELEVANT_FILE = DATA_DIR + '/categories_relevant.csv'
 ARTICLES_FILE = DATA_DIR + '/articles.pickle'
 
 RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships.pickle'
+DUPLICATE_RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships_manual.pickle'
 
 GRAPH_IN_PROGRESS_FILE = DATA_DIR + '/in_progress_graph.pickle'
 

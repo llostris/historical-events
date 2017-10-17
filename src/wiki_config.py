@@ -25,8 +25,9 @@ FORBIDDEN_CATEGORIES = {
 }
 
 # Keywords which indicate that category is history-related
-CATEGORY_KEYWORDS = {'war', 'battles', 'treaties', 'history', 'century', 'births', 'discoveries', 'deaths',
-                     'timelines', 'explosion', 'bomb', 'attack'}
+CATEGORY_KEYWORDS = {'war', 'battle', 'treaties', 'history', 'century', 'births', 'discoveries', 'deaths',
+                     'timelines', 'explosion', 'bomb', 'attack', 'conflict', 'discovery'
+                     }
 
 # Keywords that indicate that the category or article is not relevant to our search
 FORBIDDEN_CATEGORY_KEYWORDS = {'mountains of', 'biota of', 'fauna of', 'racehorse births', 'museum', 'books about',
@@ -53,11 +54,16 @@ FORBIDDEN_CATEGORY_KEYWORDS = {'mountains of', 'biota of', 'fauna of', 'racehors
                                'biographies', 'memorials in', 'steamboats', 'hurricane', 'shipwrecks', 'tornado',
                                'tornadoes', 'clothing', 'uniforms', 'cathedrals in', 'buildings', 'television series',
                                'roads in', 'rites of passage', 'manga', 'comic', 'games', 'tv series', 'television',
-                               'essays', 'books', 'symphonies', 'restaurants', 'cuisine',
+                               'essays', 'books', 'symphonies', 'restaurants', 'cuisine', 'footballers',
+                               'villages in', 'water sports', 'sports', 'journals', 'road incident', 'railway',
+                               'accidental deaths', 'lighthouses', 'popular culture', 'churches', 'cathedral',
+                               'destroyers', 'network protocols', 'networking', 'mythology', 'football', 'basketball',
+                               'rugby', 'skiing', 'soccer', 'vehicles', 'firearm', 'helicopters', 'names of',
+                               'names for', 'rivers', 'dance', 'schools in', 'parks',
 
-                               # 'villages in',
-
-                               # 'deaths', 'poets', 'awards', 'cities'
+                               # 'disestablishments', 'infrastructure',
+                               # 'sites', # might have some good stuff?
+                               # 'deaths', 'poets', 'awards',
                                # people:
                                # 'sculptors', 'painters', 'lawyers', 'physicians', 'architects',
                                # 'writers', 'artists', 'businesspeople', 'historians', 'medical doctors',
@@ -74,11 +80,14 @@ FORBIDDEN_TITLE_KEYWORDS = {'museum', 'list', 'region', '10,000 metres', 'units 
                             'cultural representations of', 'cultural depictions', 'cultural backwardness',
                             'battle tactics', 'document exploitation', 'women on the web', 'war cemetery',
                             'historic district', 'yacht', 'tornado', 'document exploitation', 'headwear',
-                            'marcus licinius crassus (quaestor)',   # TODO: why?
-                            'pedro de herrera',  # TODO: why? (content)
+                            'rural district', 'paris in the', 'effects of', 'casualties', 'provincial park',
+
+                            # 'council election',
+                            # 'marcus licinius crassus (quaestor)',   # TODO: why?
+                            # 'pedro de herrera',  # TODO: why? (content)
                             }
 
-TITLE_KEYWORDS = {'war', 'battle', 'treaties', 'treaty', 'history', 'century', 'births', 'deaths', 'discovery',
+TITLE_KEYWORDS = {'war', 'battle', 'treaties', 'treaty', 'history', 'century', 'birth', 'death', 'discovery',
                   'explosion', 'operation', 'bomb', 'attack', }
 
 
@@ -94,6 +103,10 @@ NUMBER_ONLY_REGEXP = re.compile(r"^\d+$")   # avoid articles of particular years
 # Methods
 
 def is_category_relevant(category_name):
+    for white_word in CATEGORY_KEYWORDS:
+        if white_word in category_name.lower():
+            return True
+
     for forbidden_word in FORBIDDEN_CATEGORY_KEYWORDS:
         if forbidden_word in category_name.lower():
             return False
@@ -101,6 +114,10 @@ def is_category_relevant(category_name):
 
 
 def is_title_relevant(title):
+    for white_word in TITLE_KEYWORDS:
+        if white_word in title.lower():
+            return True
+
     for forbidden_word in FORBIDDEN_TITLE_KEYWORDS:
         if forbidden_word in title.lower():
             return False

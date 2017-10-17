@@ -7,7 +7,8 @@ if __name__ == "__main__":
     # connection = engine.connect()
     # wiki_model.Base.metadata.create_all(engine)
 
-    engine = create_engine('mysql+pymysql://historical:@localhost/historical_events', pool_recycle=3600)
+    engine = create_engine('mysql+pymysql://historical:@localhost/historical_events?charset=utf8mb4&use_unicode=True',
+                           pool_recycle=3600)
     connection = engine.connect()
 
     graph_model.Base.metadata.create_all(engine)

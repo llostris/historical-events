@@ -7,3 +7,9 @@ python-dateutil == 2.6.1
 # flexidate == 1.2
 nltk
 requests
+
+
+# neo4j
+neo4j-driver
+py2neo
+neomodel
