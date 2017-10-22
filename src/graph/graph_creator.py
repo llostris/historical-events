@@ -7,6 +7,7 @@ from sqlalchemy.orm import Session
 
 from data.model.graph_model import Event, UncertainDate, Article
 from data.service import BaseService
+from file_operations import load_pickle, save_pickle
 from graph.dataextraction.date_extractor import DateExtractor
 from graph.dataextraction.relationship_extractor import RelationshipExtractor
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
@@ -29,17 +30,17 @@ def get_nodes_and_relationships(articles, graph, relationship_map, session=None)
         if is_article_relevant(article.title, article.content) and not is_duplicate_event(article.pageid):
             event_name = article.title
 
-            date_extractor = DateExtractor(article.title, article.content)
-            date_extractor.fill_dates()
-
-            for date in [date_extractor.date, date_extractor.start_date, date_extractor.end_date]:
-                if not is_valid_date(date):
-                    logger.error('Invalid date parsed for title: {} {}'.format(article.title, date))
-
-            date_extractor.validate_dates()  # remove invalid dates
-
-            graph.add_node(event_name)
+            graph.add_node(event_name, attributes={'wiki_id': article.pageid})
             if session:
+                date_extractor = DateExtractor(article.title, article.content)
+                date_extractor.fill_dates()
+
+                for date in [date_extractor.date, date_extractor.start_date, date_extractor.end_date]:
+                    if not is_valid_date(date):
+                        logger.error('Invalid date parsed for title: {} {}'.format(article.title, date))
+
+                date_extractor.validate_dates()  # remove invalid dates
+
                 attributes = {
                     'start_date': date_extractor.start_date,
                     'end_date': date_extractor.end_date,
@@ -146,16 +147,11 @@ def dump_graph(graph):
 # <editor-fold desc="Serialization of relationship map">
 
 def load_relationship_map(filename=RELATIONSHIP_MAP_FILE):
-    if os.path.isfile(filename):
-        with open(filename, 'rb') as f:
-            return pickle.load(f)
-    else:
-        return {}
+    return load_pickle(filename)
 
 
 def save_relationship_map(relationship_map, filename=RELATIONSHIP_MAP_FILE):
-    with open(filename, 'wb') as f:
-        pickle.dump(relationship_map, f)
+    save_pickle(relationship_map, filename)
 
 
 def update_relatioship_map(new_relashionship_map):

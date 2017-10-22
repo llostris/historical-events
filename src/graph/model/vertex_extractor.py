@@ -50,10 +50,10 @@ def extract_event(article):
 def convert_articles_to_model_no_categories(article_batch):
     articles = []
     for raw_article in article_batch:
-        if is_title_relevant(raw_article.title.encode('utf-8')):
+        if is_title_relevant(raw_article.title):
             article = Article(pageid=raw_article.pageid,
-                              title=raw_article.title.encode('utf-8'),
-                              content=raw_article.content.encode('utf-8'))
+                              title=raw_article.title,
+                              content=raw_article.content)
             articles.append(article)
         # print article
 

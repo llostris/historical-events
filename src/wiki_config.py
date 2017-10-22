@@ -59,15 +59,17 @@ FORBIDDEN_CATEGORY_KEYWORDS = {'mountains of', 'biota of', 'fauna of', 'racehors
                                'accidental deaths', 'lighthouses', 'popular culture', 'churches', 'cathedral',
                                'destroyers', 'network protocols', 'networking', 'mythology', 'football', 'basketball',
                                'rugby', 'skiing', 'soccer', 'vehicles', 'firearm', 'helicopters', 'names of',
-                               'names for', 'rivers', 'dance', 'schools in', 'parks',
+                               'names for', 'rivers', 'dance', 'schools in', 'parks', 'currencies', 'capitals',
+                               'plays', 'awards', 'lawyers', 'businesspeople', 'historians', 'medical doctors',
+                               'dancers', 'singers', 'musicians', 'disestablishments', 'infrastructure', 'texts',
 
-                               # 'disestablishments', 'infrastructure',
+
                                # 'sites', # might have some good stuff?
                                # 'deaths', 'poets', 'awards',
                                # people:
                                # 'sculptors', 'painters', 'lawyers', 'physicians', 'architects',
-                               # 'writers', 'artists', 'businesspeople', 'historians', 'medical doctors',
-                               # 'mathematicians', 'monks', 'warriors', 'dancers', 'singers', 'musicians',
+                               # 'writers', 'artists',
+                               # 'mathematicians', 'monks', 'warriors',
                                # 'criminals', 'corespondents', 'people', 'personnel',
                                }
 # 'politicians',
