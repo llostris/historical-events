@@ -33,13 +33,10 @@ def is_query_finished(result):
     :param result: Map containt the result of the Wikimedia API query
     :return: Boolean
     """
-
-    if "continue" not in result :
-        # query is finished
-        return True
-    else :
-        # run the query again
-        return False
+    if "continue" not in result:
+        return True     # query is finished
+    else:
+        return False    # run the query again
 
 
 def handle_query_continuation(query, result):
