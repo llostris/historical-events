@@ -30,6 +30,8 @@ GRAPH_GML_FILE = DATA_DIR + '/graph.gml'
 
 GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
 
+LANGUAGE_MAP_FILE = DATA_DIR + '/language_map.graph'
+
 
 def get_graph_logger():
     logger = logging.getLogger('graph_logger')
@@ -52,7 +54,7 @@ def get_parse_error_logger():
 
 
 def logging_config():
-    logging.basicConfig(level = logging.ERROR)
+    logging.basicConfig(level=logging.ERROR)
 
 
 graph_logger = get_graph_logger()
