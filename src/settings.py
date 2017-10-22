@@ -15,6 +15,8 @@ GRAPH_CREATOR_LOG_FILE = LOG_DIR + "/graph_creator.log"
 
 PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 
+# Historical events graph
+
 CATEGORIES_FILE = DATA_DIR + '/categories.csv'
 
 CATEGORIES_RELEVANT_FILE = DATA_DIR + '/categories_relevant.csv'
@@ -27,6 +29,7 @@ DUPLICATE_RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships_manual.pickle'
 GRAPH_IN_PROGRESS_FILE = DATA_DIR + '/in_progress_graph.pickle'
 
 GRAPH_GML_FILE = DATA_DIR + '/graph.gml'
+GRAPH_LANGUAGE_GML_FILE = DATA_DIR + '/graph_lang_{}.gml'
 
 GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
 
