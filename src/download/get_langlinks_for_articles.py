@@ -26,14 +26,19 @@ def add_corresponding_languages_for_batch(query, language_map):
         return []
 
     for page in result['query']['pages']:
-        languages = set()
         title = page['title']
         page_id = page['pageid'] if 'pageid' in page else None
+
+        languages = set()
         if 'langlinks' in page:
             for lang_link in page["langlinks"]:
                 lang = lang_link["lang"]
                 languages.add(lang)
-        language_map[title] = {"languages": languages, "wiki_id": page_id}
+
+        if title in language_map:
+            language_map[title]["languages"] = language_map[title]["languages"].union(languages)
+        else:
+            language_map[title] = {"languages": languages, "wiki_id": page_id}
 
         print(title, languages)
 
@@ -67,4 +72,3 @@ if __name__ == "__main__":
 
         print('Saving language map')
         save_pickle(language_map, LANGUAGE_MAP_FILE)
-

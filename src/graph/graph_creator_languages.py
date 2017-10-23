@@ -1,6 +1,6 @@
 """Create a graph based on existing historical graph and langlinks. 
 This results in a smaller, more specific graph."""
-from networkx import NetworkXError, write_gml, number_of_nodes
+from networkx import write_gml
 
 from file_operations import load_pickle, save_pickle
 from graph.graph_creator import load_in_progress_graph
@@ -16,7 +16,6 @@ def build_graph_restricted_to_language(graph, language):
     language_map = load_pickle(LANGUAGE_MAP_FILE)
 
     matching_nodes = filter_out_language_nodes(language_map, language)
-    print(matching_nodes)
     for node in graph.nodes():
         if node not in matching_nodes:
             graph.remove_node(node)
@@ -29,6 +28,7 @@ def build_graph_restricted_to_language(graph, language):
 
 if __name__ == "__main__":
     graph = load_in_progress_graph()
-
     build_graph_restricted_to_language(graph, 'pl')
+
+    graph = load_in_progress_graph()
     build_graph_restricted_to_language(graph, 'de')
