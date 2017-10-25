@@ -27,10 +27,10 @@ def get_nodes_and_relationships(articles, graph, relationship_map, session=None)
 
     # extract vertices
     for article in articles:
-        if is_article_relevant(article.title, article.content) and not is_duplicate_event(article.pageid):
+        if is_article_relevant(article.title, article.content) and not is_duplicate_event(article, graph, session):
             event_name = article.title
 
-            graph.add_node(event_name, attributes={'wiki_id': article.pageid})
+            graph.add_node(event_name, wikiid=article.pageid)
             if session:
                 date_extractor = DateExtractor(article.title, article.content)
                 date_extractor.fill_dates()
@@ -56,12 +56,15 @@ def get_nodes_and_relationships(articles, graph, relationship_map, session=None)
     return graph, relationship_map
 
 
-def is_duplicate_event(wiki_id):
-    existing_event = session.query(Event).filter(Event.wiki_id == wiki_id).first()
-    if existing_event is not None:
-        return True
+def is_duplicate_event(article, graph, session):
+    if session:
+        existing_event = session.query(Event).filter(Event.wiki_id == article.pageid).first()
+        if existing_event is not None:
+            return True
 
-    return False
+        return False
+    else:
+        return graph.has_node(article.title)
 
 
 def save_event_in_db(name, attributes, page_id, article_content, session):
@@ -186,7 +189,7 @@ if __name__ == "__main__":
     session = Session()
 
     graph = load_in_progress_graph()
-    relationship_map = {}
+    relationship_map = load_relationship_map()
 
     article_files = sorted(filter(lambda x: x.startswith(ARTICLE_FILE_NAME_PREFIX), os.listdir(DATA_DIR)))
 
@@ -199,8 +202,17 @@ if __name__ == "__main__":
 
         article_batch = load_article_from_pickle(elem)
 
-        graph, relationship_map = get_nodes_and_relationships(article_batch, graph, {}, session)
+        # graph, relationship_map = get_nodes_and_relationships(article_batch, graph, {}, session) # this will populate sql database and parse dates
+        graph, relationship_map = get_nodes_and_relationships(article_batch, graph, relationship_map, None)
         update_relatioship_map(relationship_map)
         save_in_progress_graph(graph)
 
-    # graph = create_graph(graph, load_relationship_map())
+    graph = create_graph(graph, relationship_map)
+
+    # for node in graph.nodes:
+    #     attributes = graph.node[node]['attributes']
+    #     wiki_id = attributes['wiki_id']
+    #     del graph.nodes[node]['attributes']
+    #     graph.nodes[node]['wikiid'] = wiki_id
+
+    save_graph(graph)
