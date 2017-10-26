@@ -1,6 +1,6 @@
 import re
 
-from wiki_config import CATEGORY_REGEXP, YEAR_IN_REGEXP, NUMBER_ONLY_REGEXP
+from base_wiki_config import CATEGORY_REGEXP, YEAR_IN_REGEXP, NUMBER_ONLY_REGEXP
 
 
 DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")
@@ -19,15 +19,15 @@ class CategoryMatcher:
     def is_category_related(self, category_name):
         category_name = category_name.lower()
 
-        if self.is_category_relevant(category_name):
-            for keyword in self.whitelist:
-                if keyword in category_name:
-                    return True
+        if self.match_dates and DATE_YEAR_IN_REGEXP.match(category_name):
+            return True
 
-            if self.match_dates and DATE_YEAR_IN_REGEXP.match(category_name):
-                return True
+        return self.is_category_relevant(category_name)
 
-        return False
+        # if self.is_category_relevant(category_name):
+        #     if self.match_dates and DATE_YEAR_IN_REGEXP.match(category_name):
+        #         return True
+        # return False
 
     def is_category_relevant(self, category_name):
         for white_word in self.whitelist:

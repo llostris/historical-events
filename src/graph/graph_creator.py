@@ -12,7 +12,7 @@ from graph.dataextraction.date_extractor import DateExtractor
 from graph.dataextraction.relationship_extractor import RelationshipExtractor
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
 from settings import DATA_DIR, GRAPH_GML_FILE, get_graph_logger, RELATIONSHIP_MAP_FILE, GRAPH_IN_PROGRESS_FILE
-from wiki_config import is_article_relevant
+from base_wiki_config import is_article_relevant
 from download.articles import RawArticle
 
 logger = get_graph_logger()

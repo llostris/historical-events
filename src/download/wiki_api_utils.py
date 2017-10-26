@@ -5,7 +5,7 @@ import requests
 
 import settings
 from settings import API_URL
-from wiki_config import NAMESPACES
+from base_wiki_config import NAMESPACES
 
 settings.logging_config()
 

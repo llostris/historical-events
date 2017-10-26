@@ -7,12 +7,11 @@ Avoids loops by keeping the in-memory list of visited category ids.
 import os
 import pickle
 import re
-import signal
 
 from file_operations import save_pickle
 from settings import CATEGORIES_FILENAME
 from download.wiki_api_utils import run_query
-from wiki_config import CATEGORYMEMBERS, NAMESPACES
+from base_wiki_config import CATEGORYMEMBERS, NAMESPACES
 
 DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")
 
@@ -26,7 +25,8 @@ class CategoryScraper:
 
         self.load_visited_ids()
 
-    def get_default_query(self, title):
+    @staticmethod
+    def get_default_query(title):
         return {
             "action": "query",
             "list": "categorymembers",

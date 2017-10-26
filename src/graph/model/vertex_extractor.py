@@ -10,7 +10,7 @@ from download.articles import RawArticle as Article
 from graph.dataextraction.date_extractor import DateExtractor
 from settings import DATA_DIR
 
-from wiki_config import is_title_relevant
+from base_wiki_config import is_title_relevant
 
 ARTICLE_FILE_NAME_PREFIX = "articles.pickle"
 

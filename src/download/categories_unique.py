@@ -2,7 +2,7 @@
 
 from download.articles import load_category_list
 from settings import DATA_DIR
-from wiki_config import is_category_relevant
+from base_wiki_config import is_category_relevant
 
 
 def save_to_file(categories, file, append=False):

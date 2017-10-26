@@ -1,17 +1,18 @@
+from graphs.history.wiki_config import HISTORY_CATEGORY_WHITELIST, HISTORY_CATEGORY_BLACKLIST, HISTORY_TITLE_WHITELIST, \
+    HISTORY_TITLE_BLACKLIST
 from tools.category_matcher import CategoryMatcher
 
 from settings import HISTORY_DATA_DIR
 from tools.category_scraper import CategoryScraper
-from wiki_config import FORBIDDEN_CATEGORY_KEYWORDS, CATEGORY_KEYWORDS, FORBIDDEN_TITLE_KEYWORDS, TITLE_KEYWORDS
 
 
 class HistoryCategoryMatcher(CategoryMatcher):
 
     def __init__(self):
-        super().__init__(whitelist=CATEGORY_KEYWORDS,
-                         blacklist=FORBIDDEN_CATEGORY_KEYWORDS,
-                         title_whitelist=TITLE_KEYWORDS,
-                         title_blacklist=FORBIDDEN_TITLE_KEYWORDS,
+        super().__init__(whitelist=HISTORY_CATEGORY_WHITELIST,
+                         blacklist=HISTORY_CATEGORY_BLACKLIST,
+                         title_whitelist=HISTORY_TITLE_WHITELIST,
+                         title_blacklist=HISTORY_TITLE_BLACKLIST,
                          match_dates=True)
 
 
