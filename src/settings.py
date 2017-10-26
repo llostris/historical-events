@@ -1,11 +1,8 @@
-from __future__ import unicode_literals
 import logging
 
 API_URL = "https://en.wikipedia.org/w/api.php"
 
-ENWIKI_DIR = 'D:\Studia\Magisterka\enwiki'
-
-DATA_DIR = "../data2"
+DATA_DIR = "../data"
 
 LOG_DIR = "../log"
 
@@ -17,7 +14,11 @@ PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 
 # Historical events graph
 
-CATEGORIES_FILE = DATA_DIR + '/categories.csv'
+HISTORY_DATA_DIR = DATA_DIR + "/history"
+
+CATEGORIES_FILENAME = 'categories.csv'
+
+CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 
 CATEGORIES_RELEVANT_FILE = DATA_DIR + '/categories_relevant.csv'
 
