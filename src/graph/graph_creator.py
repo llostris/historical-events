@@ -185,8 +185,8 @@ def save_in_progress_graph(in_progress_graph):
 
 
 if __name__ == "__main__":
-    base_service = BaseService(True)
-    session = Session()
+    # base_service = BaseService(True)
+    # session = Session()
 
     graph = load_in_progress_graph()
     relationship_map = load_relationship_map()
@@ -196,7 +196,7 @@ if __name__ == "__main__":
     # 0:35 - done
     # remaining [13:]
 
-    for elem in article_files[35:]:
+    for elem in article_files[30:]:
         logger.info("*** Loading file: {}".format(elem))
         print(elem)
 

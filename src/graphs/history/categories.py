@@ -1,6 +1,7 @@
-from download.category_scraper import CategoryScraper
-from download.category_matcher import CategoryMatcher
+from tools.category_matcher import CategoryMatcher
+
 from settings import HISTORY_DATA_DIR
+from tools.category_scraper import CategoryScraper
 from wiki_config import FORBIDDEN_CATEGORY_KEYWORDS, CATEGORY_KEYWORDS, FORBIDDEN_TITLE_KEYWORDS, TITLE_KEYWORDS
 
 

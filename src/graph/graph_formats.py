@@ -9,7 +9,7 @@ formats, i.e.:
 from graph.graph_creator import load_in_progress_graph, load_relationship_map
 from settings import DATA_DIR
 
-attributes_networkx = [ 'date', 'start date', 'end date' ]
+attributes_networkx = ['date', 'startdate', 'enddate']
 attributes = [] #[ 'date', 'start_date', 'end_date' ]
 
 
@@ -18,8 +18,8 @@ def create_graph_ivga(graph, relationship_map, filename='graph', include_lone_no
 
     :param graph: Graph in networkx format.
     :param relationship_map: Map in form of source -> [ destinations ]
-    :param filename:
-    :return:
+    :param filename: String. Name of the file (without extension) that the graph should be saved to.
+    :return: None
     """
 
     nodes_to_id_map = {}
@@ -80,6 +80,7 @@ def create_graph_ivga(graph, relationship_map, filename='graph', include_lone_no
                 # TODO: implement me
 
         f.close()
+
 
 if __name__ == "__main__":
 

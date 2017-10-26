@@ -1,5 +1,6 @@
-from download.category_scraper import CategoryScraper
-from download.category_matcher import CategoryMatcher
+from tools.category_matcher import CategoryMatcher
+
+from tools.category_scraper import CategoryScraper
 from wiki_art_config import ART_CATEGORY_WHITELIST, ART_CATEGORY_BLACKLIST, ART_TITLE_WHITELIST, ART_TITLE_BLACKLIST, \
     ART_DATA_DIR
 
