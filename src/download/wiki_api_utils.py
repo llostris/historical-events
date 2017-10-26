@@ -1,6 +1,5 @@
 # coding=utf-8
 import logging
-# from urllib import urlencode
 import requests
 
 import settings
@@ -8,6 +7,7 @@ from settings import API_URL
 from base_wiki_config import NAMESPACES
 
 settings.logging_config()
+
 
 def run_query(query):
     """

@@ -17,6 +17,8 @@ PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 HISTORY_DATA_DIR = DATA_DIR + "/history"
 
 CATEGORIES_FILENAME = 'categories.csv'
+CATEGORIES_UNIQUE_FILENAME = 'categories_unique.csv'
+CATEGORIES_RELEVANT_FILENAME = 'categories_relevant.csv'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 
