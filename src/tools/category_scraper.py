@@ -8,10 +8,10 @@ import os
 import pickle
 import re
 
+from base_wiki_config import CATEGORYMEMBERS, NAMESPACES
 from file_operations import save_pickle
 from settings import CATEGORIES_FILENAME
-from download.wiki_api_utils import run_query
-from base_wiki_config import CATEGORYMEMBERS, NAMESPACES
+from tools.wiki_api_utils import run_query
 
 DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")
 

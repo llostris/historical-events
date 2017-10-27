@@ -2,11 +2,11 @@
 import os
 
 from download.articles import RawArticle
-from download.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 from file_operations import load_pickle, save_pickle
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
 from settings import DATA_DIR, LANGUAGE_MAP_FILE
 from tools.utils import batch
+from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 
 
 def get_default_langlink_query(title=""):

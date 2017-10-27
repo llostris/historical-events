@@ -3,13 +3,12 @@ import pickle
 
 from requests.exceptions import ChunkedEncodingError
 
+from base_wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES
 from file_operations import save_pickle, load_pickle
 from settings import ARTICLES_FILENAME_TEMPLATE
-from download.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
-from base_wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES
-
 from tools.unique_category_generator import CategoryLoaderMixin
 from tools.utils import batch
+from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 
 CATEGORIES_BUGS = []
 
