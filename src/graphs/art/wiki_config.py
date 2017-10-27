@@ -18,7 +18,11 @@ ART_FORBIDDEN_CATEGORIES = {}
 ART_CATEGORY_WHITELIST = {}
 
 # Keywords that indicate that the category or article is not relevant to our search
-ART_CATEGORY_BLACKLIST = {}
+ART_CATEGORY_BLACKLIST = {
+    'venues', 'clubs', 'principals of', 'record labels', 'awards', 'schools of', 'paralympics', 'olympics',
+    'british empire games', 'art museums and galleries', 'theatres in', 'theatre companies', 'drama schools in',
+    'employees of', 'episodes', 'characters',
+}
 
 ART_TITLE_BLACKLIST = {}
 
