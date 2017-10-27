@@ -4,22 +4,10 @@ from settings import CATEGORIES_UNIQUE_FILENAME, CATEGORIES_RELEVANT_FILENAME, C
 from tools.category_matcher import CategoryMatcher
 
 
-class UniqueCategoryListGenerator:
+class CategoryLoaderMixin:
 
-    def __init__(self, category_matcher: CategoryMatcher, data_dir: str):
-        self.category_matcher = category_matcher
+    def __init__(self, data_dir: str):
         self.data_dir = data_dir
-
-    def get_unique_categories(self):
-        categories_all = self.load_category_list()
-
-        unique = set(categories_all)
-        print('Unique categories:', len(unique))
-
-        filtered = list(filter(self.category_matcher.is_category_relevant, unique))
-
-        self.save_to_file(unique, self.data_dir + '/' + CATEGORIES_UNIQUE_FILENAME)
-        self.save_to_file(filtered, self.data_dir + '/' + CATEGORIES_RELEVANT_FILENAME)
 
     def load_category_list(self):
         categories = set()
@@ -29,6 +17,30 @@ class UniqueCategoryListGenerator:
                 categories.add(splitted[1])
 
         return categories
+
+
+class UniqueCategoryListGenerator(CategoryLoaderMixin):
+
+    def __init__(self, category_matcher: CategoryMatcher, data_dir: str):
+        super().__init__(data_dir)
+
+        self.category_matcher = category_matcher
+        self.data_dir = data_dir
+
+    def get_relevant_categories(self):
+        pass
+
+    def get_unique_categories(self):
+        categories_all = self.load_category_list()
+
+        unique = set(categories_all)
+        print('Unique categories:', len(unique))
+
+        filtered = list(filter(self.category_matcher.is_category_relevant, unique))
+        print('Relevant categories:', len(filtered))
+
+        self.save_to_file(unique, self.data_dir + '/' + CATEGORIES_UNIQUE_FILENAME)
+        self.save_to_file(filtered, self.data_dir + '/' + CATEGORIES_RELEVANT_FILENAME)
 
     def save_to_file(self, categories, file, append=False):
         mode = 'w'

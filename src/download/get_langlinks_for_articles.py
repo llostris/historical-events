@@ -6,6 +6,7 @@ from download.wiki_api_utils import run_query, is_query_finished, handle_query_c
 from file_operations import load_pickle, save_pickle
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
 from settings import DATA_DIR, LANGUAGE_MAP_FILE
+from tools.utils import batch
 
 
 def get_default_langlink_query(title=""):
@@ -46,12 +47,6 @@ def add_corresponding_languages_for_batch(query, language_map):
         print('continuation query required')
         query = handle_query_continuation(query, result)
         add_corresponding_languages_for_batch(query, language_map)
-
-
-def batch(iterable, batch_size=1):
-    iterable_length = len(iterable)
-    for index in range(0, iterable_length, batch_size):
-        yield iterable[index:min(index + batch_size, iterable_length)]
 
 
 if __name__ == "__main__":

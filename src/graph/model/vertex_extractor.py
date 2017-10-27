@@ -2,15 +2,14 @@
 import os
 import pickle
 
-# from data.load_articles import load_article_from_pickle, convert_articles_to_model
-# import pandas as pd
-
-from download.articles import RawArticle as Article
+from base_wiki_config import is_title_relevant
 # from data.load_articles import convert_articles_to_model
 from graph.dataextraction.date_extractor import DateExtractor
 from settings import DATA_DIR
+from tools.article_scraper import RawArticle as Article
 
-from base_wiki_config import is_title_relevant
+# from data.load_articles import load_article_from_pickle, convert_articles_to_model
+# import pandas as pd
 
 ARTICLE_FILE_NAME_PREFIX = "articles.pickle"
 

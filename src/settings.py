@@ -19,6 +19,7 @@ HISTORY_DATA_DIR = DATA_DIR + "/history"
 CATEGORIES_FILENAME = 'categories.csv'
 CATEGORIES_UNIQUE_FILENAME = 'categories_unique.csv'
 CATEGORIES_RELEVANT_FILENAME = 'categories_relevant.csv'
+ARTICLES_FILENAME_TEMPLATE = 'article_{}.pickle'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 

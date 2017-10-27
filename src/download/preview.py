@@ -6,6 +6,7 @@ from download.articles import load_category_list
 from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
 from settings import DATA_DIR
 from base_wiki_config import is_category_relevant
+from tools.article_scraper import load_category_list
 
 if __name__ == "__main__":
 
