@@ -49,7 +49,8 @@ HISTORY_CATEGORY_BLACKLIST = {
     'mythology', 'football', 'basketball', 'rugby', 'skiing', 'soccer', 'vehicles', 'firearm', 'helicopters',
     'names of', 'names for', 'rivers', 'dance', 'schools in', 'parks', 'currencies', 'capitals', 'plays', 'awards',
     'lawyers', 'businesspeople', 'historians', 'medical doctors', 'dancers', 'singers', 'musicians',
-    'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in',
+    'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in', 'impact of',
+    'report on',
 
     # 'sites', # might have some good stuff?
     # 'deaths', 'poets', 'awards',

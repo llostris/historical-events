@@ -4,7 +4,6 @@ import requests
 
 import settings
 from settings import API_URL
-from base_wiki_config import NAMESPACES
 
 settings.logging_config()
 
@@ -20,7 +19,7 @@ def run_query(query):
         if response.status_code == 200:
             result = response.json(encoding='utf-8')
             return result
-    except ValueError as e:
+    except ValueError:
         logging.error("Couldn't parse JSON: " + response.content)
         return ""
 
@@ -48,29 +47,3 @@ def handle_query_continuation(query, result):
     return query
 
 
-def get_default_article_query(title=""):
-    query = {
-        "action": "query",
-        "generator": "categorymembers",
-        "gcmlimit": "max",
-        "format": "json",
-        "gcmtitle": title,
-        "prop": "revisions",
-        "rvprop": "content",
-        # "rvlimit" : 1,
-        "gcmnamespace": NAMESPACES["article"], #cmnamespace
-        "formatversion": 2
-    }
-    return query
-
-
-if __name__ == "__main__":
-    # Example query
-    query = {
-        "action": "query",
-        "generator": "categorymembers",
-        "cmlimit": "max",
-        "format": "json",
-        "cmnamespace": NAMESPACES["article"],
-        "formatversion": 2
-    }

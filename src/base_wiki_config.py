@@ -8,6 +8,8 @@ import re
 TAG_QUERY = "query"
 TAG_PAGES = "pages"
 TAG_TITLE = "title"
+TAG_LANGLINKS = "langlinks"
+TAG_LANG = "lang"
 CATEGORYMEMBERS = "categorymembers"
 
 # Map of wikimedia namespaces to their IDs (only relevant ones)

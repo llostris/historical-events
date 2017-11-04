@@ -9,7 +9,7 @@ import pickle
 import re
 
 from base_wiki_config import CATEGORYMEMBERS, NAMESPACES
-from file_operations import save_pickle
+from file_operations import save_pickle, load_pickle
 from settings import CATEGORIES_FILENAME
 from tools.wiki_api_utils import run_query
 
@@ -18,10 +18,14 @@ DATE_YEAR_IN_REGEXP = re.compile(r"(\d+ .* in)|(in \d+)")
 
 class CategoryScraper:
 
-    def __init__(self, data_dir, category_matcher):
+    def __init__(self, data_dir, category_matcher, continuation=True):
         self.data_dir = data_dir
         self.category_matcher = category_matcher
         self.visited_ids = set()
+        self.subcategories_to_visit = set()     # so if we crash we can continue where we left off
+        self.subcategories_to_visit_filename = self.data_dir + '/subcategories_to_visit.pickle'
+        if continuation:
+            self.subcategories_to_visit = load_pickle(self.subcategories_to_visit_filename, is_set=True)
 
         self.load_visited_ids()
 
@@ -40,9 +44,7 @@ class CategoryScraper:
 
     def load_visited_ids(self):
         filename = self.data_dir + 'cat_visited_ids.pickle'
-        if os.path.isfile(filename):
-            with open(filename, 'rb') as f:
-                self.visited_ids = pickle.load(f)
+        self.visited_ids = load_pickle(filename, is_set=True)
 
     def save_to_file(self, categories, append=False):
         filename = self.data_dir + '/' + CATEGORIES_FILENAME
@@ -71,11 +73,8 @@ class CategoryScraper:
 
                 if namespace == NAMESPACES["category"] and self.category_matcher.is_category_related(title):
                     categories[pageid] = title
+                    self.subcategories_to_visit.add(title)
                     print('category ' + title)
-
-        # if end:
-        #     print 'end'
-        #     return categories
 
         subcategories = {}
         print('recurse')
@@ -87,19 +86,30 @@ class CategoryScraper:
                 subcategories_new = self.get_categories(query, end=True)
                 subcategories.update(subcategories_new)
                 print('visited ids length: {}'.format(len(self.visited_ids)))
+                self.subcategories_to_visit.remove(categories[id])
 
         self.save_to_file(subcategories, append=True)
         self.save_visited_ids()
+        save_pickle(self.subcategories_to_visit, self.subcategories_to_visit_filename)
 
         categories.update(subcategories)
 
         return categories
 
     def get_all_categories(self, first_category):
-        query = self.get_default_query(first_category)
-        categories = self.get_categories(query)
-
-        self.save_to_file(categories, append=False)
+        if not self.subcategories_to_visit:
+            query = self.get_default_query(first_category)
+            categories = self.get_categories(query)
+            self.save_to_file(categories, append=False)
+        else:
+            # TODO: test
+            # TODO: load previously saved categories
+            categories = set()
+            subcategories_to_visit = {category for category in self.subcategories_to_visit}
+            for category in subcategories_to_visit:
+                query = self.get_default_query(category)
+                new_categories = self.get_categories(query)
+                categories.update(new_categories)
 
     def save_visited_ids(self):
         save_pickle(self.visited_ids, self.data_dir + '/cat_visited_ids.pickle')
