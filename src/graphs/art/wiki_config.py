@@ -17,7 +17,8 @@ ART_FORBIDDEN_CATEGORIES = {'20 july plot'}
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
     'painter', 'painting', 'music', 'play', 'movie', 'film', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
-    'sculptor', 'sculpture', 'musicians', 'songs', 'architecture', 'operas',
+    'sculptor', 'sculpture', 'musicians', 'songs', 'architecture', 'operas', 'songs', 'albums', 'genres', 'concertos',
+    'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'artists',
     # 'theatre',
 }
 
@@ -41,8 +42,18 @@ ART_CATEGORY_BLACKLIST = {
     'environmentalists', 'seas', 'emperors', 'bay of', 'gulf', 'tributaries', 'basin', 'landforms', 'geography',
     'politics of', 'deputies', 'tourist', 'towns', 'villages', 'regents', 'monarchy', 'government', 'historians',
     'ministers', 'sport', 'hockey', 'crimes', 'elections', 'psychological', 'assassins of', 'staff', 'wikipedia',
-    'commandants', 'in the german resistance',
-    'knights of',
+    'commandants', 'in the german resistance', 'philosophers', 'manufacturers', 'companies', 'supermarkets', 'airlines',
+    'descent', 'knights', 'cemeteries', 'shops', 'shopping malls', 'concentration', 'camps', 'pipelines', 'festivals',
+    'biathlets', 'skiers', 'ski jumpers', 'jumpers', 'competitions', 'bobsledders', 'recipients of', 'ambassadors',
+    'people murdered', 'resistance members', 'expatriates', 'drugs', 'institute of', 'rapists', 'universities',
+    'colleges', 'people from', 'prisons', 'residences', 'parties', 'common law', 'organisations', 'media', 'mobsters',
+    'librarians', 'coats of arms', 'retail buildings', 'music venues', 'geology', 'rabbis', 'lighthouses',
+    'fairy tales', 'victims', 'survivors', 'politicians', 'dragons', 'book covers', 'creatures', 'stamps', 'flags',
+    'hazzans', 'secretaries', 'burials in', 'protected areas', 'national parks', 'parks', 'heroes', 'people of',
+    'geography', 'archeological', 'settlements', 'colonies', 'tribes', 'people from', 'biota', 'administrative',
+    'canals', 'sciences', 'people by university', 'university', 'college', 'commercial buildings',
+
+    'buildings and structures',
     #'castles in',
 }
 
