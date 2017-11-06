@@ -2,9 +2,11 @@ import pickle
 
 import os
 
+from base_wiki_config import TAG_LANGLINKS, TAG_LANG, TAG_QUERY, TAG_PAGES
 from file_operations import load_pickle, save_pickle
 from settings import LANGUAGE_MAP_FILENAME
 from tools.utils import batch
+from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 
 
 class LanguageMapCreator:
@@ -44,7 +46,7 @@ class LanguageMapCreator:
         if not is_query_finished(result):
             print('continuation query required')
             query = handle_query_continuation(query, result)
-            add_corresponding_languages_for_batch(query, language_map)
+            self.get_corresponding_languages_for_query_batch(query)
 
     def extract_langlinks(self, page):
         title = page['title']
@@ -56,8 +58,8 @@ class LanguageMapCreator:
                 lang = lang_link[TAG_LANG]
                 languages.add(lang)
 
-        if title in language_map:
-            self.language_map[title]["languages"] = language_map[title]["languages"].union(languages)
+        if title in self.language_map:
+            self.language_map[title]["languages"] = self.language_map[title]["languages"].union(languages)
         else:
             self.language_map[title] = {"languages": languages, "wiki_id": page_id}
 

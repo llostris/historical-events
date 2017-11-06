@@ -26,8 +26,8 @@ class LanguageGraphCreator:
 
         self.graph.remove_nodes_from(nodes_to_remove)
 
-        nx.write_gml(self.graph, GRAPH_LANGUAGE_GML_FILENAME.format(self.language))
-        save_pickle(self.graph, GRAPH_LANGUAGE_GML_FILE.format(self.language) + '.pickle')
+        nx.write_gml(self.graph, self.data_dir + '/' + GRAPH_LANGUAGE_GML_FILENAME.format(self.language))
+        save_pickle(self.graph, self.data_dir + '/' + GRAPH_LANGUAGE_GML_FILENAME.format(self.language) + '.pickle')
 
         print("Number of nodes:", self.graph.number_of_nodes())
         print("Number of edges:", self.graph.number_of_edges())
