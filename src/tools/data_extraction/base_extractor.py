@@ -1,7 +1,7 @@
 """A base class for all extractors"""
 import re
 
-from graph.dataextraction.date_parser import DateParser
+from tools.data_extraction.date_parser import DateParser
 
 INFOBOX_REGEXP = re.compile(r"\{\{[Ii]infobox\}\}")
 INFOBOX_DATE_REGEXP = re.compile(r"\{\{[Ii]nfobox.*\|.*date=.*\|")

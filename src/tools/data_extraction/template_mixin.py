@@ -1,8 +1,7 @@
 import re
 
-from graph.dataextraction.base_extractor import BaseDateExtractor
-from graph.dataextraction.date_parser import DateParser
-
+from tools.data_extraction.base_extractor import BaseDateExtractor
+from tools.data_extraction.date_parser import DateParser
 
 TEMPLATE_START_DATE_REGEXPS = {
     'start date': re.compile(r"{{start date\|[^}]*}}"),

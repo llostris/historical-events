@@ -46,6 +46,10 @@ class GraphCreator:
     def is_duplicate_article(self, article):
         return self.graph.has_node(article.title)
 
+    def extract_attributes(self, article):
+        """Abstract method for extracting attributes."""
+        pass
+
     def get_nodes_and_relationships(self, articles):
         """
         Extracts nodes from articles and adds them to the graph.
@@ -62,6 +66,8 @@ class GraphCreator:
                 relationship_extractor = RelationshipExtractor(article.content)
                 relationships = relationship_extractor.get_relationships()
                 self.relationship_map[event_name] = relationships
+
+                attributes = self.extract_attributes(article)
 
     def add_edges(self):
         """Adds edges from relationship map to the graph."""

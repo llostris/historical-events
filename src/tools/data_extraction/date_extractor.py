@@ -4,12 +4,12 @@ import re
 
 import mwparserfromhell as hell
 
-from graph.dataextraction.base_extractor import BaseDateExtractor, THREE_FOUR_DIGIT_YEAR, YEAR_REGEXP, DAY_REGEXP, \
-    MONTHS
-from graph.dataextraction.date_parser import DateParser
-from graph.dataextraction.infobox_extractor import InfoboxDateExtractor
-from graph.dataextraction.template_mixin import TemplateDateExtractorMixin
 from settings import get_graph_logger
+from tools.data_extraction.base_extractor import BaseDateExtractor, THREE_FOUR_DIGIT_YEAR, YEAR_REGEXP, DAY_REGEXP, \
+    MONTHS
+from tools.data_extraction.date_parser import DateParser
+from tools.data_extraction.infobox_extractor import InfoboxDateExtractor
+from tools.data_extraction.template_mixin import TemplateDateExtractorMixin
 
 # constants
 

@@ -1,6 +1,6 @@
 import unittest
 
-from graph.dataextraction.date_extractor import DateExtractor
+from tools.data_extraction import DateExtractor
 
 
 class TestDateExtractor(unittest.TestCase) :
