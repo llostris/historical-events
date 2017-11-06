@@ -1,7 +1,7 @@
 import networkx as nx
 
 from file_operations import load_pickle, save_pickle
-from settings import GRAPH_GML_FILENAME, LANGUAGE_MAP_FILENAME, GRAPH_LANGUAGE_GML_FILENAME, GRAPH_LANGUAGE_GML_FILE
+from settings import GRAPH_GML_FILENAME, LANGUAGE_MAP_FILENAME, GRAPH_LANGUAGE_GML_FILENAME
 
 
 class LanguageGraphCreator:

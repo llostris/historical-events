@@ -3,10 +3,11 @@ import os
 
 from download.articles import RawArticle
 from file_operations import load_pickle, save_pickle
-from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
-from settings import DATA_DIR, LANGUAGE_MAP_FILE
+from settings import LANGUAGE_MAP_FILE
 from tools.utils import batch
 from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
+
+DATA_DIR = '../data2'
 
 
 def get_default_langlink_query(title=""):
@@ -50,13 +51,13 @@ def add_corresponding_languages_for_batch(query, language_map):
 
 
 if __name__ == "__main__":
-    article_files = sorted(filter(lambda x: x.startswith(ARTICLE_FILE_NAME_PREFIX), os.listdir(DATA_DIR)))
+    article_files = sorted(filter(lambda x: x.startswith('articles.'), os.listdir(DATA_DIR)))
 
     language_map = load_pickle(LANGUAGE_MAP_FILE)
 
     for file in article_files:
         print(file)
-        article_batch = load_article_from_pickle(file)
+        article_batch = load_pickle(file, is_list=True)
 
         for query_batch in batch(article_batch, 50):
             titles = [article.title for article in query_batch if article.title not in language_map]

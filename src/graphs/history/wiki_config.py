@@ -50,7 +50,7 @@ HISTORY_CATEGORY_BLACKLIST = {
     'names of', 'names for', 'rivers', 'dance', 'schools in', 'parks', 'currencies', 'capitals', 'plays', 'awards',
     'lawyers', 'businesspeople', 'historians', 'medical doctors', 'dancers', 'singers', 'musicians', 'players',
     'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in', 'impact of', 'actors',
-    'report on', 'actresses', 'battleships',
+    'report on', 'actresses', 'battleships', 'rabbis', 'establishments', 'star wars',
 
     # 'sites', # might have some good stuff?
     # 'deaths', 'poets', 'awards',
