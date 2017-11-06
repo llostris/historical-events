@@ -7,6 +7,7 @@ import networkx as nx
 
 from file_operations import save_pickle, load_pickle
 from settings import GRAPH_IN_PROGRESS_FILENAME, RELATIONSHIP_MAP_FILENAME, GRAPH_GML_FILENAME
+from tools.article_scraper import RawArticle
 from tools.category_matcher import CategoryMatcher
 from tools.relationship_extractor import RelationshipExtractor
 
@@ -17,7 +18,7 @@ class GraphCreator:
         self.data_dir = data_dir
         self.in_progress_graph_filename = data_dir + '/' + GRAPH_IN_PROGRESS_FILENAME
         self.relationship_map_filename = data_dir + '/' + RELATIONSHIP_MAP_FILENAME
-        self.graph_filename = data_dir + GRAPH_GML_FILENAME
+        self.graph_filename = data_dir + '/' + GRAPH_GML_FILENAME
 
         self.category_matcher = category_matcher
         self.graph = nx.DiGraph()

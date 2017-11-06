@@ -22,7 +22,9 @@ CATEGORIES_RELEVANT_FILENAME = 'categories_relevant.csv'
 ARTICLES_FILENAME_TEMPLATE = 'articles_{}.pickle'
 GRAPH_IN_PROGRESS_FILENAME = 'in_progress_graph.pickle'
 RELATIONSHIP_MAP_FILENAME = 'relationships.pickle'
+LANGUAGE_MAP_FILENAME = 'language_map.pickle'
 GRAPH_GML_FILENAME = 'graph.gml'
+GRAPH_LANGUAGE_GML_FILENAME = 'graph_lang_{}.gml'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 
