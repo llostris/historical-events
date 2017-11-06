@@ -19,7 +19,10 @@ HISTORY_DATA_DIR = DATA_DIR + "/history"
 CATEGORIES_FILENAME = 'categories.csv'
 CATEGORIES_UNIQUE_FILENAME = 'categories_unique.csv'
 CATEGORIES_RELEVANT_FILENAME = 'categories_relevant.csv'
-ARTICLES_FILENAME_TEMPLATE = 'article_{}.pickle'
+ARTICLES_FILENAME_TEMPLATE = 'articles_{}.pickle'
+GRAPH_IN_PROGRESS_FILENAME = 'in_progress_graph.pickle'
+RELATIONSHIP_MAP_FILENAME = 'relationships.pickle'
+GRAPH_GML_FILENAME = 'graph.gml'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 

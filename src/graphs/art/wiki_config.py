@@ -12,7 +12,7 @@ FIRST_CATEGORY = "Category:Arts"
 
 # Categories that might have been added while scraping Wikipedia that are not relevant to our search
 # Requires adding "Category:" prefix
-ART_FORBIDDEN_CATEGORIES = {}
+ART_FORBIDDEN_CATEGORIES = {'20 july plot'}
 
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
@@ -37,7 +37,11 @@ ART_CATEGORY_BLACKLIST = {
     'emigrants', 'series endings', 'people excommunicated', 'think thanks', 'merchants', 'nobility', 'advisors',
     'research', 'campaigns', 'reservoirs', 'lakes', 'rivers', 'mountain passes', 'mountains', 'valleys', 'waterfalls',
     'hills', 'basketball', 'baseball', 'players', 'survey', 'parkway', 'landmarks', 'maps of', 'stations', 'places',
-    'national forest', 'forests', 'chapter lists', 'episode list',
+    'national forest', 'forests', 'chapter lists', 'episode list', 'presenters', 'settlements', 'descent', 'educators',
+    'environmentalists', 'seas', 'emperors', 'bay of', 'gulf', 'tributaries', 'basin', 'landforms', 'geography',
+    'politics of', 'deputies', 'tourist', 'towns', 'villages', 'regents', 'monarchy', 'government', 'historians',
+    'ministers', 'sport', 'hockey', 'crimes', 'elections', 'psychological', 'assassins of', 'staff', 'wikipedia',
+    'commandants', 'in the german resistance',
     'knights of',
     #'castles in',
 }

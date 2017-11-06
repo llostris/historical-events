@@ -15,6 +15,6 @@ class ArtCategoryMatcher(CategoryMatcher):
 
 
 if __name__ == "__main__":
-    history_category_scraper = CategoryScraper(data_dir=ART_DATA_DIR, category_matcher=ArtCategoryMatcher())
+    art_category_scraper = CategoryScraper(data_dir=ART_DATA_DIR, category_matcher=ArtCategoryMatcher())
     title = 'Category:Arts'
-    history_category_scraper.get_all_categories(title)
+    art_category_scraper.get_all_categories(title)

@@ -48,9 +48,9 @@ HISTORY_CATEGORY_BLACKLIST = {
     'lighthouses', 'popular culture', 'churches', 'cathedral', 'destroyers', 'network protocols', 'networking',
     'mythology', 'football', 'basketball', 'rugby', 'skiing', 'soccer', 'vehicles', 'firearm', 'helicopters',
     'names of', 'names for', 'rivers', 'dance', 'schools in', 'parks', 'currencies', 'capitals', 'plays', 'awards',
-    'lawyers', 'businesspeople', 'historians', 'medical doctors', 'dancers', 'singers', 'musicians',
-    'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in', 'impact of',
-    'report on',
+    'lawyers', 'businesspeople', 'historians', 'medical doctors', 'dancers', 'singers', 'musicians', 'players',
+    'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in', 'impact of', 'actors',
+    'report on', 'actresses',
 
     # 'sites', # might have some good stuff?
     # 'deaths', 'poets', 'awards',
