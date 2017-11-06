@@ -1,8 +1,8 @@
 from sqlalchemy.orm import Session
 
 from data.model.graph_model import Event, Relationship
-from data.service import BaseService
 from graph.graph_creator import load_relationship_map, save_relationship_map
+from graphs.history.service import BaseService
 from settings import DUPLICATE_RELATIONSHIP_MAP_FILE
 
 
