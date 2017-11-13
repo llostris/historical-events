@@ -2,15 +2,14 @@
 import os
 import pickle
 
-# from data.load_articles import load_article_from_pickle, convert_articles_to_model
-# import pandas as pd
-
-from download.articles import RawArticle as Article
+from base_wiki_config import is_title_relevant
 # from data.load_articles import convert_articles_to_model
 from graph.dataextraction.date_extractor import DateExtractor
 from settings import DATA_DIR
+from tools.article_scraper import RawArticle as Article
 
-from wiki_config import is_title_relevant
+# from data.load_articles import load_article_from_pickle, convert_articles_to_model
+# import pandas as pd
 
 ARTICLE_FILE_NAME_PREFIX = "articles.pickle"
 
@@ -34,8 +33,7 @@ class RawEvent:
 
 
 def load_article_from_pickle(filename):
-    article_batch = pickle.load(open(DATA_DIR + "/" + filename, 'rb'))
-    return article_batch
+    return pickle.load(open(DATA_DIR + "/" + filename, 'rb'))
 
 
 def extract_event(article):
@@ -51,10 +49,10 @@ def extract_event(article):
 def convert_articles_to_model_no_categories(article_batch):
     articles = []
     for raw_article in article_batch:
-        if is_title_relevant(raw_article.title.encode('utf-8')):
+        if is_title_relevant(raw_article.title):
             article = Article(pageid=raw_article.pageid,
-                              title=raw_article.title.encode('utf-8'),
-                              content=raw_article.content.encode('utf-8'))
+                              title=raw_article.title,
+                              content=raw_article.content)
             articles.append(article)
         # print article
 
