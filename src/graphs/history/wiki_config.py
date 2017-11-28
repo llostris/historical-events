@@ -19,14 +19,14 @@ HISTORY_FORBIDDEN_CATEGORIES = {
 
 # Keywords which indicate that category is related to our problem
 HISTORY_CATEGORY_WHITELIST = {
-    'war', 'battle', 'treaties', 'history', 'century', 'births', 'discoveries', 'deaths', 'timelines', 'explosion',
-    'bomb', 'attack', 'conflict', 'discovery', 'conflicts', 'treaty'
+    'treaties', 'discoveries', 'timelines', 'explosion', 'bomb', 'attack', 'conflict', 'discovery', 'conflicts',
+    'treaty'
 }
 
 # Keywords that indicate that the category or HISTORYicle is not relevant to our search
 HISTORY_CATEGORY_BLACKLIST = {
     'mountains of', 'biota of', 'fauna of', 'racehorse births', 'museum', 'books about', 'region',
-    'school buildings completed', 'urban districts of', 'boroughs','units of measurement', 'supreme court of',
+    'school buildings completed', 'urban districts of', 'boroughs', 'units of measurement', 'supreme court of',
     'racehorse', 'cannon-class destroyer', 'royal norwegian navy ship names', 'ad hoc units and formations',
     'submarine classes', 'bundism', 'frigates', 'patrol vessels', 'missiles', 'bomber aircraft', 'fieseler aircraft',
     'modular aircraft', 'military aircraft projects', 'rocket artillery', 'rocket launchers', 'artillery',
@@ -49,14 +49,17 @@ HISTORY_CATEGORY_BLACKLIST = {
     'mythology', 'football', 'basketball', 'rugby', 'skiing', 'soccer', 'vehicles', 'firearm', 'helicopters',
     'names of', 'names for', 'rivers', 'dance', 'schools in', 'parks', 'currencies', 'capitals', 'plays', 'awards',
     'lawyers', 'businesspeople', 'historians', 'medical doctors', 'dancers', 'singers', 'musicians', 'players',
-    'disestablishments', 'infrastructure', 'texts', 'history books', 'bridges', 'completed in', 'impact of', 'actors',
-    'report on', 'actresses', 'battleships', 'rabbis', 'establishments', 'star wars',
+    'disestablishments', 'infrastructure', 'texts', 'history book', 'bridges', 'completed in', 'impact of', 'actors',
+    'report on', 'actresses', 'battleships', 'rabbis', 'establishments', 'star wars', 'lists of sovereign states',
+    'books about', 'military units', 'racehorse', 'cricket', 'deaths from cancer', 'clergy', 'dioceses', 'statues',
+    'monuments', 'memorials', 'chaplains',
+
 
     # 'sites', # might have some good stuff?
     # 'deaths', 'poets', 'awards',
     # people:
     # 'sculptors', 'painters', 'lawyers', 'physicians', 'architects',
-    # 'writers', 'artists',
+    # 'writers', 'artists', 'novelists',
     # 'mathematicians', 'monks', 'warriors',
     # 'criminals', 'corespondents', 'people', 'personnel',
 }
@@ -67,7 +70,7 @@ HISTORY_TITLE_BLACKLIST = {
     'six plus two group on afghanistan', 'cultural representations of', 'cultural depictions', 'cultural backwardness',
     'battle tactics', 'document exploitation', 'women on the web', 'war cemetery', 'historic district', 'yacht',
     'tornado', 'document exploitation', 'headwear', 'rural district', 'paris in the', 'effects of', 'casualties',
-    'provincial park',
+    'provincial park', 'destroyer',
 
     # 'council election',
     # 'marcus licinius crassus (quaestor)',   # TODO: why?
@@ -75,6 +78,6 @@ HISTORY_TITLE_BLACKLIST = {
 }
 
 HISTORY_TITLE_WHITELIST = {
-    'war', 'battle', 'treaties', 'treaty', 'history', 'century', 'birth', 'death', 'discovery', 'explosion',
+    'war', 'battle', 'treaties', 'treaty', 'history', 'birth', 'death', 'discovery', 'explosion',
     'operation', 'bomb', 'attack'
 }

@@ -16,8 +16,8 @@ ART_FORBIDDEN_CATEGORIES = {'20 july plot'}
 
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
-    'painter', 'painting', 'music', 'play', 'movie', 'film', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
-    'sculptor', 'sculpture', 'musicians', 'songs', 'architecture', 'operas', 'songs', 'albums', 'genres', 'concertos',
+    'painter', 'painting', 'play', 'movie', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
+    'sculptor', 'sculptures', 'musicians', 'songs', 'architecture', 'operas', 'songs', 'albums', 'genres', 'concertos',
     'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'artists',
     # 'theatre',
 }
@@ -35,7 +35,7 @@ ART_CATEGORY_BLACKLIST = {
     'restaurants', 'office buildings', 'cafés', 'faculty', 'translators', 'lawyers', 'mysticism', 'coaches', 'scholars',
     'columnists', 'journalists', 'correspondents', 'sports', 'diplomats', 'missionaries', 'sport in', 'football',
     'neighbourhoods', 'hotels in', 'districts of', 'sieges of', 'mayors of', 'kings of', 'queens of', 'military',
-    'emigrants', 'series endings', 'people excommunicated', 'think thanks', 'merchants', 'nobility', 'advisors',
+    'emigrants', 'series endings', 'people excommunicated', 'think tanks', 'merchants', 'nobility', 'advisors',
     'research', 'campaigns', 'reservoirs', 'lakes', 'rivers', 'mountain passes', 'mountains', 'valleys', 'waterfalls',
     'hills', 'basketball', 'baseball', 'players', 'survey', 'parkway', 'landmarks', 'maps of', 'stations', 'places',
     'national forest', 'forests', 'chapter lists', 'episode list', 'presenters', 'settlements', 'descent', 'educators',
@@ -51,7 +51,15 @@ ART_CATEGORY_BLACKLIST = {
     'fairy tales', 'victims', 'survivors', 'politicians', 'dragons', 'book covers', 'creatures', 'stamps', 'flags',
     'hazzans', 'secretaries', 'burials in', 'protected areas', 'national parks', 'parks', 'heroes', 'people of',
     'geography', 'archeological', 'settlements', 'colonies', 'tribes', 'people from', 'biota', 'administrative',
-    'canals', 'sciences', 'people by university', 'university', 'college', 'commercial buildings',
+    'canals', 'sciences', 'people by university', 'university', 'college', 'commercial buildings', 'pornographic',
+    'entertainment districts', 'talent agents', 'ranches', 'trails', 'districts', 'museums', 'natural monuments',
+    'railway', 'accidents', 'karateka', 'pornography', 'devotees', 'televangelism', 'railroad', 'dolmens', 'massacres',
+    'political posters', 'organizations', 'art galleries', 'bodies of water', 'springs', 'education', 'gaza strip',
+    'music schools', 'administration', 'officials', 'christians', 'muslims', 'crusade', 'kingdom of jerusalem',
+    'conflict', 'territories', 'governorate', 'oganization', 'prostitution', 'holidays', 'dominicans', 'sex positions',
+    'criminals', 'executions', 'people executed', 'prisoners', 'kidnapping', 'murder in', 'deaths by', 'corruption in',
+    'escapes from', 'people convicted', 'prisoners sentenced to', 'cardinals by', 'archeological sites', 'homelessness',
+    'unsolved murders', 'activism', 'terrorist incidents in',
 
     'buildings and structures',
     #'castles in',
