@@ -4,8 +4,6 @@ Avoids loops by keeping the in-memory list of visited category ids.
 """
 # -*- coding: utf-8 -*-
 
-import os
-import pickle
 import re
 
 from base_wiki_config import CATEGORYMEMBERS, NAMESPACES
@@ -105,8 +103,9 @@ class CategoryScraper:
             # TODO: load previously saved categories
             self.subcategories_to_visit = set(filter(lambda x: self.category_matcher.is_category_related(x), self.subcategories_to_visit))
             categories = set()
-            # subcategories_to_visit = {category for category in self.subcategories_to_visit}
-            for category in self.subcategories_to_visit:
+            subcategories_to_visit = {category for category in self.subcategories_to_visit}
+            # we need a copy because categories are removed from this set
+            for category in subcategories_to_visit:
                 query = self.get_default_query(category)
                 new_categories = self.get_categories(query)
                 categories.update(new_categories)

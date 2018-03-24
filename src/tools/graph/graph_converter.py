@@ -1,7 +1,7 @@
 
 class GraphConverter:
 
-    def __init__(self, graph, filename, attributes=list()):
+    def __init__(self, graph, filename: str, attributes=list()):
         self.graph = graph
         self.filename = filename
         self.attributes = attributes

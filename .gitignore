@@ -14,5 +14,6 @@ data2/* # python3 data test
 *.pyc
 *.html
 
+.DS_Store
 dataevents.pickle
 wikidump.cfg

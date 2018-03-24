@@ -1,10 +1,9 @@
 from sqlalchemy.orm import Session
 
 from data.model.graph_model import Category
-from data.service import BaseService
-from download.articles import load_category_list
-from settings import CATEGORIES_RELEVANT_FILE, CATEGORIES_FILE
-from base_wiki_config import is_category_relevant
+from graphs.history.service import BaseService
+from settings import CATEGORIES_FILE
+from tools.article_scraper import load_category_list
 
 
 def load_category_map():
