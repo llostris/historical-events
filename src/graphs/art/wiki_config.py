@@ -65,6 +65,6 @@ ART_CATEGORY_BLACKLIST = {
     #'castles in',
 }
 
-ART_TITLE_BLACKLIST = {'episode list', 'episodes',}
+ART_TITLE_BLACKLIST = {'episode list', 'episodes', 'list of', }
 
 ART_TITLE_WHITELIST = {}
