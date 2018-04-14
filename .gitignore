@@ -5,6 +5,9 @@ data/
 # Old data for Python 2.7 verion - incompatibile with current implementation
 data2/
 
+# Ignore gem library
+gem/
+
 # src/data/languagefiles
 # src/data/*.yaml
 # data/articles.pickle*

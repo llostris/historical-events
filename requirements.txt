@@ -8,7 +8,12 @@ python-dateutil == 2.6.1
 # flexidate == 1.2
 nltk
 requests
+tqdm
 
+# Graph embedding
+pandas
+sklearn
+tensorflow
 
 # neo4j
 neo4j-driver

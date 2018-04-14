@@ -4,6 +4,7 @@ import os
 import pickle
 
 import networkx as nx
+from tqdm import tqdm
 
 from file_operations import save_pickle, load_pickle
 from settings import GRAPH_IN_PROGRESS_FILENAME, RELATIONSHIP_MAP_FILENAME, GRAPH_GML_FILENAME
@@ -85,7 +86,7 @@ class GraphCreator:
         """
         article_files = sorted(filter(lambda x: x.startswith('articles_'), os.listdir(self.data_dir)))
 
-        for filename in article_files[start:end]:
+        for filename in tqdm(article_files[start:end]):
             logging.info("*** Loading file: {}".format(filename))
             print("*** Loading file: {}".format(filename))
 

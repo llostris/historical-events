@@ -12,7 +12,7 @@ FIRST_CATEGORY = "Category:Arts"
 
 # Categories that might have been added while scraping Wikipedia that are not relevant to our search
 # Requires adding "Category:" prefix
-ART_FORBIDDEN_CATEGORIES = {'20 july plot'}
+ART_FORBIDDEN_CATEGORIES = {'20 july plot', 'countries', }
 
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
@@ -59,12 +59,20 @@ ART_CATEGORY_BLACKLIST = {
     'conflict', 'territories', 'governorate', 'oganization', 'prostitution', 'holidays', 'dominicans', 'sex positions',
     'criminals', 'executions', 'people executed', 'prisoners', 'kidnapping', 'murder in', 'deaths by', 'corruption in',
     'escapes from', 'people convicted', 'prisoners sentenced to', 'cardinals by', 'archeological sites', 'homelessness',
-    'unsolved murders', 'activism', 'terrorist incidents in',
+    'unsolved murders', 'activism', 'terrorist incidents in', 'albums', 'score', 'astrology', 'diseases',
+    'birth defects', 'disasters', 'conventions', 'treaties', 'declaration', 'programming', 'united nations', 'resolutions',
+    'supremacist', 'referendums', 'exhibitions', 'operating systems', 'computer science',
+    'songs',
 
     'buildings and structures',
     #'castles in',
 }
 
-ART_TITLE_BLACKLIST = {'episode list', 'episodes', 'list of', }
+ART_TITLE_BLACKLIST = {
+    'episode list', 'episodes', 'list of', 'museum', 'birth defects', 'videography', 'discography', 'filmography',
+    'united nations', 'timeline of', 'aftermath of', 'supremacist', 'album', '(characters)', 'episode)', '(episode)',
+    'same-sex marriage in',
+    # '(song)',
+}
 
 ART_TITLE_WHITELIST = {}
