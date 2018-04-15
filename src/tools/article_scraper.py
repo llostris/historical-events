@@ -2,15 +2,18 @@ import logging
 import pickle
 
 from requests.exceptions import ChunkedEncodingError
+from tqdm import tqdm
 
 from base_wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES
 from file_operations import save_pickle, load_pickle
-from settings import ARTICLES_FILENAME_TEMPLATE
+from settings import ARTICLES_FILENAME_TEMPLATE, get_wiki_logger
 from tools.unique_category_generator import CategoryLoaderMixin
 from tools.utils import batch
 from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 
 CATEGORIES_BUGS = []
+
+logger = get_wiki_logger()
 
 
 class RawArticle:
@@ -60,19 +63,19 @@ class ArticleScraper(CategoryLoaderMixin):
     def get_articles_for_categories(self, categories):
         articles = []
 
-        for category in categories:
+        for category in tqdm(categories, desc="Category batch"):
             query = self.get_default_article_query(category)
             articles += self.get_articles(query)
 
         return articles
 
     def get_articles(self, query):
-        print(query["gcmtitle"])
+        # print(query["gcmtitle"])
 
         try:
             result = run_query(query)
         except ChunkedEncodingError as e:
-            logging.error("Error while trying to download articles for query: {0}".format(query["gcmtitle"]))
+            logger.error("Error while trying to download articles for query: {0}".format(query["gcmtitle"]))
             return []
 
         if not self.is_response_valid(query, result):
@@ -96,7 +99,7 @@ class ArticleScraper(CategoryLoaderMixin):
                 self.downloaded_articles_ids.add(page_id)
 
         if not is_query_finished(result):
-            print('continuation query required')
+            # print('continuation query required')
             query = handle_query_continuation(query, result)
             more_articles = self.get_articles(query)
             articles = articles + more_articles
@@ -122,12 +125,12 @@ class ArticleScraper(CategoryLoaderMixin):
     def is_response_valid(query, result):
         if "query" not in result:
             CATEGORIES_BUGS.append(query["gcmtitle"])
-            logging.warning("Invalid category: " + query["gcmtitle"])
+            logger.warning("Invalid category: " + query["gcmtitle"])
             if "warnings" in result:
                 try:
-                    logging.warning(query["gcmtitle"] + " returned no results: " + str(result["warnings"]["main"]))
+                    logger.warning(query["gcmtitle"] + " returned no results: " + str(result["warnings"]["main"]))
                 except (TypeError, KeyError) as e:
-                    logging.error("Error while logging: {0} ".format(e))
+                    logger.error("Error while logging: {0} ".format(e))
 
             return False
 

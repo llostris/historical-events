@@ -1,5 +1,5 @@
 from graphs.history.categories import HistoryCategoryMatcher
-from settings import HISTORY_DATA_DIR
+from graphs.history.wiki_config import HISTORY_DATA_DIR
 from tools.article_scraper import ArticleScraper
 
 if __name__ == "__main__":

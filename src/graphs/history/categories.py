@@ -1,8 +1,7 @@
 from graphs.history.wiki_config import HISTORY_CATEGORY_WHITELIST, HISTORY_CATEGORY_BLACKLIST, HISTORY_TITLE_WHITELIST, \
-    HISTORY_TITLE_BLACKLIST
+    HISTORY_TITLE_BLACKLIST, HISTORY_DATA_DIR
 from tools.category_matcher import CategoryMatcher
 
-from settings import HISTORY_DATA_DIR
 from tools.category_scraper import CategoryScraper
 
 

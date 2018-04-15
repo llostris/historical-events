@@ -4,17 +4,14 @@ API_URL = "https://en.wikipedia.org/w/api.php"
 
 DATA_DIR = "../data"
 
+# Logging
+
 LOG_DIR = "../log"
-
-ARTICLE_LOG_FILE = LOG_DIR + "/articles.log"
-
+WIKI_LOG_FILE = LOG_DIR + "/wiki.log"
 GRAPH_CREATOR_LOG_FILE = LOG_DIR + "/graph_creator.log"
-
 PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 
-# Historical events graph
-
-HISTORY_DATA_DIR = DATA_DIR + "/history"
+# Filenames
 
 CATEGORIES_FILENAME = 'categories.csv'
 CATEGORIES_UNIQUE_FILENAME = 'categories_unique.csv'
@@ -40,28 +37,30 @@ GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
 LANGUAGE_MAP_FILE = DATA_DIR + '/language_map.graph'
 
 
-def get_graph_logger():
-    logger = logging.getLogger('graph_logger')
+def setup_base_logger(name, filename, loglevel):
+    logger = logging.getLogger(name)
     formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    file_handler = logging.FileHandler(GRAPH_CREATOR_LOG_FILE, mode='w', encoding='utf-8')
+    file_handler = logging.FileHandler(filename, mode='w', encoding='utf-8')
     file_handler.setFormatter(formatter)
     logger.addHandler(file_handler)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(loglevel)
     return logger
+
+
+def get_graph_logger():
+    return setup_base_logger('graph_logger', GRAPH_CREATOR_LOG_FILE, loglevel=logging.INFO)
 
 
 def get_parse_error_logger():
-    logger = logging.getLogger('parse_logger')
-    formatter = logging.Formatter('%(asctime)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
-    file_handler = logging.FileHandler(PARSE_ERROR_LOG_FILE, mode='w', encoding='utf-8')
-    file_handler.setFormatter(formatter)
-    logger.addHandler(file_handler)
-    logger.setLevel(logging.INFO)
-    return logger
+    return setup_base_logger('parse_logger', PARSE_ERROR_LOG_FILE, loglevel=logging.INFO)
+
+
+def get_wiki_logger():
+    return setup_base_logger('wiki_logger', WIKI_LOG_FILE, loglevel=logging.INFO)
 
 
 def logging_config():
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.WARNING)
 
 
 graph_logger = get_graph_logger()
