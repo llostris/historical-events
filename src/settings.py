@@ -16,6 +16,7 @@ PARSE_ERROR_LOG_FILE = LOG_DIR + "/parse_error.log"
 CATEGORIES_FILENAME = 'categories.csv'
 CATEGORIES_UNIQUE_FILENAME = 'categories_unique.csv'
 CATEGORIES_RELEVANT_FILENAME = 'categories_relevant.csv'
+ARTICLES_DIR = "/articles/"
 ARTICLES_FILENAME_TEMPLATE = 'articles_{}.pickle'
 GRAPH_IN_PROGRESS_FILENAME = 'in_progress_graph.pickle'
 RELATIONSHIP_MAP_FILENAME = 'relationships.pickle'
@@ -31,16 +32,9 @@ NODE2VEC_EXT = 'emb'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 
-RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships.pickle'
-DUPLICATE_RELATIONSHIP_MAP_FILE = DATA_DIR + '/relationships_manual.pickle'
-
-GRAPH_IN_PROGRESS_FILE = DATA_DIR + '/in_progress_graph.pickle'
-
 GRAPH_GML_FILE = DATA_DIR + '/graph.gml'
 
 GRAPH_SNAP_FILE = DATA_DIR + '/graph_snap.graph'
-
-LANGUAGE_MAP_FILE = DATA_DIR + '/language_map.graph'
 
 
 def setup_base_logger(name, filename, loglevel):

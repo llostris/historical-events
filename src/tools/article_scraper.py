@@ -1,4 +1,3 @@
-import logging
 import pickle
 
 from requests.exceptions import ChunkedEncodingError
@@ -6,7 +5,7 @@ from tqdm import tqdm
 
 from base_wiki_config import NAMESPACES, TAG_QUERY, TAG_PAGES
 from file_operations import save_pickle, load_pickle
-from settings import ARTICLES_FILENAME_TEMPLATE, get_wiki_logger
+from settings import ARTICLES_FILENAME_TEMPLATE, get_wiki_logger, ARTICLES_DIR
 from tools.unique_category_generator import CategoryLoaderMixin
 from tools.utils import batch
 from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
@@ -137,6 +136,6 @@ class ArticleScraper(CategoryLoaderMixin):
         return True
 
     def save_articles_to_file(self, articles, index):
-        filename = self.data_dir + '/' + ARTICLES_FILENAME_TEMPLATE.format(index)
+        filename = self.data_dir + ARTICLES_DIR + ARTICLES_FILENAME_TEMPLATE.format(index)
         with open(filename, 'wb') as f:
             pickle.dump(articles, f)

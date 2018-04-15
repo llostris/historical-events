@@ -1,12 +1,12 @@
 from subprocess import call
 
 from settings import NODE2VEC_EXT
-from tools.utils import get_filepath
+from file_operations import get_filepath
 
 
-class GemNode2Vec:
+class SnapNode2Vec:
 
-    def __init__(self, graph_dir: str, filename: str, dimensions=128, walk_length=80, num_walks=10, context_size=10,
+    def __init__(self, graph_dir: str, filename: str, embedding_filename='graph', dimensions=128, walk_length=80, num_walks=10, context_size=10,
                  max_iter=1, is_weighted=False):
         """
         Creates node2vec embedding using SNAP's node2vec algorithm. Convenience function.
@@ -14,7 +14,7 @@ class GemNode2Vec:
         :param graph_filename: Graph file needs to be a list of edges (*.graph file).
         """
         self.graph_filename = get_filepath(graph_dir, filename)
-        self.embedding_filename = get_filepath(graph_dir, 'tempGraph', ext=NODE2VEC_EXT)
+        self.embedding_filename = get_filepath(graph_dir, embedding_filename, ext=NODE2VEC_EXT)
         self.dimensions = dimensions
         self.walk_length = walk_length
         self.num_walks = num_walks

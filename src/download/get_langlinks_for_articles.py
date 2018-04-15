@@ -3,7 +3,7 @@ import os
 
 from download.articles import RawArticle
 from file_operations import load_pickle, save_pickle
-from settings import LANGUAGE_MAP_FILE
+from settings import LANGUAGE_MAP_FILENAME
 from tools.utils import batch
 from tools.wiki_api_utils import run_query, is_query_finished, handle_query_continuation
 
@@ -53,7 +53,7 @@ def add_corresponding_languages_for_batch(query, language_map):
 if __name__ == "__main__":
     article_files = sorted(filter(lambda x: x.startswith('articles.'), os.listdir(DATA_DIR)))
 
-    language_map = load_pickle(LANGUAGE_MAP_FILE)
+    language_map = load_pickle(LANGUAGE_MAP_FILENAME)
 
     for file in article_files:
         print(file)
@@ -67,4 +67,4 @@ if __name__ == "__main__":
                 add_corresponding_languages_for_batch(query, language_map)
 
         print('Saving language map')
-        save_pickle(language_map, LANGUAGE_MAP_FILE)
+        save_pickle(language_map, LANGUAGE_MAP_FILENAME)

@@ -2,7 +2,7 @@
 from settings import DATA_DIR
 
 # Files and directories
-HISTORY_DATA_DIR = DATA_DIR + '/HISTORY'
+HISTORY_DATA_DIR = DATA_DIR + '/history'
 HISTORY_CATEGORIES_FILE = HISTORY_DATA_DIR + '/categories.csv'
 HISTORY_CATEGORIES_RELEVANT_FILE = HISTORY_DATA_DIR + '/categories_relevant.csv'
 

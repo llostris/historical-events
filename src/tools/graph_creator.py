@@ -7,7 +7,7 @@ import networkx as nx
 from tqdm import tqdm
 
 from file_operations import save_pickle, load_pickle
-from settings import GRAPH_IN_PROGRESS_FILENAME, RELATIONSHIP_MAP_FILENAME, GRAPH_GML_FILENAME
+from settings import GRAPH_IN_PROGRESS_FILENAME, RELATIONSHIP_MAP_FILENAME, GRAPH_GML_FILENAME, ARTICLES_DIR
 from tools.article_scraper import RawArticle
 from tools.category_matcher import CategoryMatcher
 from tools.relationship_extractor import RelationshipExtractor
@@ -42,7 +42,7 @@ class GraphCreator:
         save_pickle(self.relationship_map, self.relationship_map_filename)
 
     def load_article(self, filename):
-        return pickle.load(open(self.data_dir + "/" + filename, 'rb'))
+        return pickle.load(open(self.data_dir + ARTICLES_DIR + filename, 'rb'))
 
     def is_duplicate_article(self, article):
         return self.graph.has_node(article.title)
@@ -84,7 +84,7 @@ class GraphCreator:
         :param end: Integer or None stating the index of last file. Defaults to None.
         :return:
         """
-        article_files = sorted(filter(lambda x: x.startswith('articles_'), os.listdir(self.data_dir)))
+        article_files = sorted(filter(lambda x: x.startswith('articles_'), os.listdir(self.data_dir + ARTICLES_DIR)))
 
         for filename in tqdm(article_files[start:end]):
             logging.info("*** Loading file: {}".format(filename))
