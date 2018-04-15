@@ -1,5 +1,6 @@
 from tqdm import tqdm
 
+from settings import IVGA_NODES_EXT, IVGA_EDGES_EXT
 from tools.graph.graph_converter import GraphConverter
 
 
@@ -18,7 +19,7 @@ class IvgaGraphConverter(GraphConverter):
         return nodes_to_id_map
 
     def create_ivga_nodes_file(self):
-        with open(self.filename + '.desc', 'w', encoding='utf-8') as f:
+        with open(self.filename + IVGA_NODES_EXT, 'w', encoding='utf-8') as f:
             # Write header
             f.write(',\t'.join(['name'] + self.attributes))
             f.write('\n')
@@ -41,7 +42,7 @@ class IvgaGraphConverter(GraphConverter):
             f.close()
 
     def create_ivga_edges_file(self):
-        with open(self.filename + '.graph', 'w', encoding='utf-8') as f:
+        with open(self.filename + IVGA_EDGES_EXT, 'w', encoding='utf-8') as f:
             for edge in tqdm(self.graph.edges, desc="Edges"):
                 # print(edge)
                 source_id = self.nodes_to_id_map[edge[0]]

@@ -1,11 +1,24 @@
 # coding=utf-8
 import logging
 import requests
+from requests.adapters import HTTPAdapter
+from urllib3.exceptions import ReadTimeoutError
 
 import settings
 from settings import API_URL
 
 settings.logging_config()
+
+
+def get_session(retries=3):
+    session = requests.Session()
+    adapter = HTTPAdapter(max_retries=retries)
+    session.mount('http://', adapter)
+    session.mount('https://', adapter)
+    return session
+
+
+session = get_session()
 
 
 def run_query(query):
@@ -14,7 +27,7 @@ def run_query(query):
     :param query: Map of query parameters, that will be used to encode the valid API url.
     :return: A map containing the result of the query.
     """
-    response = requests.get(API_URL, query)
+    response = session.get(API_URL, params=query)
     try:
         if response.status_code == 200:
             result = response.json(encoding='utf-8')
@@ -22,6 +35,10 @@ def run_query(query):
     except ValueError:
         logging.error("Couldn't parse JSON: " + response.content)
         return ""
+    except ReadTimeoutError as e:
+        # Try again
+        print(query)
+        raise e
 
     return {}
 

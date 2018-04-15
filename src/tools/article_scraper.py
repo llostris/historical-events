@@ -44,19 +44,19 @@ class ArticleScraper(CategoryLoaderMixin):
         self.visited_article_ids_filename = self.data_dir + '/visited_article_ids.pickle'
         self.downloaded_articles_ids = load_pickle(self.visited_article_ids_filename, is_set=True)
 
-    def download_articles(self, start=0, end=None):
+    def download_articles(self, start=0, end=None, step=1000):
         categories = self.load_category_list()
 
         categories = list(filter(self.category_matcher.is_category_relevant, set(categories)))
 
         index = start
-        for category_batch in batch(categories[start:end], 1000):
+        for category_batch in batch(categories[start:end], step):
             articles = self.get_articles_for_categories(category_batch)
             self.save_articles_to_file(articles, index)
 
             save_pickle(self.downloaded_articles_ids, self.visited_article_ids_filename)
 
-            index += 1000
+            index += step
 
         print(CATEGORIES_BUGS)
 

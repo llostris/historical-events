@@ -22,6 +22,12 @@ RELATIONSHIP_MAP_FILENAME = 'relationships.pickle'
 LANGUAGE_MAP_FILENAME = 'language_map.pickle'
 GRAPH_GML_FILENAME = 'graph.gml'
 GRAPH_LANGUAGE_GML_FILENAME = 'graph_lang_{}.gml'
+IVGA_NODES_FILENAME = 'graph.desc'
+IVGA_EDGES_FILENAME = 'graph.graph'
+
+IVGA_NODES_EXT = 'desc'
+IVGA_EDGES_EXT = 'graph'
+NODE2VEC_EXT = 'emb'
 
 CATEGORIES_FILE = DATA_DIR + '/' + CATEGORIES_FILENAME
 
