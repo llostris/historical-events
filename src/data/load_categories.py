@@ -3,7 +3,7 @@ from sqlalchemy.orm import Session
 from data.model.graph_model import Category
 from graphs.history.service import BaseService
 from settings import CATEGORIES_FILE
-from tools.article_scraper import load_category_list
+from tools.download.article_scraper import load_category_list
 
 
 def load_category_map():
