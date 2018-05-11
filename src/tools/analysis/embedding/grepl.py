@@ -2,10 +2,10 @@
 import random
 
 import networkx as nx
+import numpy as np
 import pandas as pd
-from matplotlib import pyplot as plt
-from sklearn.ensemble import RandomForestClassifier, RandomForestRegressor
-from sklearn.model_selection import cross_validate, cross_val_score
+from sklearn.ensemble import RandomForestClassifier
+from sklearn.model_selection import cross_val_score
 
 
 class LinkPredictor:
@@ -13,8 +13,7 @@ class LinkPredictor:
     def __init__(self, graph):
         self.graph = graph.to_undirected()  # This algorithm doesn't work for directed graphs?
         self.common_neighbours_node_pairs = self._get_common_neighbour_node_pairs()
-        self.training_nodes = set()
-        self.test_nodes = set()
+        self.nodes = nodes
         self.rf_classifier = None
         self.cv_score = 0.0
         self.link_probability_matrix = {} # make actual matrix?
@@ -107,7 +106,7 @@ class LinkPredictor:
         # print('DataFrame after filtering', training_df.shape)
 
         # Train RF Classifier
-        self.rf_classifier = RandomForestClassifier()
+        self.rf_classifier = RandomForestClassifier() # FIXME: should it be classifier?
         self.rf_classifier.fit(train_X, train_y)
 
         cv_scores = cross_val_score(self.rf_classifier, train_X, train_y, scoring='accuracy')
@@ -144,22 +143,77 @@ class LinkPredictor:
 
 class GraphEmbeddingWithPredictedLinks:
 
-    def __init__(self, graph):
+    def __init__(self, graph, omega=0.01, alpha=0.02, iterations=100, dimensions=2, training_split=0.1, batch_size=50):
         """
-        :param graph: NetworkX graph
+
+        :param graph: A NetworkX graph.
+        :param omega: Weight assigned to probability predictions.
+        :param alpha: Regularization parameter.
+        :param iterations:
+        :param dimensions: Number of dimensions in calculated embedding.
+        :param training_split: Fraction of labelled data as training set. Should be fairly small. (10%, 20%, 30%)
         """
         self.graph = graph
+        self.num_nodes = len(self.graph.nodes())
+        self.iterations = iterations
+        self.omega = omega
+        self.alpha = alpha
+        self.dimensions = dimensions
+        self.training_split = training_split
+        self.batch_size = batch_size
+
+        self.link_predictor = LinkPredictor(graph)
+
+        # Matrices composing graph embedding: represent nodes and context embedding
+        self.u = np.zeros(shape=[self.dimensions, self.num_nodes])
+        self.v = np.zeros(shape=[self.num_nodes, self.dimensions])
+
+        self.m = np.zeros(shape=[self.num_nodes, self.dimensions])
+
+        # TODO: add trainig/test data size split when using LinkPredictor
+
+    def calculate_l(self, i, j):
+        return (self.m[i][j] - self.u.T[i] * self.v[j]) \
+                    + self.alpha * (np.linalg.norm(self.u) ** 2 + np.linalg.norm(self.v) ** 2)
+
+    def calculate_l_matrix(self):
+        l_matrix = np.zeros(shape=self.u.shape)
+        for i in range(self.u.shape[0]):
+            for j in range(self.u.shape[1]):
+                l_ij = self.calculate_l(i, j)
+                expected_value = np.mean([self.calculate_l(i, k) for k in range(self.u.shape[1]) if self.m[i][k] == 0])
+                l_matrix[i][j] = l_ij - expected_value
+
+        return l_matrix
+
+    def loss_function(self):
+        l_matrix = self.calculate_l_matrix()
+
+        # Sum of an element-wise multiplication of M and L matrices
+        loss = np.sum(np.multiply(self.m, l_matrix))
+        # FIXME: if that doesn't work try np.matrix.sum()
+
+        # loss = 0
+        # for i in range(self.u.shape[0]):
+        #     for j in range(self.u.shape[1]):
+        #         loss += self.m[i][j] * l_matrix[i][j]
+
+        return loss
+
+    def create(self):
+        nodes = []
+        edges = []
 
 
 if __name__ == "__main__":
     # graph_filename = HISTORY_DATA_DIR + '/' + GRAPH_GML_FILENAME
     # graph = nx.read_gml(graph_filename)
-    graph = nx.relaxed_caveman_graph(10, 5, 0.1)
+    graph = nx.karate_club_graph()
     print('Graph loaded')
     # nx.draw_spectral(graph)
     # plt.show()
 
-    grepl = LinkPredictor(graph)
+    grepl = LinkPredictor(graph, nodes=graph.nodes)
     grepl.build_predictions_matrix()
 
 

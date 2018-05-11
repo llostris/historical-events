@@ -28,7 +28,7 @@ class IvgaGraphConverter(GraphConverter):
             for _ in self.attributes:
                 f.write('string\n')
 
-            for node in tqdm(self.graph.node, desc="Nodes"):
+            for node in tqdm(self.graph.nodes(), desc="Nodes"):
                 # print(node)
                 title = node.replace(",", "")
                 attribute_values = ['"' + self.graph.node[node][attr] + '"' for attr in self.attributes]
