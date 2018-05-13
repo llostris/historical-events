@@ -1,21 +1,25 @@
-mwparserfromhell
-sqlalchemy
-PyMySQL
-pyparsing
+mwparserfromhell == 0.5.1
+sqlalchemy == 1.2.6
+PyMySQL == 0.8.0
+pyparsing == 2.2.0
 networkx == 2.0
 python-dateutil == 2.6.1
 # snap == 3.0 # unavailable at PIP directory, need to download manually from https://snap.stanford.edu/snappy/
 # flexidate == 1.2
-nltk
-requests
-tqdm
+nltk == 3.2.5
+requests == 2.18.4
+tqdm == 4.22.0
 
 # Graph embedding
-pandas
-sklearn
-tensorflow
+matplotlib == 2.2.2
+numpy == 1.14.2
+scikit-learn == 0.19.1
+scipy == 1.0.1
+pandas == 0.22.0
+sklearn == 0.0
+tensorflow == 1.7.0
 
 # neo4j
-neo4j-driver
-py2neo
-neomodel
+neo4j-driver == 1.5.3
+py2neo == 3.1.2
+neomodel == 3.2.6
