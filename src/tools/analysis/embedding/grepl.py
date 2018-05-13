@@ -4,6 +4,7 @@ import random
 import networkx as nx
 import numpy as np
 import pandas as pd
+import scipy.sparse as sp
 from sklearn.ensemble import RandomForestClassifier
 from sklearn.model_selection import cross_val_score
 
@@ -14,9 +15,10 @@ class LinkPredictor:
         self.graph = graph.to_undirected()  # This algorithm doesn't work for directed graphs?
         self.common_neighbours_node_pairs = self._get_common_neighbour_node_pairs()
         self.nodes = nodes
+        self.number_of_nodes = len(self.graph.nodes())
         self.rf_classifier = None
         self.cv_score = 0.0
-        self.link_probability_matrix = {} # make actual matrix?
+        self.link_probability_matrix = None # A sparse matrix
 
     def _get_common_neighbour_node_pairs(self):
         """
@@ -125,6 +127,15 @@ class LinkPredictor:
 
         return test_df, smoothed_predictions
 
+    def _convert_to_matrix(self, predictions_dict: dict):
+        matrix = sp.dok_matrix((self.number_of_nodes, self.number_of_nodes), dtype=np.float)
+
+        for (i, j), probability in predictions_dict.items():
+            matrix[i, j] = probability
+
+        matrix = matrix.transpose().tocsr()
+        return matrix
+
     def build_predictions_matrix(self):
         """Training dataset consists of equal numnber of positive (with links) and negative (without links) examples."""
         df = self._build_data_frame()
@@ -137,8 +148,10 @@ class LinkPredictor:
         for (row_index, row), prediction in zip(test_df.iterrows(), smoothed_predictions):
             predictions_dict[row_index] = prediction
 
-        self.link_probability_matrix = predictions_dict
-        print(self.link_probability_matrix)
+        self.link_probability_matrix = self._convert_to_matrix(predictions_dict)
+        print(predictions_dict)
+        # print(self.link_probability_matrix.shape)
+        # print(self.link_probability_matrix)
 
 
 class GraphEmbeddingWithPredictedLinks:
@@ -213,7 +226,9 @@ if __name__ == "__main__":
     # nx.draw_spectral(graph)
     # plt.show()
 
-    grepl = LinkPredictor(graph, nodes=graph.nodes)
-    grepl.build_predictions_matrix()
+    link_predictor = LinkPredictor(graph, nodes=graph.nodes)
+    link_predictor.build_predictions_matrix()
+    print(link_predictor.link_probability_matrix[0, 9])
+    print(link_predictor.link_probability_matrix[9, 0])
 
 
