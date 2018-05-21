@@ -29,7 +29,7 @@ class CategoryMatcher:
         #         return True
         # return False
 
-    def is_category_relevant(self, category_name):
+    def is_category_relevant(self, category_name, strict=True):
         for white_word in self.whitelist:
             if white_word in category_name.lower():
                 return True
@@ -42,7 +42,7 @@ class CategoryMatcher:
     def is_article_relevant(self, title, content):
         categories = CATEGORY_REGEXP.findall(content)
         for category in categories:
-            if not self.is_category_relevant(category):
+            if not self.is_category_relevant(category, strict=False):
                 return False
 
         return self.is_title_relevant(title)

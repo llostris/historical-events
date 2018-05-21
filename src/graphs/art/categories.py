@@ -8,7 +8,9 @@ from tools.download.category_scraper import CategoryScraper
 
 
 class ArtCategoryMatcher(CategoryMatcher):
-    DATE_YEAR_IN_COUNTRY_REGEXP = re.compile(r"\d+ by country")
+    DATE_YEAR_BY_COUNTRY_REGEXP = re.compile(r"\d+ by country")
+    DATE_YEAR_IN_COUNTRY_REGEXP = re.compile(r"\d+ in ")
+    CENTURY_PEOPLE_REGEXP = re.compile(r"\d+\w\w-century\s\w+\speople")
 
     def __init__(self):
         super().__init__(whitelist=ART_CATEGORY_WHITELIST,
@@ -16,13 +18,19 @@ class ArtCategoryMatcher(CategoryMatcher):
                          title_whitelist=ART_TITLE_WHITELIST,
                          title_blacklist=ART_TITLE_BLACKLIST)
 
-    def is_category_relevant(self, category_name):
+    def is_category_relevant(self, category_name, strict=True):
         category_name = category_name.lower()
 
-        if self.DATE_YEAR_IN_COUNTRY_REGEXP.match(category_name):
+        if self.DATE_YEAR_BY_COUNTRY_REGEXP.match(category_name) \
+                or self.DATE_YEAR_IN_COUNTRY_REGEXP.match(category_name):
             return False
 
-        return super().is_category_relevant(category_name)
+        # Only do this when getting categories
+        # Artists etc. might belong to those categories so they shouldn't be excluded for article relevancy checks
+        if strict and self.CENTURY_PEOPLE_REGEXP.match(category_name):
+            return False
+
+        return super().is_category_relevant(category_name, strict)
 
 
 if __name__ == "__main__":

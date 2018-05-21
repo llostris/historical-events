@@ -18,13 +18,13 @@ ART_FORBIDDEN_CATEGORIES = {'20 july plot', 'countries', }
 ART_CATEGORY_WHITELIST = {
     'painter', 'painting', 'play', 'movie', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
     'sculptor', 'sculptures', 'musicians', 'songs', 'architecture', 'operas', 'songs', 'albums', 'genres', 'concertos',
-    'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'artists',
+    'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'artists', 'on film', 'literature',
     # 'theatre',
 }
 
 # Keywords that indicate that the category or article is not relevant to our search
 ART_CATEGORY_BLACKLIST = {
-    'venues', 'clubs', 'principals of', 'record labels', 'awards', 'schools of', 'paralympics', 'olympics',
+    'venues', 'clubs', 'principals of', 'record labels', 'awards', 'schools of', 'paralympic', 'olympic',
     'british empire games', 'art museums and galleries', 'theatres in', 'theatre companies', 'drama schools in',
     'employees of', 'episodes', 'characters', 'seasons', 'fictional', 'images', 'media cover', 'military district',
     'commanders', 'fleet', 'military region', 'political commissars', 'aircraft', 'generals', 'communist party',
@@ -61,10 +61,30 @@ ART_CATEGORY_BLACKLIST = {
     'escapes from', 'people convicted', 'prisoners sentenced to', 'cardinals by', 'archeological sites', 'homelessness',
     'unsolved murders', 'activism', 'terrorist incidents in', 'albums', 'score', 'astrology', 'diseases',
     'birth defects', 'disasters', 'conventions', 'treaties', 'declaration', 'programming', 'united nations', 'resolutions',
-    'supremacist', 'referendums', 'exhibitions', 'operating systems', 'computer science',
-    'songs',
+    'supremacist', 'referendums', 'exhibitions', 'operating systems', 'computer science', 'video game', 'anime',
+    'songs', 'sailors', 'critics', 'houses in', 'election', 'murderers', 'martial artists', 'centuries in',
+    'television series', 'album covers', 'templates', 'sex workers', 'audio samples', 'gangs in', 'violence in',
+    'buildings and structures', 'crime in', 'terrorism', 'suicides in', 'attacks in', 'riots in', 'speeches by',
+    'anarchism', 'articles', 'sex industry', 'erotic films', 'pimps', 'courtesans', 'sexologists', 'antisemitism in',
+    'house of representatives', 'ku klux klan', 'neo-nazis', 'inmates', 'holocaust deniers', 'ghetto', 'century jews',
+    'biblical rulers', 'pharaophs of', 'physicians', 'wetlands', 'palenontology', 'energy', 'infrastructure',
+    'natural history', 'departments', 'enforcement', 'jails', 'years in', 'penal system', 'shooting', 'hospitals',
+    'film editors', 'runners', 'aftermath of', 'brand', 'linux', 'scientists', 'engineer', 'games', 'linguist',
+    'orders', 'environemntalism', 'flora', 'science', 'fauna', 'history of', 'deaths from', 'footwear', 'anthropology',
+    'bones', 'wrestlers', 'boots', 'parades in', 'carnival', 'parade', 'orienteering', 'mountain hut', 'bowling',
+    'sprinters', 'diet', 'sport', 'trampolinist', 'entrepreneurs', 'anthroposophist', 'waldorf schools', 'fairs',
+    'anthroposophy', 'blogger', 'writer navigational boxes', 'wikipedia', 'academic', 'newspaper', 'voice of',
+    'printer', 'periodical', 'magazine', 'printing', 'publishing', 'gods', 'goddesses', 'deities', 'natural history',
+    'middle-earth', 'locations', 'redirects', 'characters', 'incident', 'torture', 'prisoner', 'weapons', 'activities',
+    'relations', 'settlement', 'court', 'diaspora', 'communities', 'private schools', 'cuisine', 'ballromm houses',
+    'ball culture', 'location', 'activist', 'civil servants', 'business', 'assassinated', 'deaths', 'people killed',
+    'agency', 'school siege', 'hostage crisis', 'operations of', 'terrorist incidents', 'militant group',
+    'by occupation', 'immigrants to', 'ethnic or national', 'people by', 'pacifist', 'feminist', 'dissident',
+    'dynasties', 'yeshivas', 'miners', 'industries', 'record charts', 'charts',
+    # 'sentiment',
+    # 'politics',
+    #'graffiti',
 
-    'buildings and structures',
     #'castles in',
 }
 
