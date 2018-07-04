@@ -11,7 +11,12 @@ from sklearn.model_selection import cross_val_score
 
 class LinkPredictor:
 
-    def __init__(self, graph):
+    def __init__(self, graph, nodes=list()):
+        """
+
+        :param graph: Graph in NetworkX format.
+        :param nodes: List of nodes on which we're going to train our LinkPredictor.
+        """
         self.graph = graph.to_undirected()  # This algorithm doesn't work for directed graphs?
         self.common_neighbours_node_pairs = self._get_common_neighbour_node_pairs()
         self.nodes = nodes
@@ -175,27 +180,28 @@ class GraphEmbeddingWithPredictedLinks:
         self.training_split = training_split
         self.batch_size = batch_size
 
-        self.link_predictor = LinkPredictor(graph)
-
         # Matrices composing graph embedding: represent nodes and context embedding
         self.u = np.zeros(shape=[self.dimensions, self.num_nodes])
         self.v = np.zeros(shape=[self.num_nodes, self.dimensions])
 
-        self.m = np.zeros(shape=[self.num_nodes, self.dimensions])
+        # self.m = np.zeros(shape=[self.num_nodes, self.dimensions])
+        self.m = None
 
         # TODO: add trainig/test data size split when using LinkPredictor
 
     def calculate_l(self, i, j):
-        return (self.m[i][j] - self.u.T[i] * self.v[j]) \
+        return (self.m[i, j] - self.u.T[i] * self.v[j]) ** 2 \
                     + self.alpha * (np.linalg.norm(self.u) ** 2 + np.linalg.norm(self.v) ** 2)
 
     def calculate_l_matrix(self):
         l_matrix = np.zeros(shape=self.u.shape)
+
         for i in range(self.u.shape[0]):
             for j in range(self.u.shape[1]):
                 l_ij = self.calculate_l(i, j)
-                expected_value = np.mean([self.calculate_l(i, k) for k in range(self.u.shape[1]) if self.m[i][k] == 0])
-                l_matrix[i][j] = l_ij - expected_value
+                expected_value = np.mean([self.calculate_l(i, k) for k in range(self.u.shape[1]) if self.m[i, k] == 0])
+
+                l_matrix[i][j] = l_ij[0] - expected_value
 
         return l_matrix
 
@@ -213,9 +219,40 @@ class GraphEmbeddingWithPredictedLinks:
 
         return loss
 
+    def _get_matrix_m(self):
+        link_predictor = LinkPredictor(self.graph)
+        link_predictor.build_predictions_matrix()
+
+        self.m = nx.to_scipy_sparse_matrix(self.graph) + self.omega * link_predictor.link_probability_matrix # TODO: add adjacency matrix of graph!!!
+
     def create(self):
         nodes = []
         edges = []
+
+        self._get_matrix_m()
+        # TODO: Random init of U, V
+
+        for iteration in range(self.iterations):
+            matrix_b = set()
+            for i in range(self.num_nodes):
+                n = int(self.batch_size * (np.sum(self.m[i]) / np.sum(self.m)))
+
+                # pos_i = n draws with replacement from {j | Mij > 0} with uniform probabilities
+                pos_set = [j for j in range(self.num_nodes) if self.m[i, j] > 0]
+                pos_i = {random.choice(pos_set) for _ in range(n)}
+
+                # neg_i = n draws with replacement from {j | Mij = 0} with uniform probabilities
+                neg_set = [j for j in range(self.num_nodes) if self.m[i, j] == 0]
+                neg_i = {random.choice(neg_set) for _ in range(n)}
+
+                # B = B u {pos_i, neg_i}
+                matrix_b = matrix_b | pos_i | neg_i # FIXME: is this what the notation means?
+
+            loss = self.loss_function()
+
+            # Update U, V over batch B to minimize loss L (Eq. 1)
+
+        # return U + V as the graph embedding
 
 
 if __name__ == "__main__":
@@ -228,7 +265,10 @@ if __name__ == "__main__":
 
     link_predictor = LinkPredictor(graph, nodes=graph.nodes)
     link_predictor.build_predictions_matrix()
-    print(link_predictor.link_probability_matrix[0, 9])
-    print(link_predictor.link_probability_matrix[9, 0])
+    # print(link_predictor.link_probability_matrix[0, 9])
+    # print(link_predictor.link_probability_matrix[9, 0])
+
+    grepl = GraphEmbeddingWithPredictedLinks(graph)
+    grepl.create()
 
 
