@@ -8,7 +8,7 @@ from tools.download.category_scraper import CategoryScraper
 
 
 class ArtCategoryMatcher(CategoryMatcher):
-    DATE_YEAR_BY_COUNTRY_REGEXP = re.compile(r"\d+ by country")
+    DATE_YEAR_BY_COUNTRY_REGEXP = re.compile(r"\d+ by (country|state|city)")
     DATE_YEAR_IN_COUNTRY_REGEXP = re.compile(r"\d+ in ")
     CENTURY_PEOPLE_REGEXP = re.compile(r"\d+\w\w-century\s\w+\speople")
 

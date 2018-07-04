@@ -17,8 +17,8 @@ ART_FORBIDDEN_CATEGORIES = {'20 july plot', 'countries', }
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
     'painter', 'painting', 'play', 'movie', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
-    'sculptor', 'sculptures', 'musicians', 'songs', 'architecture', 'operas', 'songs', 'albums', 'genres', 'concertos',
-    'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'artists', 'on film', 'literature',
+    'sculptor', 'sculptures', 'musicians', 'architecture', 'operas', 'songs', 'genres', 'concertos',
+    'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'on film', 'literature',
     # 'theatre',
 }
 
@@ -59,8 +59,8 @@ ART_CATEGORY_BLACKLIST = {
     'conflict', 'territories', 'governorate', 'oganization', 'prostitution', 'holidays', 'dominicans', 'sex positions',
     'criminals', 'executions', 'people executed', 'prisoners', 'kidnapping', 'murder in', 'deaths by', 'corruption in',
     'escapes from', 'people convicted', 'prisoners sentenced to', 'cardinals by', 'archeological sites', 'homelessness',
-    'unsolved murders', 'activism', 'terrorist incidents in', 'albums', 'score', 'astrology', 'diseases',
-    'birth defects', 'disasters', 'conventions', 'treaties', 'declaration', 'programming', 'united nations', 'resolutions',
+    'unsolved murders', 'activism', 'terrorist incidents in', 'albums', 'score', 'astrology', 'diseases', 'resolutions',
+    'birth defects', 'disasters', 'conventions', 'treaties', 'declaration', 'programming', 'united nations',
     'supremacist', 'referendums', 'exhibitions', 'operating systems', 'computer science', 'video game', 'anime',
     'songs', 'sailors', 'critics', 'houses in', 'election', 'murderers', 'martial artists', 'centuries in',
     'television series', 'album covers', 'templates', 'sex workers', 'audio samples', 'gangs in', 'violence in',
@@ -70,7 +70,7 @@ ART_CATEGORY_BLACKLIST = {
     'biblical rulers', 'pharaophs of', 'physicians', 'wetlands', 'palenontology', 'energy', 'infrastructure',
     'natural history', 'departments', 'enforcement', 'jails', 'years in', 'penal system', 'shooting', 'hospitals',
     'film editors', 'runners', 'aftermath of', 'brand', 'linux', 'scientists', 'engineer', 'games', 'linguist',
-    'orders', 'environemntalism', 'flora', 'science', 'fauna', 'history of', 'deaths from', 'footwear', 'anthropology',
+    'orders', 'environmentalism', 'flora', 'science', 'fauna', 'history of', 'deaths from', 'footwear', 'anthropology',
     'bones', 'wrestlers', 'boots', 'parades in', 'carnival', 'parade', 'orienteering', 'mountain hut', 'bowling',
     'sprinters', 'diet', 'sport', 'trampolinist', 'entrepreneurs', 'anthroposophist', 'waldorf schools', 'fairs',
     'anthroposophy', 'blogger', 'writer navigational boxes', 'wikipedia', 'academic', 'newspaper', 'voice of',
@@ -80,12 +80,32 @@ ART_CATEGORY_BLACKLIST = {
     'ball culture', 'location', 'activist', 'civil servants', 'business', 'assassinated', 'deaths', 'people killed',
     'agency', 'school siege', 'hostage crisis', 'operations of', 'terrorist incidents', 'militant group',
     'by occupation', 'immigrants to', 'ethnic or national', 'people by', 'pacifist', 'feminist', 'dissident',
-    'dynasties', 'yeshivas', 'miners', 'industries', 'record charts', 'charts',
+    'dynasties', 'yeshivas', 'miners', 'industries', 'record charts', 'charts', 'martial artists', 'practitioners',
+    'martial arts', 'judoka', 'boxer', 'boxing', 'fencer', 'savateurs', 'wushu in', 'wrestling', 'fashion', 'states',
+    'infobox', 'time zones', 'offsets', 'descartes', 'maths', 'curves', 'coordinate', 'castes', 'colony', 'war',
+    'colonial', 'royalty', 'hoaxes', 'controversy', 'racism', 'affirmative action', 'blacksmith', 'outreach',
+    'region', 'mining', 'coal', '3d graphic artifacts', 'interpolation', 'morphology', 'color', 'ray tracing',
+    'algorithm', 'chemistry', 'chemist', 'mathematics', 'physics', 'biology', 'computational', 'artificial life',
+    'computation', 'chaos theory', 'informatics', 'analysis', 'computing', 'cult of', 'mythology', 'muses',
+    'mythological', 'sexism', 'discrimination', 'vandalism', 'judicial', 'ethics', 'issues', 'stereotype',
+    'personality', 'cthulhu', 'constituencies', 'lists of members', 'executioner', 'marriage', 'cities',
+    'data structures', 'zionism', 'zionist', 'television presentation', 'commercials', 'advertisements', 'commercial',
+    'logos', 'technology', 'fandom', 'surveillance', 'terminology', 'podcast', 'on demand', 'radio', 'databases',
+    'gateways', 'streaming', 'networks', 'webcams', 'channels', 'youtube', 'computers', 'ipad', 'phones',
+    'media players', 'media', 'player', 'devices', 'cable', 'interface', 'broadcasting', 'spectrum', 'frequency',
+    'recommendations', 'telecommunication', 'internet', 'postal', 'communications', 'philately', 'satellites',
+    'judaism', 'resistance', 'fighters', 'disciples', 'revolt', 'kahanists', 'insurgency', 'nationalism', 'rebellions',
+    'bundism', 'wind farms', 'mills', 'wind power', 'electric', 'thoroughbred', 'racehorse', 'arc winner', 'winners',
+    'deaths', 'births', 'family', 'authorities', 'personnel', 'officer', 'dogs', 'saints', 'confederacy', 'tribe',
+    'reserves', 'exchange', 'stock', 'politics',
     # 'sentiment',
     # 'politics',
     #'graffiti',
 
     #'castles in',
+
+    # These are relevant but we want to reduce the size of the graph
+    'albums', 'songs',
 }
 
 ART_TITLE_BLACKLIST = {

@@ -1,10 +1,23 @@
 from subprocess import call
 
+import numpy as np
 from matplotlib import pyplot as plt
+from matplotlib.ticker import NullFormatter
 from mpl_toolkits.mplot3d import Axes3D
+from MulticoreTSNE import MulticoreTSNE as TSNE
+from sklearn.decomposition import PCA
+# from sklearn.manifold import TSNE
 
 from settings import NODE2VEC_EXT
 from file_operations import get_filepath
+
+
+# class EmbeddedNode:
+#
+#     def __init__(self, id, coordinates, dimensions):
+#         self.id = id
+#         self.coordinates = coordinates
+#         self.dimensions = dimensions
 
 
 class SnapNode2Vec:
@@ -75,23 +88,59 @@ class SnapNode2Vec:
             self.embedding = embedding
             return embedding
 
-    def visualise(self):
+    def visualise(self, components, pca_components=None):
         if not self.embedding:
             raise Exception("No embedding loaded!")
+        if pca_components and pca_components < components:
+            raise Exception("PCA components should be greater than component parameter.")
 
-        coordinates_list = [node['coordinates'] for node in self.embedding]
-        coordinates = []
-        for dim in range(self.dimensions):
-            coordinates.append([x[dim] for x in coordinates_list])
+        coordinates = [node["coordinates"] for node in self.embedding]
+        # coordinates = coordinates[:20000] # FIXME: temporary
+        coordinates = np.matrix(coordinates)
+
+        if pca_components:
+            # Reduce dimensionality first with PCA for very large datasets
+            pca = PCA(n_components=pca_components)
+            pca_result = pca.fit_transform(coordinates)
+            print('Cumulative explained variation for 50 principal components: {}'.format(np.sum(pca.explained_variance_ratio_)))
+            tsne_data = TSNE(n_components=components, n_iter=250, verbose=1, n_jobs=4).fit_transform(pca_result)
+        else:
+            tsne_data = TSNE(n_components=components, n_iter=250, verbose=1, n_jobs=32).fit_transform(coordinates)
+
+        print(tsne_data)
 
         fig = plt.figure()
-        if self.dimensions == 2:
-            plt.scatter(coordinates[0], coordinates[1])
-        elif self.dimensions == 3:
+        ax = fig.add_subplot(111)
+
+        if components == 2:
+            plt.scatter(tsne_data[:, 0], tsne_data[:, 1], cmap=plt.cm.rainbow)
+        else:
             ax = fig.add_subplot(111, projection='3d')
             ax.scatter(coordinates[0], coordinates[1], coordinates[2])
-            ax.set_xlabel('X Label')
-            ax.set_ylabel('Y Label')
             ax.set_zlabel('Z Label')
 
+        ax.set_xlabel('X Label')
+        ax.set_ylabel('Y Label')
+        # ax.xaxis.set_major_formatter(NullFormatter())
+        # ax.yaxis.set_major_formatter(NullFormatter())
+
+        plt.title("Visualisation in {}D of {}-dimensional graph embedding".format(components, self.dimensions))
         plt.show()
+
+
+        # coordinates_list = [node['coordinates'] for node in self.embedding]
+        # coordinates = []
+        # for dim in range(self.dimensions):
+        #     coordinates.append([x[dim] for x in coordinates_list])
+        #
+        # fig = plt.figure()
+        # if self.dimensions == 2:
+        #     plt.scatter(coordinates[0], coordinates[1])
+        # elif self.dimensions == 3:
+        #     ax = fig.add_subplot(111, projection='3d')
+        #     ax.scatter(coordinates[0], coordinates[1], coordinates[2])
+        #     ax.set_xlabel('X Label')
+        #     ax.set_ylabel('Y Label')
+        #     ax.set_zlabel('Z Label')
+        #
+        # plt.show()

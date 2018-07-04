@@ -24,6 +24,9 @@ class CategoryScraper:
         self.subcategories_to_visit_filename = self.data_dir + '/subcategories_to_visit.pickle'
         if continuation:
             self.subcategories_to_visit = load_pickle(self.subcategories_to_visit_filename, is_set=True)
+            # If we updated the wiki config file, filter out invalid categories that might have been added
+            self.subcategories_to_visit = set(filter(lambda x: category_matcher.is_category_related(x),
+                                                     self.subcategories_to_visit))
 
         self.load_visited_ids()
 
