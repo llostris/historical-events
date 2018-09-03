@@ -11,19 +11,30 @@ from sklearn.model_selection import cross_val_score
 
 class LinkPredictor:
 
-    def __init__(self, graph, nodes=list()):
+    def __init__(self, graph, nodes=list(), training_split=0.1):
         """
 
         :param graph: Graph in NetworkX format.
         :param nodes: List of nodes on which we're going to train our LinkPredictor.
         """
         self.graph = graph.to_undirected()  # This algorithm doesn't work for directed graphs?
+        self.neighbour_counts = {}
+        self._fill_neighbour_counts()
+
         self.common_neighbours_node_pairs = self._get_common_neighbour_node_pairs()
         self.nodes = nodes
         self.number_of_nodes = len(self.graph.nodes())
         self.rf_classifier = None
         self.cv_score = 0.0
         self.link_probability_matrix = None # A sparse matrix
+
+    def _fill_neighbour_counts(self):
+        for node1 in self.graph.nodes():
+            for node2 in self.graph.nodes():
+                if node1 != node2:
+                    count = len(list(nx.common_neighbors(self.graph, node1, node2)))
+                    self.neighbour_counts[(node1, node2)] = count
+
 
     def _get_common_neighbour_node_pairs(self):
         """
@@ -34,8 +45,8 @@ class LinkPredictor:
         for node1 in self.graph.nodes():
             for node2 in self.graph.nodes():
                 if node1 != node2:
-                    neighbour_count = list(nx.common_neighbors(self.graph, node1, node2))
-                    if len(neighbour_count) >= 1:
+                    neighbour_count = self.neighbour_counts[(node1, node2)]
+                    if neighbour_count >= 1:
                         node_pairs.append((node1, node2))
         return node_pairs
 
@@ -85,7 +96,7 @@ class LinkPredictor:
                 'nodes': (node1, node2),
                 'adjusted_degree1': self.graph.degree(node1) - has_edge,
                 'adjusted_degree2': self.graph.degree(node2) - has_edge,
-                'common_neighbours': len(list(nx.common_neighbors(self.graph, node1, node2))),  # FIXME: Don't calcualte this twice~
+                'common_neighbours': self.neighbour_counts[(node1, node2)],
                 'adamic_adar_score': adamic_adar_score,
                 'edge': has_edge
             }, ignore_index=True)
