@@ -1,8 +1,7 @@
 import re
 
 from graphs.art.wiki_config import ART_CATEGORY_WHITELIST, ART_CATEGORY_BLACKLIST, ART_TITLE_WHITELIST, \
-    ART_TITLE_BLACKLIST, \
-    ART_DATA_DIR
+    ART_TITLE_BLACKLIST, ART_DATA_DIR
 from tools.category_matcher import CategoryMatcher
 from tools.download.category_scraper import CategoryScraper
 
@@ -16,7 +15,8 @@ class ArtCategoryMatcher(CategoryMatcher):
         super().__init__(whitelist=ART_CATEGORY_WHITELIST,
                          blacklist=ART_CATEGORY_BLACKLIST,
                          title_whitelist=ART_TITLE_WHITELIST,
-                         title_blacklist=ART_TITLE_BLACKLIST)
+                         title_blacklist=ART_TITLE_BLACKLIST,
+                         match_dates=False)
 
     def is_category_relevant(self, category_name, strict=True):
         category_name = category_name.lower()
@@ -27,7 +27,7 @@ class ArtCategoryMatcher(CategoryMatcher):
 
         # Only do this when getting categories
         # Artists etc. might belong to those categories so they shouldn't be excluded for article relevancy checks
-        if strict and self.CENTURY_PEOPLE_REGEXP.match(category_name):
+        if strict and (self.CENTURY_PEOPLE_REGEXP.match(category_name) or 'citizens' in category_name):
             return False
 
         return super().is_category_relevant(category_name, strict)

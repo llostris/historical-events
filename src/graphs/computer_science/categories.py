@@ -12,7 +12,7 @@ class ComputerScienceCategoryMatcher(CategoryMatcher):
                          blacklist=COMP_SCI_CATEGORY_BLACKLIST,
                          title_whitelist=COMP_SCI_TITLE_WHITELIST,
                          title_blacklist=COMP_SCI_TITLE_BLACKLIST,
-                         match_dates=True)
+                         match_dates=False)
 
 
 if __name__ == "__main__":

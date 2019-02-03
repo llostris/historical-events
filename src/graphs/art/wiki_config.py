@@ -17,9 +17,9 @@ ART_FORBIDDEN_CATEGORIES = {'20 july plot', 'countries', }
 # Keywords which indicate that category is related to our problem
 ART_CATEGORY_WHITELIST = {
     'painter', 'painting', 'play', 'movie', 'novel', 'poem', 'poetry', 'poet', 'book', 'painter',
-    'sculptor', 'sculptures', 'musicians', 'architecture', 'operas', 'songs', 'genres', 'concertos',
+    'sculptor', 'sculptures', 'musicians', 'architecture', 'operas', 'genres', 'concertos',
     'piano', 'photography', 'photographers', 'woodcarvers', 'literature', 'writers', 'on film', 'literature',
-    # 'theatre',
+    # 'theatre', 'songs',
 }
 
 # Keywords that indicate that the category or article is not relevant to our search
@@ -97,22 +97,27 @@ ART_CATEGORY_BLACKLIST = {
     'judaism', 'resistance', 'fighters', 'disciples', 'revolt', 'kahanists', 'insurgency', 'nationalism', 'rebellions',
     'bundism', 'wind farms', 'mills', 'wind power', 'electric', 'thoroughbred', 'racehorse', 'arc winner', 'winners',
     'deaths', 'births', 'family', 'authorities', 'personnel', 'officer', 'dogs', 'saints', 'confederacy', 'tribe',
-    'reserves', 'exchange', 'stock', 'politics',
+    'reserves', 'exchange', 'stock', 'politics', 'animals', 'streets in', 'bazaars', 'food in', 'piazzas',
+    'public squares', 'plazas', 'islamism', 'politics', 'graffiti', 'family', 'nazis', 'nationalism', 'denomination',
+    'rabbi', 'converts', 'judaism', 'cars of', 'by country', 'housing in', 'hydroxides', 'women rulers', 'carnivora',
+    'animals', 'events', 'detectives', 'natural gas', 'gas', 'gender in', 'floods', 'ethnic groups', 'priests',
+    'world heritage sites', 'manufacturing', 'technology',  'events', 'tsunamis', 'citizens', 'species', 'billionaires',
+    'politician', 'andrologists', 'sites', 'navigational', 'hurdles', 'swamps', 'canoeists', 'decades', 'fossil',
+    'fuel', 'millennia', 'wealth', 'monasteries', 'art collectors', 'missiles', 'products',
     # 'sentiment',
-    # 'politics',
-    #'graffiti',
+    
 
     #'castles in',
 
     # These are relevant but we want to reduce the size of the graph
+    'skyscrapers',
     'albums', 'songs',
 }
 
 ART_TITLE_BLACKLIST = {
     'episode list', 'episodes', 'list of', 'museum', 'birth defects', 'videography', 'discography', 'filmography',
     'united nations', 'timeline of', 'aftermath of', 'supremacist', 'album', '(characters)', 'episode)', '(episode)',
-    'same-sex marriage in',
-    # '(song)',
+    'same-sex marriage in', 'missile', '(song)',
 }
 
 ART_TITLE_WHITELIST = {}

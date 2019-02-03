@@ -26,6 +26,7 @@ class UniqueCategoryListGenerator(CategoryLoaderMixin):
 
         self.category_matcher = category_matcher
         self.data_dir = data_dir
+        self.relevant_categories = []
 
     def get_relevant_categories(self):
         pass
@@ -36,11 +37,16 @@ class UniqueCategoryListGenerator(CategoryLoaderMixin):
         unique = set(categories_all)
         print('Unique categories:', len(unique))
 
-        filtered = list(filter(self.category_matcher.is_category_relevant, unique))
-        print('Relevant categories:', len(filtered))
+        self.relevant_categories = list(filter(lambda x: self.category_matcher.is_category_relevant(x, strict=True),
+                                               unique))
+        print('Relevant categories:', len(self.relevant_categories))
 
         self.save_to_file(unique, self.data_dir + '/' + CATEGORIES_UNIQUE_FILENAME)
-        self.save_to_file(filtered, self.data_dir + '/' + CATEGORIES_RELEVANT_FILENAME)
+        self.save_to_file(self.relevant_categories, self.data_dir + '/' + CATEGORIES_RELEVANT_FILENAME)
+        return self.relevant_categories
+
+    def filter_out_categories(self, categories_to_filter_out):
+        pass
 
     def save_to_file(self, categories, file, append=False):
         mode = 'w'

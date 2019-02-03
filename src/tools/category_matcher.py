@@ -45,9 +45,9 @@ class CategoryMatcher:
             if not self.is_category_relevant(category, strict=False):
                 return False
 
-        return self.is_title_relevant(title)
+        return self.is_article_title_relevant(title)
 
-    def is_title_relevant(self, title):
+    def is_article_title_relevant(self, title):
         for white_word in self.title_whitelist:
             if white_word in title.lower():
                 return True
