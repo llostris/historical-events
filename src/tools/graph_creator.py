@@ -8,9 +8,8 @@ from tqdm import tqdm
 
 from file_operations import save_pickle, load_pickle
 from settings import GRAPH_IN_PROGRESS_FILENAME, RELATIONSHIP_MAP_FILENAME, GRAPH_GML_FILENAME, ARTICLES_DIR
-from tools.article_scraper import RawArticle
 from tools.category_matcher import CategoryMatcher
-from tools.relationship_extractor import RelationshipExtractor
+from tools.data_extraction.relationship_extractor import RelationshipExtractor
 
 
 class GraphCreator:

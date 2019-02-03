@@ -1,10 +1,6 @@
-import os
 import re
 
 import mwparserfromhell as hell
-
-from graph.model.vertex_extractor import ARTICLE_FILE_NAME_PREFIX, load_article_from_pickle
-from settings import DATA_DIR
 
 
 class RelationshipExtractor:
@@ -67,23 +63,4 @@ class RelationshipExtractor:
         stripped = text[2:-2]
         page_title = stripped.split("|")[0]
         return page_title
-
-
-if __name__ == "__main__":
-
-    articles = []
-
-    for elem in os.listdir(DATA_DIR):
-        if elem.startswith(ARTICLE_FILE_NAME_PREFIX):
-            print(elem)
-            article_batch = load_article_from_pickle(elem)
-            articles += article_batch
-
-    print(len(articles))
-
-    events = []
-    for article in articles[0:1]:
-        print(article.title)
-        relationship_extractor = RelationshipExtractor(article.content)
-        print(relationship_extractor.get_relationships())
 
